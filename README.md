@@ -1,5 +1,16 @@
 # OpenPrice
 
+<div align="center">
+  <a href="https://t.me/openprice1" target="_blank">
+    <img src="https://img.shields.io/badge/telegram-交流群-2CA5E0.svg?logo=telegram&style=flat&logoColor=white" alt="telegram Group" />
+  </a>
+  <a href="https://t.me/bytedoger" target="_blank">
+    <img src="https://img.shields.io/badge/telegram-个人-2CA5E0.svg?logo=telegram&style=flat&logoColor=white" alt="telegram Contact" />
+  </a>
+</div>
+
+<br/>
+
 > **💖 如果这个项目对您有帮助，请在右上角帮我们点个 Star ⭐！**
 > 您的支持是我们持续开源更新的最大动力！请关注项目后续的新功能发布，接下来我们将接入更多类型的渠道 ，敬请期待！
 
