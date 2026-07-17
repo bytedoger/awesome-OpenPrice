@@ -5,6 +5,8 @@ import { PlatformCountBadge } from '../components/PlatformCountBadge';
 import { SubmitChannelButton } from '../components/SubmitChannelButton';
 import { getChannelProviderCount } from './actions';
 
+export const revalidate = 600; // 10分钟静态重生成
+
 export default async function HomePage() {
   const platformCount = await getChannelProviderCount();
 
