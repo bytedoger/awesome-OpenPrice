@@ -49,7 +49,7 @@ export function QQGroupModal({ isOpen, onClose }: QQGroupModalProps) {
         
         <div className="pt-2">
           <a 
-            href="YOUR_QQ_GROUP_LINK_HERE" 
+            href="https://qm.qq.com/q/6syItALFu0" 
             target="_blank" 
             rel="noopener noreferrer"
             className="block w-full py-2.5 text-sm font-medium text-white bg-[#12B7F5] rounded-lg hover:bg-[#12B7F5]/90 transition-colors shadow-sm shadow-[#12B7F5]/20"
