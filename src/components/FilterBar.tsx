@@ -21,7 +21,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   isExpanded = true
 }) => {
   return (
-    <div className="flex justify-end items-start sticky top-20 z-40 mb-10 px-0 pointer-events-none max-w-7xl mx-auto w-full">
+    <div className="flex justify-end items-start sticky top-16 z-40 mb-10 px-0 pointer-events-none max-w-7xl mx-auto w-full">
       <div className="bg-[#01c573] rounded-xl shadow-md p-1.5 sm:p-2 w-full md:w-fit max-w-full flex flex-row items-center pointer-events-auto gap-1.5 sm:gap-2 md:gap-0 transition-all duration-500 ease-in-out">
         {leftAddon && (
           <div className={`flex overflow-hidden justify-start md:transition-all md:duration-500 md:ease-in-out ${isExpanded ? 'w-auto md:w-[1000px] opacity-100 pr-0 md:pr-4' : 'w-auto md:w-0 opacity-100 md:opacity-0 pr-0'}`}>
