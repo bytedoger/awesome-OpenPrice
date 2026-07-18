@@ -4,7 +4,7 @@ import datetime
 from core.db import supabase
 from core.db import supabase
 from engine.rule_engine import classify_offer, classify_offer_with_name, sync_rules_from_db, RULES_CACHE
-from main import SPIDER_REGISTRY
+from spider_registry import SPIDER_REGISTRY
 
 def run_test_worker():
     print(f"[{datetime.datetime.now()}] Booting Test Worker...")

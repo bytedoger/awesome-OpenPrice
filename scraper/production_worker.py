@@ -2,7 +2,7 @@ import time
 import datetime
 from core.db import supabase
 from engine.rule_engine import classify_offer, sync_rules_from_db
-from main import SPIDER_REGISTRY
+from spider_registry import SPIDER_REGISTRY
 import random
 import os
 
