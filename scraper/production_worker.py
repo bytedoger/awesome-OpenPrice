@@ -7,8 +7,8 @@ import random
 import os
 
 # 默认每次抓取完后，在一个时间区间内随机休眠（例如 15秒 到 45秒 之间）
-MIN_SLEEP_SECONDS = int(os.environ.get('MIN_SLEEP_SECONDS', 30))
-MAX_SLEEP_SECONDS = int(os.environ.get('MAX_SLEEP_SECONDS', 90))
+MIN_SLEEP_SECONDS = int(os.environ.get('MIN_SLEEP_SECONDS', 60))
+MAX_SLEEP_SECONDS = int(os.environ.get('MAX_SLEEP_SECONDS', 180))
 
 def run_production_worker():
     print(f"[{datetime.datetime.now()}] Booting Production Worker... Polling dynamically...")
