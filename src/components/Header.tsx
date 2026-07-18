@@ -37,9 +37,8 @@ export function Header() {
 
   return (
     <>
-      <div className="sticky top-0 z-20 flex flex-col">
-        {isBannerVisible && (
-          <div className="bg-[#12B7F5] text-white px-4 py-2 text-sm font-medium text-center flex items-center justify-center gap-2 shadow-sm relative z-30 transition-all">
+      {isBannerVisible && (
+          <div className="bg-[#12B7F5] text-white px-4 py-2 text-sm font-medium text-center flex items-center justify-center gap-2 relative z-30 transition-all">
             <span>🎉 已开放 QQ 闲聊群，欢迎大家来划水交流以及提出功能建议！</span>
             <button 
               onClick={() => setIsQQModalOpen(true)} 
@@ -56,7 +55,7 @@ export function Header() {
             </button>
           </div>
         )}
-        <header className="bg-white/90 backdrop-blur-md shadow-sm z-20">
+        <header className="sticky top-0 z-20 bg-white/90 backdrop-blur-md shadow-sm">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
             <Link href="/" className="flex items-center gap-2">
@@ -123,7 +122,6 @@ export function Header() {
           </div>
           </div>
         </header>
-      </div>
 
       {/* Submit Channel Modal */}
       {isSubmitModalOpen && (
