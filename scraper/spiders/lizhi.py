@@ -16,7 +16,7 @@ class LizhiSpider(BaseSpider):
             
             # 尝试通过抓取首页HTML的 title 标签来获取店铺名称
             if not getattr(self, 'extracted_name', None):
-                res = requests.get(base, timeout=10)
+                res = self.session.get(base, timeout=10)
                 if res.status_code == 200:
                     match = re.search(r'<title>(.*?)</title>', res.text, re.IGNORECASE)
                     if match:

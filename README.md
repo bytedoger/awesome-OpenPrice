@@ -2,10 +2,13 @@
 
 <div align="center">
   <a href="https://t.me/openprice1" target="_blank">
-    <img src="https://img.shields.io/badge/telegram-交流群-2CA5E0.svg?logo=telegram&style=flat&logoColor=white" alt="telegram Group" />
+    <img src="https://img.shields.io/badge/telegram-交流群-2CA5E0.svg?logo=telegram&style=for-the-badge&logoColor=white" alt="telegram Group" />
   </a>
   <a href="https://t.me/bytedoger" target="_blank">
-    <img src="https://img.shields.io/badge/telegram-个人-2CA5E0.svg?logo=telegram&style=flat&logoColor=white" alt="telegram Contact" />
+    <img src="https://img.shields.io/badge/telegram-个人-2CA5E0.svg?logo=telegram&style=for-the-badge&logoColor=white" alt="telegram Contact" />
+  </a>
+  <a href="https://qm.qq.com/q/6syItALFu0" target="_blank">
+    <img src="https://img.shields.io/badge/QQ-交流群-12B7F5.svg?logo=qq&style=for-the-badge&logoColor=white" alt="QQ Group" />
   </a>
 </div>
 

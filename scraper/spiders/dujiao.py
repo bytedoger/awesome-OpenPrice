@@ -47,7 +47,7 @@ class DujiaoSpider(BaseSpider):
             
             # 1. 优先尝试请求 API 的 config 接口 (适用于前后端分离的版本)
             config_url = f"{self.base_url.rstrip('/')}/api/v1/public/config"
-            config_res = requests.get(config_url, timeout=10)
+            config_res = self.session.get(config_url, timeout=10)
             if config_res.status_code == 200:
                 config_data = config_res.json()
                 if isinstance(config_data, dict):
@@ -57,7 +57,7 @@ class DujiaoSpider(BaseSpider):
             
             # 2. 如果没获取到，则尝试请求首页 HTML (适用于传统模板版本)
             if not self.extracted_name:
-                res = requests.get(self.base_url, timeout=10)
+                res = self.session.get(self.base_url, timeout=10)
                 if res.status_code == 200:
                     match = re.search(r'<title>(.*?)</title>', res.text, re.IGNORECASE)
                     if match:

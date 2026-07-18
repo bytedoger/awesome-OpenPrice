@@ -1,20 +1,27 @@
 import time
 import datetime
 from core.db import supabase
-from engine.rule_engine import classify_offer
+from engine.rule_engine import classify_offer, sync_rules_from_db
 from main import SPIDER_REGISTRY
 import random
 import os
 
 # 默认每次抓取完后，在一个时间区间内随机休眠（例如 15秒 到 45秒 之间）
-MIN_SLEEP_SECONDS = int(os.environ.get('MIN_SLEEP_SECONDS', 15))
-MAX_SLEEP_SECONDS = int(os.environ.get('MAX_SLEEP_SECONDS', 45))
+MIN_SLEEP_SECONDS = int(os.environ.get('MIN_SLEEP_SECONDS', 30))
+MAX_SLEEP_SECONDS = int(os.environ.get('MAX_SLEEP_SECONDS', 90))
 
 def run_production_worker():
     print(f"[{datetime.datetime.now()}] Booting Production Worker... Polling dynamically...")
+    last_sync_time = 0
     
     while True:
         try:
+            # Sync rules periodically (e.g. every 5 minutes) to avoid stale mapping IDs
+            if time.time() - last_sync_time > 300:
+                print(f"[{datetime.datetime.now()}] Performing periodic rule sync from DB...")
+                sync_rules_from_db()
+                last_sync_time = time.time()
+                
             # 1. Fetch the oldest unattempted/least recently attempted target
             res = supabase.table('crawler_targets') \
                 .select('*') \

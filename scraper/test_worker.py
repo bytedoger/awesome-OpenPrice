@@ -1,4 +1,5 @@
 import time
+import random
 import datetime
 from core.db import supabase
 from core.db import supabase
@@ -14,8 +15,16 @@ def run_test_worker():
         print(f"[{datetime.datetime.now()}] Loaded local rules from rules.json (Manual sync required for updates).")
     print(f"[{datetime.datetime.now()}] Listening for jobs...")
     
+    last_sync_time = time.time() if RULES_CACHE else 0
+    
     while True:
         try:
+            # Sync rules periodically (e.g. every 5 minutes) to avoid stale mapping IDs
+            if time.time() - last_sync_time > 300:
+                print(f"[{datetime.datetime.now()}] Performing periodic rule sync from DB...")
+                sync_rules_from_db()
+                last_sync_time = time.time()
+                
             # 1. Fetch one pending job
             res = supabase.table('scraper_test_jobs').select('*').eq('status', 'pending').limit(1).execute()
             jobs = res.data
@@ -122,6 +131,13 @@ def run_test_worker():
                     'error_message': error_msg,
                     'updated_at': datetime.datetime.now(datetime.timezone.utc).isoformat()
                 }).eq('id', job_id).execute()
+                
+            # --- Added Interval Between Tasks ---
+            # Even if the queue has many pending tasks, we sleep 2-5 seconds 
+            # after each task to avoid hammering the targets continuously.
+            sleep_time = random.uniform(2.0, 5.0)
+            print(f"[{datetime.datetime.now()}] Job {job_id} done. Pacing: sleeping {sleep_time:.2f}s before next job...")
+            time.sleep(sleep_time)
                 
         except Exception as global_e:
             print(f"[{datetime.datetime.now()}] Global Worker Error: {global_e}")

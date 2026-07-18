@@ -146,19 +146,19 @@ export const DetailTable: React.FC<DetailTableProps> = ({ details, types, showCa
 
       {/* Desktop Table Layout */}
       <div className="hidden md:block overflow-hidden rounded-xl bg-white shadow-sm w-full">
-        <table className="min-w-full text-left text-sm">
+        <table className="w-full text-left text-sm table-fixed">
           <thead className="bg-gray-100">
             <tr>
               {showCategoryInfo && (
-                <th scope="col" className="px-6 py-4 font-semibold text-gray-900">平台</th>
+                <th scope="col" className="px-4 py-4 font-semibold text-gray-900 w-[10%]">平台</th>
               )}
-              <th scope="col" className="px-6 py-4 font-semibold text-gray-900">状态</th>
-              <th scope="col" className="px-6 py-4 font-semibold text-gray-900">渠道</th>
-              <th scope="col" className="px-6 py-4 font-semibold text-gray-900">原始商品名</th>
-              <th scope="col" className="px-6 py-4 font-semibold text-gray-900">价格</th>
-              <th scope="col" className="px-6 py-4 font-semibold text-gray-900">更新时间</th>
-              <th scope="col" className="px-6 py-4 font-semibold text-gray-900 text-center text-xs">操作</th>
-              <th scope="col" className="px-6 py-4 font-semibold text-gray-900 text-center text-xs">反馈</th>
+              <th scope="col" className="px-4 py-4 font-semibold text-gray-900 w-[8%]">状态</th>
+              <th scope="col" className="px-4 py-4 font-semibold text-gray-900 w-[15%]">渠道</th>
+              <th scope="col" className="px-4 py-4 font-semibold text-gray-900 w-[41%]">原始商品名</th>
+              <th scope="col" className="px-4 py-4 font-semibold text-gray-900 w-[8%]">价格</th>
+              <th scope="col" className="px-4 py-4 font-semibold text-gray-900 w-[10%]">更新时间</th>
+              <th scope="col" className="px-4 py-4 font-semibold text-gray-900 text-center text-xs w-[12%]">操作</th>
+              <th scope="col" className="px-4 py-4 font-semibold text-gray-900 text-center text-xs w-[6%]">反馈</th>
             </tr>
           </thead>
           <tbody className="bg-white">
@@ -168,11 +168,11 @@ export const DetailTable: React.FC<DetailTableProps> = ({ details, types, showCa
               return (
                 <tr key={detail.id} className="even:bg-gray-50/80 hover:bg-gray-100 transition-colors">
                   {showCategoryInfo && (
-                    <td className="px-6 py-4 text-gray-900 whitespace-nowrap">{typeInfo?.platform || '-'}</td>
+                    <td className="px-4 py-4 text-gray-900 break-words">{typeInfo?.platform || '-'}</td>
                   )}
-                  <td className="px-6 py-4 whitespace-nowrap">{getStatusBadge(detail)}</td>
-                  <td className="px-6 py-4 min-w-[160px]">
-                    <div className="text-gray-900 font-medium mb-2 whitespace-nowrap">{detail.channel}</div>
+                  <td className="px-4 py-4">{getStatusBadge(detail)}</td>
+                  <td className="px-4 py-4">
+                    <div className="text-gray-900 font-medium mb-2 break-words">{detail.channel}</div>
                     <div className="flex flex-wrap gap-1.5">
                       <span className="inline-flex items-center rounded bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600">
                         {detail.channelType}
@@ -182,10 +182,10 @@ export const DetailTable: React.FC<DetailTableProps> = ({ details, types, showCa
                       </span>
                     </div>
                   </td>
-                  <td className="px-6 py-4 text-gray-500 min-w-[200px] max-w-xs md:max-w-sm lg:max-w-md break-words">{detail.originalName}</td>
-                  <td className="px-6 py-4 text-emerald-600 font-medium whitespace-nowrap">¥{detail.price.toFixed(2)}</td>
-                  <td suppressHydrationWarning className="px-6 py-4 text-gray-500 text-xs whitespace-nowrap">{getRelativeTime(detail.updateTime)}</td>
-                  <td className="px-6 py-4 text-center whitespace-nowrap">
+                  <td className="px-4 py-4 text-gray-500 break-words">{detail.originalName}</td>
+                  <td className="px-4 py-4 text-emerald-600 font-medium">¥{detail.price.toFixed(2)}</td>
+                  <td suppressHydrationWarning className="px-4 py-4 text-gray-500 text-xs">{getRelativeTime(detail.updateTime)}</td>
+                  <td className="px-4 py-4 text-center">
                     <button 
                       disabled={isBuyDisabled}
                       onClick={() => onBuyClick?.(detail)}
@@ -195,7 +195,7 @@ export const DetailTable: React.FC<DetailTableProps> = ({ details, types, showCa
                       <ArrowRight className="h-3.5 w-3.5" />
                     </button>
                   </td>
-                  <td className="px-6 py-4 text-center whitespace-nowrap">
+                  <td className="px-4 py-4 text-center">
                     <button 
                       onClick={() => onFeedbackClick?.(detail)}
                       className="text-gray-500 hover:text-emerald-700 font-medium transition-colors text-xs"
