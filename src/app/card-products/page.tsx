@@ -8,7 +8,7 @@ export const revalidate = 600; // 10分钟静态重生成
 
 export default async function CardProductsPage() {
   const [typesResponse, detailsResponse, platformCount] = await Promise.all([
-    supabase.from('product_catalog').select('id, slug, name, short_desc, search_keywords, is_active, platform_id, sort_order, display_id, product_platforms(name)').eq('is_active', true),
+    supabase.from('product_catalog').select('id, slug, name, short_desc, search_keywords, is_active, platform_id, sort_order, display_id, product_platforms(name, sort_order)').eq('is_active', true),
     supabase.from('market_offers').select('id, product_title, price, status, url, tags, inventory_level, updated_at, canonical_product_id, crawler_targets(name, scraper_type, created_at)').neq('status', 'blacklisted'),
     getChannelProviderCount(),
   ]);
@@ -18,11 +18,11 @@ export default async function CardProductsPage() {
 
   const mappedTypes: ProductType[] = catalogData.map((row: any) => {
     const relatedQuotes = marketQuotes.filter((r: any) => r.canonical_product_id === row.id);
-    const validPrices = relatedQuotes.map((r: any) => Number(r.price || 0)).filter(p => p > 0);
-    const lowestPrice = validPrices.length > 0 ? Math.min(...validPrices) : 0;
-    const warrantyPrice = validPrices.length > 0 ? Math.max(...validPrices) : 0;
-    
     const inStockQuotes = relatedQuotes.filter((r: any) => r.status === 'in_stock');
+    const validInStockPrices = inStockQuotes.map((r: any) => Number(r.price || 0)).filter(p => p > 0);
+    const lowestPrice = validInStockPrices.length > 0 ? Math.min(...validInStockPrices) : 0;
+    const warrantyPrice = validInStockPrices.length > 0 ? Math.max(...validInStockPrices) : 0;
+    
     const channelCount = inStockQuotes.length;
     
     let latestDate = 0;
@@ -45,6 +45,7 @@ export default async function CardProductsPage() {
       searchKeywords: row.search_keywords || [],
       sort_order: row.sort_order || 0,
       display_id: row.display_id,
+      platform_sort_order: row.product_platforms?.sort_order || 0,
     };
   });
 

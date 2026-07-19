@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { ProductType } from '../../data';
 import { MasterTable } from '../../components/MasterTable';
 import { FilterBar } from '../../components/FilterBar';
@@ -17,11 +17,45 @@ export const CardProductsClient: React.FC<CardProductsClientProps> = ({ initialP
   const [selectedPlatform, setSelectedPlatform] = useState('');
   
   const availablePlatforms = useMemo(() => {
-    return Array.from(new Set(initialProducts.map(p => p.platform)));
+    const platformMap = new Map<string, number>();
+    initialProducts.forEach(p => {
+      if (!platformMap.has(p.platform)) {
+        platformMap.set(p.platform, p.platform_sort_order ?? 9999);
+      }
+    });
+    return Array.from(platformMap.entries())
+      .sort((a, b) => a[1] - b[1])
+      .map(entry => entry[0]);
   }, [initialProducts]);
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash;
+      if (hash) {
+        const decodedHash = decodeURIComponent(hash.substring(1)).toLowerCase();
+        const matchedPlatform = availablePlatforms.find(p => p.toLowerCase() === decodedHash);
+        if (matchedPlatform) {
+          setSelectedPlatform(matchedPlatform);
+        } else {
+          setSelectedPlatform('');
+        }
+      } else {
+        setSelectedPlatform('');
+      }
+    };
+
+    handleHashChange();
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, [availablePlatforms]);
 
   const handlePlatformChange = (val: string) => {
     setSelectedPlatform(val);
+    if (val) {
+      window.location.hash = val;
+    } else {
+      window.history.pushState("", document.title, window.location.pathname + window.location.search);
+    }
   };
 
   const filteredProducts = useMemo(() => {

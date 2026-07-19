@@ -11,6 +11,7 @@ export interface ProductType {
   searchKeywords?: string[];
   sort_order: number;
   display_id?: string;
+  platform_sort_order?: number;
 }
 
 export interface ProductDetail {

@@ -106,7 +106,8 @@ export default async function ProductDetailPage({ params }: PageProps) {
   }));
 
   // 4. Map ProductType
-  const prices = mappedDetails.map(d => d.price).filter(p => p > 0);
+  const inStockDetails = mappedDetails.filter(d => d.status === 'in_stock' && d.price > 0);
+  const prices = inStockDetails.map(d => d.price);
   const lowestPrice = prices.length > 0 ? Math.min(...prices) : 0;
   const warrantyPrice = prices.length > 0 ? Math.max(...prices) : 0;
   

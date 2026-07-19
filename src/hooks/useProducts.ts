@@ -66,8 +66,8 @@ export function useProducts() {
 
         const mappedTypes: ProductType[] = catalogData.map((row: any) => {
           // Dynamically calculate lowest and max (warranty mock) price from related offers
-          const relatedDetails = mappedDetails.filter(d => d.typeId === row.id && d.price > 0);
-          const prices = relatedDetails.map(d => d.price);
+          const inStockDetails = mappedDetails.filter(d => d.typeId === row.id && d.price > 0 && d.status === 'in_stock');
+          const prices = inStockDetails.map(d => d.price);
           const lowestPrice = prices.length > 0 ? Math.min(...prices) : 0;
           const warrantyPrice = prices.length > 0 ? Math.max(...prices) : 0;
           

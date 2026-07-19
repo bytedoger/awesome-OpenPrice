@@ -122,7 +122,7 @@ def classify_offer(title: str) -> str:
     other_platform = None
     
     for platform in RULES_CACHE:
-        if platform.get('platform_id') == 'eb007f92-c7ca-445e-ab79-785307e6bcb5':
+        if platform.get('platform') == '其它':
             other_platform = platform
             
         p_include = platform.get('platform_include', [])
@@ -192,7 +192,7 @@ def classify_offer_with_name(title: str):
     other_platform = None
     
     for platform in RULES_CACHE:
-        if platform.get('platform_id') == 'eb007f92-c7ca-445e-ab79-785307e6bcb5':
+        if platform.get('platform') == '其他':
             other_platform = platform
             
         p_include = platform.get('platform_include', [])
