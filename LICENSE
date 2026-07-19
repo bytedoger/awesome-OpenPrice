@@ -1,0 +1,38 @@
+OpenPrice Custom License Agreement
+
+Copyright (c) 2024 OpenPrice Contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software under the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+1. PERMITTED USES
+You are permitted to use the Software for the following purposes:
+- Learning, research, and code reading.
+- Personal use and local deployment.
+- Internal, non-commercial use.
+- Submitting Issues, Pull Requests, and improvement suggestions to the project.
+
+2. PROHIBITED USES
+Without express written permission from the copyright holders, you are NOT
+permitted to:
+- Direct Operation or Commercialization: You may not use OpenPrice or modified
+  versions thereof to operate a public website or SaaS platform, nor may you
+  monetize the project through advertising, affiliate links (AFF), paid traffic
+  direction, or any other form of commercial exploitation.
+- Competitive Development: You may not use the code or core logic of this
+  project to operate price comparison, navigation, or data aggregation services
+  that are highly similar in positioning to OpenPrice.
+- Brand and Data Abuse: You may not use the OpenPrice name, screenshots, scraped
+  data snapshots, or channel resources for commercial services.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
