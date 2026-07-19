@@ -10,7 +10,23 @@ class PacingSession(requests.Session):
         sleep_time = random.uniform(3, 7)
         print(f"  [PacingSession] Delaying {sleep_time:.2f}s -> {method} {url}")
         time.sleep(sleep_time)
-        return super().request(method, url, **kwargs)
+        import traceback
+        
+        try:
+            response = super().request(method, url, **kwargs)
+            
+            # 打印非 200 状态码的详细响应体，排查是否是被返回了防火墙页面
+            if response.status_code != 200:
+                print(f"  [PacingSession] WARNING: Got status {response.status_code} from {url}")
+                print(f"  [PacingSession] Response snippet: {response.text[:500]}")
+            
+            return response
+            
+        except Exception as e:
+            # 打印底层的异常堆栈信息，排查是不是连接被重置或超时
+            print(f"  [PacingSession] CRITICAL ERROR connecting to {url}")
+            traceback.print_exc()
+            raise
 
 def get_session():
     """Returns a requests Session with retries configured."""

@@ -97,9 +97,9 @@ npm run dev
 
 打开浏览器访问 [http://localhost:3000](http://localhost:3000) 即可查看项目运行效果。
 
-### 5. 运行爬虫脚本
+### 5. 运行爬取数据脚本
 
-本项目包含一个基于 Python 的爬虫系统用于抓取渠道数据。如果需要运行爬虫，请执行以下步骤：
+本项目包含一个基于 Python 的用于抓取渠道数据的脚本。如果需要运行抓取数据，请执行以下步骤：
 
 ```bash
 cd scraper
@@ -107,7 +107,7 @@ cd scraper
 python3 -m venv venv
 source venv/bin/activate  # Windows 下使用 venv\Scripts\activate
 
-# 安装爬虫依赖
+# 安装依赖
 pip install -r requirements.txt
 
 # 运行主程序
