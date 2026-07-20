@@ -1,4 +1,5 @@
 import { Header } from '../components/Header';
+import { MobileNav } from '../components/MobileNav';
 import { FloatingGithubBanner } from '../components/FloatingGithubBanner';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import NextTopLoader from 'nextjs-toploader';
@@ -43,10 +44,11 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col">
         <NextTopLoader color="#10b981" showSpinner={false} shadow="0 0 10px #10b981,0 0 5px #10b981" />
         <Header />
-        <div className="flex-1">
+        <div className="flex-1 pb-14 md:pb-0">
           {children}
         </div>
         <Footer />
+        <MobileNav />
         <FloatingGithubBanner />
         {gaId && <GoogleAnalytics gaId={gaId} />}
       </body>

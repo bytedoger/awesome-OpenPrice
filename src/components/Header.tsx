@@ -79,7 +79,12 @@ export function Header() {
               >
                 卡网商品
               </Link>
-
+              <Link 
+                href="/channels"
+                className={`transition-colors ${pathname === '/channels' ? 'text-emerald-600' : 'hover:text-gray-900'}`}
+              >
+                渠道商
+              </Link>
             </nav>
             <div className="flex items-center gap-2 sm:gap-4 shrink-0">
               <button 

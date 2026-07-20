@@ -3,6 +3,8 @@ import { ProductType } from '../data';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { getRelativeTime } from '../lib/utils';
+import { ViewDetailsButton } from './ViewDetailsButton';
 
 interface MasterTableProps {
   products: ProductType[];
@@ -11,32 +13,12 @@ interface MasterTableProps {
 export const MasterTable: React.FC<MasterTableProps> = ({ products }) => {
   const router = useRouter();
   
-  // Group products by platform and preserve order
   const platformsOrder = Array.from(new Set(products.map(p => p.platform)));
   const groupedProducts = products.reduce((acc, product) => {
     if (!acc[product.platform]) acc[product.platform] = [];
     acc[product.platform].push(product);
     return acc;
   }, {} as Record<string, ProductType[]>);
-  
-  const getRelativeTime = (timeStr: string | null) => {
-    if (!timeStr) return '暂无更新';
-    // 如果是带 T 的标准 ISO 格式，直接解析；如果是普通的 YYYY-MM-DD HH:mm:ss 则替换横杠以兼容老版 Safari
-    const time = timeStr.includes('T') 
-      ? new Date(timeStr).getTime() 
-      : new Date(timeStr.replace(/-/g, '/')).getTime();
-    if (isNaN(time)) return timeStr; // fallback in case it's already formatted
-    const now = Date.now();
-    const diff = Math.max(0, now - time);
-    const mins = Math.floor(diff / 60000);
-    const hours = Math.floor(mins / 60);
-    const days = Math.floor(hours / 24);
-    
-    if (days > 0) return `${days}天前`;
-    if (hours > 0) return `${hours}小时前`;
-    if (mins > 0) return `${mins}分钟前`;
-    return '刚刚';
-  };
   
   return (
     <div className="flex flex-col gap-8">
@@ -79,14 +61,10 @@ export const MasterTable: React.FC<MasterTableProps> = ({ products }) => {
                       <td className="px-6 py-4 text-gray-600">{product.channelCount}</td>
                       <td suppressHydrationWarning className="px-6 py-4 text-gray-500 text-xs">{getRelativeTime(product.updatedAt)}</td>
                       <td className="px-6 py-4 text-right">
-                        <Link 
+                        <ViewDetailsButton 
                           href={`/card-products/${product.slug}`}
                           onClick={(e) => e.stopPropagation()}
-                          className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-emerald-500 px-4 py-2 text-sm font-medium text-emerald-600 transition-colors hover:bg-emerald-500 hover:text-white"
-                        >
-                          查看详情
-                          <ArrowRight className="h-4 w-4" />
-                        </Link>
+                        />
                       </td>
                     </tr>
                   ))}
@@ -111,13 +89,11 @@ export const MasterTable: React.FC<MasterTableProps> = ({ products }) => {
                     <span suppressHydrationWarning className="text-gray-400">{getRelativeTime(product.updatedAt)}</span>
                   </div>
                   <div className="flex justify-end mt-1">
-                     <Link 
+                     <ViewDetailsButton 
                         href={`/card-products/${product.slug}`}
                         onClick={(e) => e.stopPropagation()}
-                        className="inline-flex items-center text-sm font-medium text-emerald-600 hover:text-emerald-700"
-                      >
-                        查看详情 <ArrowRight className="ml-1 h-4 w-4" />
-                      </Link>
+                        variant="text"
+                      />
                   </div>
                 </div>
               ))}

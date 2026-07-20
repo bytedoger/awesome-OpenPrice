@@ -2,6 +2,8 @@ import React from 'react';
 import { ProductDetail, ProductType } from '../data';
 import { Badge } from './Badge';
 import { ArrowRight } from 'lucide-react';
+import { getRelativeTime } from '../lib/utils';
+import { GoToBuyButton } from './GoToBuyButton';
 
 interface DetailTableProps {
   details: ProductDetail[];
@@ -43,24 +45,7 @@ export const DetailTable: React.FC<DetailTableProps> = ({ details, types, showCa
     return <Badge>未知</Badge>;
   };
 
-  const getRelativeTime = (timeStr: string) => {
-    if (!timeStr) return '刚刚更新';
-    // 兼容 ISO 格式与老版 Safari 的 YYYY-MM-DD HH:mm:ss 格式
-    const time = timeStr.includes('T') 
-      ? new Date(timeStr).getTime() 
-      : new Date(timeStr.replace(/-/g, '/')).getTime();
-    const now = Date.now();
-    const diff = Math.max(0, now - time);
-    
-    const mins = Math.floor(diff / 60000);
-    const hours = Math.floor(mins / 60);
-    const days = Math.floor(hours / 24);
-    
-    if (days > 0) return `${days} 天前`;
-    if (hours > 0) return `${hours} 小时前`;
-    if (mins > 0) return `${mins} 分钟前`;
-    return '刚刚更新';
-  };
+
 
   const getIncludedDays = (dateStr: string) => {
     if (!dateStr) return 0;
@@ -129,14 +114,11 @@ export const DetailTable: React.FC<DetailTableProps> = ({ details, types, showCa
                   >
                     反馈
                   </button>
-                  <button 
+                  <GoToBuyButton 
                     disabled={isBuyDisabled}
                     onClick={() => onBuyClick?.(detail)}
-                    className="inline-flex items-center justify-center gap-1 rounded-lg bg-[#01c573] text-white px-4 py-2 text-[13px] font-medium transition-colors hover:bg-emerald-600 disabled:opacity-50 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
-                  >
-                    前往购买
-                    <ArrowRight className="h-3.5 w-3.5" />
-                  </button>
+                    className="bg-[#01c573] text-white border-transparent hover:bg-emerald-600"
+                  />
                 </div>
               </div>
             </div>
@@ -186,14 +168,10 @@ export const DetailTable: React.FC<DetailTableProps> = ({ details, types, showCa
                   <td className="px-4 py-4 text-emerald-600 font-medium">¥{detail.price.toFixed(2)}</td>
                   <td suppressHydrationWarning className="px-4 py-4 text-gray-500 text-xs">{getRelativeTime(detail.updateTime)}</td>
                   <td className="px-4 py-4 text-center">
-                    <button 
+                    <GoToBuyButton 
                       disabled={isBuyDisabled}
                       onClick={() => onBuyClick?.(detail)}
-                      className="inline-flex items-center justify-center gap-1 rounded-lg border border-emerald-500 px-3 py-1.5 text-xs font-medium text-emerald-600 transition-colors hover:bg-emerald-500 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      前往购买
-                      <ArrowRight className="h-3.5 w-3.5" />
-                    </button>
+                    />
                   </td>
                   <td className="px-4 py-4 text-center">
                     <button 
