@@ -10,7 +10,7 @@ interface PageProps {
 import { notFound } from 'next/navigation';
 import { ProductType, ProductDetail } from '../../../data';
 
-export const revalidate = 600; // 每10分钟刷新一次静态缓存
+export const revalidate = 300; // 每5分钟刷新一次静态缓存
 
 export async function generateStaticParams() {
   const { data: products } = await supabase
