@@ -7,13 +7,30 @@ import { getChannelProviderCount } from '../actions';
 export const revalidate = 300; // 5分钟静态重生成
 
 export default async function CardProductsPage() {
-  const [typesResponse, detailsResponse, platformCount] = await Promise.all([
+  const [typesResponse, platformCount, marketQuotes] = await Promise.all([
     supabase.from('product_catalog').select('id, slug, name, short_desc, search_keywords, is_active, platform_id, sort_order, display_id, product_platforms(name, sort_order)').eq('is_active', true),
-    supabase.from('market_offers').select('id, product_title, price, status, url, tags, inventory_level, updated_at, canonical_product_id, crawler_targets(name, scraper_type, created_at)').neq('status', 'blacklisted'),
     getChannelProviderCount(),
+    (async () => {
+      let allOffers: any[] = [];
+      let from = 0;
+      const pageSize = 1000;
+      while (true) {
+        const { data, error } = await supabase
+          .from('market_offers')
+          .select('id, product_title, price, status, url, tags, inventory_level, updated_at, canonical_product_id, crawler_targets(name, scraper_type, created_at)')
+          .neq('status', 'blacklisted')
+          .range(from, from + pageSize - 1);
+        if (error) {
+          console.error('Error fetching market_offers:', error);
+          break;
+        }
+        if (data) allOffers = allOffers.concat(data);
+        if (!data || data.length < pageSize) break;
+        from += pageSize;
+      }
+      return allOffers;
+    })()
   ]);
-
-  const marketQuotes = detailsResponse.data || [];
   const catalogData = typesResponse.data || [];
 
   const mappedTypes: ProductType[] = catalogData.map((row: any) => {

@@ -17,10 +17,26 @@ export default async function ChannelsPage() {
     .eq('is_active', true)
     .order('updated_at', { ascending: false });
 
-  const { data: offers } = await supabaseAdmin
-    .from('market_offers')
-    .select('target_id')
-    .eq('status', 'in_stock');
+  const offers = await (async () => {
+    let allOffers: any[] = [];
+    let from = 0;
+    const pageSize = 1000;
+    while (true) {
+      const { data, error } = await supabaseAdmin
+        .from('market_offers')
+        .select('target_id')
+        .eq('status', 'in_stock')
+        .range(from, from + pageSize - 1);
+      if (error) {
+        console.error('Error fetching market offers for channels:', error);
+        break;
+      }
+      if (data) allOffers = allOffers.concat(data);
+      if (!data || data.length < pageSize) break;
+      from += pageSize;
+    }
+    return allOffers;
+  })();
 
   if (error) {
     console.error('Error fetching active channels:', error);
