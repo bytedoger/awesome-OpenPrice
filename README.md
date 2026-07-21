@@ -10,6 +10,9 @@
   <a href="https://qm.qq.com/q/6syItALFu0" target="_blank">
     <img src="https://img.shields.io/badge/QQ-交流群-12B7F5.svg?logo=qq&style=for-the-badge&logoColor=white" alt="QQ Group" />
   </a>
+  <a href="https://linux.do" target="_blank">
+    <img src="https://img.shields.io/badge/LINUX.DO-技术社区-000000.svg?style=for-the-badge" alt="LINUX.DO Community" />
+  </a>
 </div>
 
 <br/>
@@ -17,7 +20,7 @@
 > **💖 如果这个项目对您有帮助，请在右上角帮我们点个 Star ⭐！**
 > 您的支持是我们持续开源更新的最大动力！请关注项目后续的新功能发布，接下来我们将接入更多类型的渠道 ，敬请期待！
 
-open price ，就是开放价格的意思。所以这是一个开源的收录全网卡网渠道各种AI订阅价格的项目。我们的目的只有一个，打破信息茧房，让大家能方便挑选价格最低、品质最优的 AI 订阅服务。我们不提供 AI 产品，只是 AI 订阅产品的搬运工。
+open price,就是开放价格的意思。所以这是一个开源的收录全网卡网渠道各种AI订阅价格的项目。项目的目的只有一个，打破信息茧房，让友友们能方便挑选价格更低、更更低的 AI 订阅服务。本项目不提供 AI 服务，只是 AI 订阅产品的搬运工。
 
 ## 🔗 快速访问 (Quick Links)
 
