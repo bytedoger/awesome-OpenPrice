@@ -5,6 +5,7 @@ import { FilterBar } from '../../components/FilterBar';
 import { getRelativeTime } from '../../lib/utils';
 import { ViewDetailsButton } from '../../components/ViewDetailsButton';
 import { PlatformCountBadge } from '../../components/PlatformCountBadge';
+import { Info } from 'lucide-react';
 
 interface Channel {
   id: string;
@@ -52,9 +53,13 @@ export const ChannelsClient: React.FC<ChannelsClientProps> = ({ initialChannels 
           <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-3 flex items-center gap-3">
             渠道商列表
           </h1>
-          <p className="text-lg text-gray-500 max-w-2xl leading-relaxed">
+          <p className="text-lg text-gray-500 max-w-2xl leading-relaxed mb-3">
             在这里可以查看所有被收录并正在活跃更新的渠道，感谢各位渠道商和用户的提交，共同维护这片生态。
           </p>
+          <div className="inline-flex items-center gap-1.5 text-sm text-blue-700 bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-100/50 shadow-sm">
+            <Info className="w-4 h-4 shrink-0" />
+            <span>为保证展示公平，所有渠道均根据其<strong>最新成功抓取更新的时间</strong>自动排序。</span>
+          </div>
         </div>
       </div>
 
