@@ -7,6 +7,7 @@ import { getRelativeTime } from '../../../lib/utils';
 import { GoToBuyButton } from '../../../components/GoToBuyButton';
 import { BuyDisclaimerModal } from '../../../components/BuyDisclaimerModal';
 import { useBuyAction } from '../../../hooks/useBuyAction';
+import { useRouter } from 'next/navigation';
 
 interface ChannelOffer {
   id: string;
@@ -34,6 +35,7 @@ export const ChannelDetailClient: React.FC<ChannelDetailClientProps> = ({ channe
   const [searchQuery, setSearchQuery] = useState('');
   const [isScrolled, setIsScrolled] = useState(false);
   const { isBuyModalOpen, handleBuyClick, handleBuyConfirm, handleBuyCancel } = useBuyAction();
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -78,12 +80,18 @@ export const ChannelDetailClient: React.FC<ChannelDetailClientProps> = ({ channe
           leftAddon={
             <div className="w-full">
               <div className="flex items-center bg-white/95 rounded-lg shadow-sm h-10 pr-3 md:pr-4 transition-all hover:bg-white w-full min-w-[40px] md:min-w-[280px]">
-                <a 
-                  href="/channels"
+                <button 
+                  onClick={() => {
+                    if (window.history.length > 2) {
+                      router.back();
+                    } else {
+                      router.push('/channels');
+                    }
+                  }}
                   className="inline-flex h-7 w-7 ml-1.5 mr-0 md:mr-1.5 items-center justify-center text-gray-500 hover:bg-emerald-500 hover:text-white rounded-md transition-colors shrink-0"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-                </a>
+                </button>
                 <div className="hidden md:block w-[1px] h-4 bg-gray-200 mr-2 shrink-0"></div>
                 <h2 className="hidden md:block text-gray-900 font-medium text-[14px] truncate">{channel.name} 商品列表</h2>
               </div>

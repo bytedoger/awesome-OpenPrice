@@ -11,6 +11,7 @@ import { BuyDisclaimerModal } from '../../../components/BuyDisclaimerModal';
 import { useBuyAction } from '../../../hooks/useBuyAction';
 import { PlatformCountBadge } from '../../../components/PlatformCountBadge';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 interface ProductDetailClientProps {
   slug: string;
@@ -23,6 +24,7 @@ export const ProductDetailClient: React.FC<ProductDetailClientProps> = ({ slug, 
   const [isPending, startTransition] = useTransition();
   const [isScrolled, setIsScrolled] = useState(false);
   const { isBuyModalOpen, handleBuyClick, handleBuyConfirm, handleBuyCancel } = useBuyAction();
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -135,12 +137,18 @@ export const ProductDetailClient: React.FC<ProductDetailClientProps> = ({ slug, 
               <div className="w-full">
                 {/* 内层白色框 */}
                 <div className="flex items-center bg-white/95 rounded-lg shadow-sm h-10 pr-1.5 md:pr-4 transition-all hover:bg-white w-full min-w-[40px] md:min-w-[280px] xl:min-w-[360px]">
-                  <Link 
-                    href="/card-products"
+                  <button 
+                    onClick={() => {
+                      if (window.history.length > 2) {
+                        router.back();
+                      } else {
+                        router.push('/card-products');
+                      }
+                    }}
                     className="inline-flex h-7 w-7 ml-1.5 mr-0 md:mr-1.5 items-center justify-center text-gray-500 hover:bg-emerald-500 hover:text-white rounded-md transition-colors shrink-0"
                   >
                     <ArrowLeft className="h-4 w-4" />
-                  </Link>
+                  </button>
                   <div className="hidden md:block w-[1px] h-4 bg-gray-200 mr-2 shrink-0"></div>
                   <h2 className="hidden md:block text-gray-900 font-medium text-[14px] truncate">{selectedProduct.name}</h2>
                 </div>
