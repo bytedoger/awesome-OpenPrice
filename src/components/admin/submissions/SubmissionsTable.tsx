@@ -67,6 +67,8 @@ export default function SubmissionsTable({ initialSubmissions: submissions }: { 
           <thead>
             <tr className="bg-gray-50 dark:bg-zinc-900 border-b border-gray-200 dark:border-zinc-800">
               <th className="p-4 text-xs font-semibold text-gray-500 dark:text-zinc-400 uppercase tracking-wider">用户提报名称 & URL</th>
+              <th className="p-4 text-xs font-semibold text-gray-500 dark:text-zinc-400 uppercase tracking-wider">联系方式</th>
+              <th className="p-4 text-xs font-semibold text-gray-500 dark:text-zinc-400 uppercase tracking-wider">备注</th>
               <th className="p-4 text-xs font-semibold text-gray-500 dark:text-zinc-400 uppercase tracking-wider">提交时间</th>
               <th className="p-4 text-xs font-semibold text-gray-500 dark:text-zinc-400 uppercase tracking-wider">审核状态</th>
               <th className="p-4 text-xs font-semibold text-gray-500 dark:text-zinc-400 uppercase tracking-wider text-right">操作</th>
@@ -82,6 +84,18 @@ export default function SubmissionsTable({ initialSubmissions: submissions }: { 
                       {item.site_url} <ExternalLink className="w-3 h-3" />
                     </a>
                   )}
+                </td>
+
+                <td className="p-4">
+                  <div className="text-sm text-gray-600 dark:text-zinc-300">
+                    {item.contact || '-'}
+                  </div>
+                </td>
+
+                <td className="p-4">
+                  <div className="text-sm text-gray-600 dark:text-zinc-300 max-w-xs truncate" title={item.remarks || ''}>
+                    {item.remarks || '-'}
+                  </div>
                 </td>
 
                 <td className="p-4">
@@ -138,7 +152,7 @@ export default function SubmissionsTable({ initialSubmissions: submissions }: { 
             
             {filteredSubmissions.length === 0 && (
               <tr>
-                <td colSpan={4} className="p-8 text-center text-gray-500 dark:text-zinc-400">
+                <td colSpan={6} className="p-8 text-center text-gray-500 dark:text-zinc-400">
                   没有找到符合条件的提报记录。
                 </td>
               </tr>
