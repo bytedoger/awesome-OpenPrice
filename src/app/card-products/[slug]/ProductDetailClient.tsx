@@ -9,6 +9,7 @@ import { CustomDropdown } from '../../../components/CustomDropdown';
 import { BackButton } from '../../../components/BackButton';
 import { BuyDisclaimerModal } from '../../../components/BuyDisclaimerModal';
 import { useBuyAction } from '../../../hooks/useBuyAction';
+import { PlatformCountBadge } from '../../../components/PlatformCountBadge';
 import Link from 'next/link';
 
 interface ProductDetailClientProps {
@@ -101,7 +102,8 @@ export const ProductDetailClient: React.FC<ProductDetailClientProps> = ({ slug, 
 
   return (
     <>
-      <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 relative">
+        <PlatformCountBadge count={selectedProduct.channelCount} prefix="该商品有" suffix="个渠道报价" />
         
         {/* Option A: Static Header with Title and Back Button */}
         <div className="mb-10 flex flex-col md:flex-row items-start gap-4 md:gap-6">

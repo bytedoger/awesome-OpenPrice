@@ -1,9 +1,6 @@
 # OpenPrice
 
 <div align="center">
-  <a href="https://linux.do/" target="_blank">
-    <img src="https://img.shields.io/badge/Linuxdo-社区-000000.svg?style=for-the-badge" alt="Linuxdo 社区" />
-  </a>
   <a href="https://t.me/openprice1" target="_blank">
     <img src="https://img.shields.io/badge/telegram-交流群-2CA5E0.svg?logo=telegram&style=for-the-badge&logoColor=white" alt="telegram Group" />
   </a>
@@ -122,9 +119,6 @@ python main.py
 * **提交渠道**: 如果您是卡网商家，欢迎在平台上免费提交您的渠道信息。
 * **代码贡献**: 本开源项目欢迎任何形式的代码贡献！如果你发现了 Bug 或者有新功能建议，请提交 Issue 或者 Pull Request。
 
-## 💖 特别鸣谢 (Special Thanks)
-
-特别感谢 [Linuxdo 社区](https://linux.do/) 对本项目的大力支持！
 
 ## ⚠️ 免责声明 (Disclaimer)
 

@@ -1,6 +1,12 @@
 import React from 'react';
 
-export function PlatformCountBadge({ count }: { count: number }) {
+interface PlatformCountBadgeProps {
+  count: number;
+  prefix?: string;
+  suffix?: string;
+}
+
+export function PlatformCountBadge({ count, prefix = '已收录', suffix = '个渠道商' }: PlatformCountBadgeProps) {
   if (count === 0) return null;
 
   return (
@@ -9,7 +15,7 @@ export function PlatformCountBadge({ count }: { count: number }) {
         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
         <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
       </span>
-      已收录 <span className="text-yellow-400 text-lg font-bold mx-1.5">{count}</span> 个渠道商
+      {prefix} <span className="text-yellow-400 text-lg font-bold mx-1.5">{count}</span> {suffix}
     </div>
   );
 }
