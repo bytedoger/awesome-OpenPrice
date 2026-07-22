@@ -2,6 +2,7 @@ import { Header } from '../components/Header';
 import { MobileNav } from '../components/MobileNav';
 import { FloatingGithubBanner } from '../components/FloatingGithubBanner';
 import { GoogleAnalytics } from '@next/third-parties/google';
+import { Analytics } from '@vercel/analytics/next';
 import NextTopLoader from 'nextjs-toploader';
 import './globals.css';
 
@@ -51,6 +52,7 @@ export default function RootLayout({
         <MobileNav />
         <FloatingGithubBanner />
         {gaId && <GoogleAnalytics gaId={gaId} />}
+        <Analytics />
       </body>
     </html>
   );
