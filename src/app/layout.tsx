@@ -2,6 +2,7 @@ import { Header } from '../components/Header';
 import { MobileNav } from '../components/MobileNav';
 import { FloatingGithubBanner } from '../components/FloatingGithubBanner';
 import { GoogleAnalytics } from '@next/third-parties/google';
+import { Analytics } from '@vercel/analytics/next';
 import NextTopLoader from 'nextjs-toploader';
 import { Analytics } from "@vercel/analytics/next";
 import './globals.css';
