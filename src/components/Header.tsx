@@ -4,13 +4,10 @@ import React, { useState, useTransition, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Store, Plus, X, Tags, Github } from 'lucide-react';
-import { QQGroupModal } from './QQGroupModal';
 
 export function Header() {
   const pathname = usePathname();
   const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
-  const [isQQModalOpen, setIsQQModalOpen] = useState(false);
-  const [isBannerVisible, setIsBannerVisible] = useState(true);
   const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
@@ -37,24 +34,6 @@ export function Header() {
 
   return (
     <>
-      {isBannerVisible && (
-          <div className="bg-[#12B7F5] text-white px-4 pr-10 sm:pr-12 py-2 text-sm font-medium text-center flex flex-wrap items-center justify-center gap-x-2 gap-y-1 relative z-30 transition-all">
-            <span>🎉 已开放 QQ 闲聊群，欢迎大家来划水交流以及提出功能建议！</span>
-            <button 
-              onClick={() => setIsQQModalOpen(true)} 
-              className="underline underline-offset-2 hover:text-white/80 transition-colors cursor-pointer shrink-0"
-            >
-              立即加入
-            </button>
-            <button 
-              onClick={() => setIsBannerVisible(false)}
-              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 text-white/80 hover:text-white transition-colors p-1"
-              title="关闭公告"
-            >
-              <X className="h-4 w-4 sm:h-5 sm:w-5" />
-            </button>
-          </div>
-        )}
         <header className="sticky top-0 z-20 bg-white/90 backdrop-blur-md shadow-sm">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between gap-2 sm:gap-4">
@@ -95,26 +74,6 @@ export function Header() {
                 <span className="hidden sm:inline">提交渠道</span>
                 <span className="inline sm:hidden">提交</span>
               </button>
-              <button 
-                onClick={() => setIsQQModalOpen(true)}
-                className="flex items-center justify-center rounded-lg hover:opacity-80 transition-opacity text-[#12B7F5]"
-                title="QQ Group"
-              >
-                <svg viewBox="0 0 24 24" className="h-5 w-5 sm:h-6 sm:w-6" fill="currentColor">
-                  <path d="M21.395 15.035a40 40 0 0 0-.803-2.264l-1.079-2.695c.001-.032.014-.562.014-.836C19.526 4.632 17.351 0 12 0S4.474 4.632 4.474 9.241c0 .274.013.804.014.836l-1.08 2.695a39 39 0 0 0-.802 2.264c-1.021 3.283-.69 4.643-.438 4.673.54.065 2.103-2.472 2.103-2.472 0 1.469.756 3.387 2.394 4.771-.612.188-1.363.479-1.845.835-.434.32-.379.646-.301.778.343.578 5.883.369 7.482.189 1.6.18 7.14.389 7.483-.189.078-.132.132-.458-.301-.778-.483-.356-1.233-.646-1.846-.836 1.637-1.384 2.393-3.302 2.393-4.771 0 0 1.563 2.537 2.103 2.472.251-.03.581-1.39-.438-4.673"/>
-                </svg>
-              </button>
-              <a 
-                href="https://t.me/openprice1" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="flex items-center justify-center rounded-lg hover:opacity-80 transition-opacity text-[#2CA5E0]"
-                title="Telegram Group"
-              >
-                <svg viewBox="0 0 24 24" className="h-6 w-6 sm:h-7 sm:w-7" fill="currentColor">
-                  <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.892-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
-                </svg>
-              </a>
               <a 
                 href="https://github.com/kawang01/awesome-OpenPrice" 
                 target="_blank" 
@@ -213,11 +172,6 @@ export function Header() {
           </div>
         </div>
       )}
-
-      <QQGroupModal 
-        isOpen={isQQModalOpen} 
-        onClose={() => setIsQQModalOpen(false)} 
-      />
     </>
   );
 }

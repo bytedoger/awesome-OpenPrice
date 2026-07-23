@@ -1,7 +1,7 @@
 # OpenPrice
 
 <div align="center">
-  <a href="https://t.me/openprice1" target="_blank">
+  <!-- <a href="https://t.me/openprice1" target="_blank">
     <img src="https://img.shields.io/badge/telegram-交流群-2CA5E0.svg?logo=telegram&style=for-the-badge&logoColor=white" alt="telegram Group" />
   </a>
   <a href="https://t.me/bytedoger" target="_blank">
@@ -9,9 +9,9 @@
   </a>
   <a href="https://qm.qq.com/q/6syItALFu0" target="_blank">
     <img src="https://img.shields.io/badge/QQ-交流群-12B7F5.svg?logo=qq&style=for-the-badge&logoColor=white" alt="QQ Group" />
-  </a>
+  </a> -->
   <a href="https://linux.do" target="_blank">
-    <img src="https://img.shields.io/badge/LINUX.DO-技术社区-000000.svg?style=for-the-badge" alt="LINUX.DO Community" />
+    <img src="https://img.shields.io/badge/LINUX.DO-技术社区-000000.svg?style=for-the-badge&logo=data%3Aimage/png%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAEOklEQVR4nMWXX0wcRRzHv7O7d3u7V1aOO0pdiiEloViIEENaY2J8guoLRiox2pDYBBPTPvTFltD4L2kToPWlD2j0qZZoYohQ7g1JTPRFMdiU5LQV04RY72zl7oDjbvf27nbH/PYokkrrlcL5Se4eZmZ/39/85je/mWEoEc55HYDDjuN0pFKp1lQqpZtm1k99iuLLaJoW0zRtThCEaQBTjLFbpdhlJQi3AjixsLDQNTv7U83MzAxu3PgVi4t/wTSz7hhF8aG6ejeamvbj0KGDaG9vv1NfXx8GMMIYm9uSA8lk8rFAIPDO/Pxvx8fGxtTx8QlEo1FyCKIoQhAEMFb8nNocx4Ft225bbW0turtfRk/PK0ZjY%2BNHS0tL56qqqlZKdoBz3mya5qWJiYn2Cxc%2BRDQag9frdYVLgRzJ5XLQdR2nTr1NzsyKonhMluXIfzrAOX8mkUh8NTQ0rF%2B%2BPApJ8kCSShPezJF8Po/e3l4MDPTHgsHgEcbYD/d1gHN%2BIJlMTp8%2B3a9PToahKMp6mLcKLY9pmujq6sL580PkRAdj7Je7/cKGgVo6nR4dHBxyxVVVfWRxgmyQrXA4jMHBYZ00SOtfDjiO897kZPhpCjvNfLshm6OjoyAN0lp3EMXZt0QikR97el5V4vF4ycm2lZwIhUIYG/vSbGlpOcgYi0jUYRjGSUVRlDNnBuDxeLCTUFKSVjqdPgngTZbJZGoty7omy3KI9nY5oJphWVZcluU2KZfLvej1ekO0b8vJmuYLAmOsczuy/WEhTc75YcFxnDZKjnKzVrZbKQKP05qUmzVNXeKcu0dquaEKSdrlSfsHIDDGMv9XEpK2wDn/s1z7fyNrmjH6v7ZTpfdBkCbnfI4i8DUlRLkhTcbY1HopljxyqOCUJxKSYKOQXyvFfr8/mlzOXFHsP/qs298CzD2fdg5egLzneawKe6%2BQtqvGRfViNmMc3XWzX0F2CXyHNgWjlfYFkK78xuR%2B9SK1uakYrGCRvNo2gubh4g1BkADBs80/qWi7eRiWv22ENNcdIJwczq4EXruKfX2AXdj%2B6ZPNfX1YCRy9Cgtn16OCDcRT/IDXWZyumH9L57fGAZFW6FHXg7virK4bq42fxnJCsCOkbXIpJagj56nuTu//JMoa%2BgCn4CbNlqFvnQLIFtnMseCRjeLEptNLrPJmCeYlLfF5O66/D27EqHQBrMRtym067sBUHXjyA6wGe2fz8L0RrGA/3zuU3c9GnHNNMvCuZFw/7l/8TMXvXwBG8b3pli33/Lj7OafK8o8xdS/wxOswdh/L5JWmjxPW0rmGh3maYQNJiz8l2jjBjJsvyanvazzL3wGpCHj2NmAbxUGiCubbA2gtyFc%2BB0t79g5XG8JZByM1u7b4OL2XhMHrPCI67Tw6WX65ldnLOi%2BY7l2CCUqGeytjzFM55wiYdnyYCpb4PP8bgm7e6qvL/VsAAAAASUVORK5CYII%3D" alt="LINUX.DO Community" />
   </a>
 </div>
 
