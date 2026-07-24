@@ -27,11 +27,11 @@ export interface OfferItem {
   platformSortOrder: number;
 }
 
-interface AllProductsClientProps {
-  initialItems: OfferItem[];
-}
+interface AllProductsClientProps {}
 
-export const AllProductsClient: React.FC<AllProductsClientProps> = ({ initialItems }) => {
+export const AllProductsClient: React.FC<AllProductsClientProps> = () => {
+  const [initialItems, setInitialItems] = useState<OfferItem[]>([]);
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedPlatform, setSelectedPlatform] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -45,13 +45,23 @@ export const AllProductsClient: React.FC<AllProductsClientProps> = ({ initialIte
   };
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 120);
+    const fetchAllData = async () => {
+      try {
+        const response = await fetch('/api/offers/all');
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
+        }
+        const data = await response.json();
+        setInitialItems(data);
+      } catch (e) {
+        console.error('Error fetching all items:', e);
+      } finally {
+        setLoading(false);
+      }
     };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    
+    fetchAllData();
   }, []);
-
   const availablePlatforms = useMemo(() => {
     const platformMap = new Map<string, number>();
     initialItems.forEach(p => {
@@ -121,6 +131,29 @@ export const AllProductsClient: React.FC<AllProductsClientProps> = ({ initialIte
     }));
   }, [filteredItems]);
 
+  const [visibleCount, setVisibleCount] = useState(50);
+
+  // 当筛选条件改变时，重置可见数量
+  useEffect(() => {
+    setVisibleCount(50);
+  }, [searchQuery, selectedPlatform, selectedCategory]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 120);
+      
+      // 触底加载更多 (距离底部 500px 时触发)
+      if (
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 500
+      ) {
+        setVisibleCount((prev) => prev + 50);
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 relative">
       <div className="mb-10 flex flex-col md:flex-row items-start gap-4 md:gap-6 mt-4">
@@ -167,20 +200,33 @@ export const AllProductsClient: React.FC<AllProductsClientProps> = ({ initialIte
         </FilterBar>
         
         <div className="min-h-[400px] relative mt-8">
-          <div className="flex flex-col gap-8">
-            <DetailTable 
-              details={productDetails}
-              mode="all"
-              onBuyClick={(detail) => {
-                const item = filteredItems.find(i => i.id === detail.id);
-                if (item) onBuyClick(item);
-              }}
-              onFeedbackClick={(detail) => {
-                const item = filteredItems.find(i => i.id === detail.id);
-                if (item) setFeedbackModalItem(item);
-              }}
-            />
-          </div>
+          {loading ? (
+            <div className="flex flex-col items-center justify-center h-64 space-y-4 text-gray-500">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+              <p>正在努力加载海量商品数据，请稍候...</p>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-8">
+              <DetailTable 
+                details={productDetails.slice(0, visibleCount)}
+                mode="all"
+                onBuyClick={(detail) => {
+                  const item = filteredItems.find(i => i.id === detail.id);
+                  if (item) onBuyClick(item);
+                }}
+                onFeedbackClick={(detail) => {
+                  const item = filteredItems.find(i => i.id === detail.id);
+                  if (item) setFeedbackModalItem(item);
+                }}
+              />
+              {visibleCount < productDetails.length && (
+                <div className="py-6 flex justify-center items-center text-gray-500 text-sm">
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-emerald-600 mr-2"></div>
+                  下拉加载更多...
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
