@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { formatDistanceToNow } from 'date-fns';
-import { Edit, Play, Pause, Trash2, Plus, ExternalLink, Zap, History } from 'lucide-react';
-import { deleteTarget, toggleTargetStatus } from '@/app/admin/(dashboard)/targets/actions';
+import { Edit, Play, Pause, Trash2, Plus, ExternalLink, Zap, History, FastForward } from 'lucide-react';
+import { deleteTarget, toggleTargetStatus, resetTargetAttemptTime } from '@/app/admin/(dashboard)/targets/actions';
 import TargetFormModal from './TargetFormModal';
 import TestScrapeModal from '../shared/TestScrapeModal';
 import TestHistoryModal from './TestHistoryModal';
@@ -48,6 +48,17 @@ export default function TargetsTable({ initialTargets: targets }: { initialTarge
   async function handleDelete(id: string) {
     if (confirm('确定要删除这个渠道吗？')) {
       await deleteTarget(id);
+    }
+  }
+
+  async function handlePrioritize(id: string) {
+    if (confirm('确定要优先更新该渠道吗？后台程序将会在下一次任务中抓取它。')) {
+      const result = await resetTargetAttemptTime(id);
+      if (result.error) {
+        alert('操作失败: ' + result.error);
+      } else {
+        alert('已加入优先更新队列！');
+      }
     }
   }
 
@@ -195,6 +206,13 @@ export default function TargetsTable({ initialTargets: targets }: { initialTarge
                 </td>
                 <td className="p-4 text-right">
                   <div className="flex justify-end gap-2">
+                    <button 
+                      onClick={() => handlePrioritize(target.id)}
+                      className="p-1.5 text-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 rounded-md transition-colors"
+                      title="优先更新"
+                    >
+                      <FastForward className="w-4 h-4" />
+                    </button>
                     <button 
                       onClick={() => setHistoryItem(target)}
                       className="p-1.5 text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-500/10 rounded-md transition-colors"

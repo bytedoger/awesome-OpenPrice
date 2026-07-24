@@ -152,3 +152,21 @@ export async function getTestHistory(scrapeUrl: string) {
 
   return { success: true, data };
 }
+
+export async function resetTargetAttemptTime(id: string) {
+  const { error } = await supabaseAdmin
+    .from('crawler_targets')
+    .update({ 
+      last_attempt_at: null,
+      updated_at: new Date().toISOString()
+    })
+    .eq('id', id);
+
+  if (error) {
+    console.error('Failed to reset target attempt time:', error);
+    return { error: error.message };
+  }
+
+  revalidatePath('/admin/targets');
+  return { success: true };
+}
