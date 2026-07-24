@@ -55,7 +55,7 @@ export const CustomDropdown: React.FC<CustomDropdownProps> = ({
   }, [options, searchQuery, searchable]);
 
   return (
-    <div className={`relative w-28 sm:w-auto shrink-0 ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`} ref={dropdownRef}>
+    <div className={`relative w-20 sm:w-auto shrink-0 ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`} ref={dropdownRef}>
       <div className="relative flex items-center w-full">
         {icon && (
           <div className="absolute inset-y-0 left-0 pl-2.5 sm:pl-4 flex items-center pointer-events-none z-50">
@@ -65,7 +65,7 @@ export const CustomDropdown: React.FC<CustomDropdownProps> = ({
         <input
           type="text"
           readOnly={!searchable || disabled}
-          className={`w-full sm:w-40 lg:w-48 ${icon ? 'pl-8 sm:pl-11' : 'pl-2.5 sm:pl-4'} pr-7 sm:pr-10 h-10 bg-white/95 border-none shadow-sm rounded-lg text-[13px] sm:text-[14px] font-medium text-gray-900 placeholder-gray-500 hover:bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-white/50 z-40 relative truncate ${disabled ? 'pointer-events-none' : 'cursor-text'}`}
+          className={`w-full sm:w-40 lg:w-48 ${icon ? 'pl-8 sm:pl-11' : 'pl-2.5 sm:pl-4'} pr-7 sm:pr-10 h-8 sm:h-10 bg-white/95 border-none shadow-sm rounded-lg text-[12px] sm:text-[14px] font-medium text-gray-900 placeholder-gray-500 hover:bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-white/50 z-40 relative truncate ${disabled ? 'pointer-events-none' : 'cursor-text'}`}
           placeholder={placeholder}
           value={isOpen && searchable ? searchQuery : activeOptionLabel}
           onChange={(e) => {
@@ -128,7 +128,7 @@ export const CustomDropdown: React.FC<CustomDropdownProps> = ({
                   setIsOpen(false);
                   setSearchQuery("");
                 }}
-                className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-[13px] font-medium transition-colors ${
+                className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-[12px] sm:text-[14px] font-medium transition-colors ${
                   value === option.value ? 'bg-primary-50 text-primary-600 font-bold' : 'text-gray-700 hover:bg-gray-50'
                 }`}
               >

@@ -10,7 +10,7 @@ interface BackButtonProps {
   iconClassName?: string;
 }
 
-export const BackButton: React.FC<BackButtonProps> = ({ href, className = "h-12 w-12", iconClassName = "h-5 w-5" }) => {
+export const BackButton: React.FC<BackButtonProps> = ({ href, className = "h-9 w-9 md:h-12 md:w-12", iconClassName = "h-4 w-4 md:h-5 md:w-5" }) => {
   const router = useRouter();
 
   const handleBack = (e: React.MouseEvent) => {

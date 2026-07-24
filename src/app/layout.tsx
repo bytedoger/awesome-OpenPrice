@@ -45,7 +45,7 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col">
         <NextTopLoader color="#10b981" showSpinner={false} shadow="0 0 10px #10b981,0 0 5px #10b981" />
         <Header />
-        <div className="flex-1 pb-14 md:pb-0">
+        <div className="flex-1 pb-11 md:pb-0">
           {children}
         </div>
         <Footer />

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useMemo, useEffect } from 'react';
+import Link from 'next/link';
 import { ProductType } from '../../data';
 import { MasterTable } from '../../components/MasterTable';
 import { FilterBar } from '../../components/FilterBar';
@@ -83,9 +84,11 @@ export const CardProductsClient: React.FC<CardProductsClientProps> = ({ initialP
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 relative">
       <PlatformCountBadge count={platformCount} />
       <div className="mb-12 max-w-3xl pt-2">
-        <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-4">
-          卡网商品聚合
-        </h1>
+        <div className="flex items-center justify-between mb-4">
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            卡网商品聚合
+          </h1>
+        </div>
         <p className="text-lg text-gray-500 max-w-3xl leading-relaxed">
           打破信息差，轻松触达全网底价。OpenPrice 实时聚合全网卡网渠道，无论是 ChatGPT、Claude 等 AI订阅、成品号等，还是接码、邮箱、社媒账号等，海量底价一目了然，让大家以最优的价格购买合适的产品。也希望您一键提交知道的靠谱渠道，共同完善这个平台。
         </p>
@@ -101,6 +104,13 @@ export const CardProductsClient: React.FC<CardProductsClientProps> = ({ initialP
           }}
           searchPlaceholder="搜索商品或平台..."
         >
+          <Link
+            href="/card-products/all"
+            className="inline-flex items-center justify-center rounded-lg text-[12px] sm:text-sm font-semibold transition-all bg-white/95 text-gray-900 shadow-sm hover:bg-white h-8 sm:h-10 px-2 sm:px-4 whitespace-nowrap shrink-0"
+          >
+            查看所有商品
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-1 sm:ml-2 -mr-0.5 sm:-mr-1 sm:w-4 sm:h-4"><path d="m9 18 6-6-6-6"/></svg>
+          </Link>
           <CustomDropdown
             value={selectedPlatform}
             onChange={handlePlatformChange}

@@ -9,11 +9,12 @@ interface DetailTableProps {
   details: ProductDetail[];
   types?: ProductType[];
   showCategoryInfo?: boolean;
+  mode?: 'default' | 'all';
   onBuyClick?: (detail: ProductDetail) => void;
   onFeedbackClick?: (detail: ProductDetail) => void;
 }
 
-export const DetailTable: React.FC<DetailTableProps> = ({ details, types, showCategoryInfo, onBuyClick, onFeedbackClick }) => {
+export const DetailTable: React.FC<DetailTableProps> = ({ details, types, showCategoryInfo, mode = 'default', onBuyClick, onFeedbackClick }) => {
   if (details.length === 0) {
     return (
       <div className="py-12 text-center text-gray-500 bg-gray-50 rounded-xl">
@@ -47,7 +48,7 @@ export const DetailTable: React.FC<DetailTableProps> = ({ details, types, showCa
 
 
 
-  const getIncludedDays = (dateStr: string) => {
+  const getIncludedDays = (dateStr?: string) => {
     if (!dateStr) return 0;
     // 优先使用标准解析，失败（如 iOS Safari 不支持 YYYY-MM-DD HH:mm:ss）再尝试替换
     let includedDate = new Date(dateStr).getTime();
@@ -74,20 +75,29 @@ export const DetailTable: React.FC<DetailTableProps> = ({ details, types, showCa
               <div className="flex justify-between items-start gap-2">
                 <div className="flex flex-col gap-1.5 min-w-0">
                   <div className="flex items-center gap-2">
-                    {showCategoryInfo && typeInfo?.platform && (
+                    {(showCategoryInfo || mode === 'all') && (detail.platform || typeInfo?.platform) && (
                       <span className="inline-flex items-center rounded-md bg-blue-50 px-1.5 py-0.5 text-[11px] font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 shrink-0">
-                        {typeInfo.platform}
+                        {detail.platform || typeInfo?.platform}
+                      </span>
+                    )}
+                    {mode === 'all' && detail.category && (
+                      <span className="inline-flex items-center rounded-md bg-purple-50 px-1.5 py-0.5 text-[11px] font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10 shrink-0">
+                        {detail.category}
                       </span>
                     )}
                     <div className="text-gray-900 font-bold text-[15px] truncate">{detail.channel}</div>
                   </div>
                   <div className="flex flex-wrap gap-1.5 mt-0.5">
-                    <span className="inline-flex items-center rounded bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600">
-                      {detail.channelType}
-                    </span>
-                    <span suppressHydrationWarning className="inline-flex items-center rounded bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600">
-                      收录 {getIncludedDays(detail.includedTime)} 天
-                    </span>
+                    {detail.channelType && (
+                      <span className="inline-flex items-center rounded bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600">
+                        {detail.channelType}
+                      </span>
+                    )}
+                    {detail.includedTime && (
+                      <span suppressHydrationWarning className="inline-flex items-center rounded bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600">
+                        收录 {getIncludedDays(detail.includedTime)} 天
+                      </span>
+                    )}
                   </div>
                 </div>
                 <div className="shrink-0 pt-0.5">{getStatusBadge(detail)}</div>
@@ -131,12 +141,15 @@ export const DetailTable: React.FC<DetailTableProps> = ({ details, types, showCa
         <table className="w-full text-left text-sm table-fixed">
           <thead className="bg-gray-100">
             <tr>
-              {showCategoryInfo && (
+              {(showCategoryInfo || mode === 'all') && (
                 <th scope="col" className="px-4 py-4 font-semibold text-gray-900 w-[10%]">平台</th>
+              )}
+              {mode === 'all' && (
+                <th scope="col" className="px-4 py-4 font-semibold text-gray-900 w-[10%]">类目</th>
               )}
               <th scope="col" className="px-4 py-4 font-semibold text-gray-900 w-[8%]">状态</th>
               <th scope="col" className="px-4 py-4 font-semibold text-gray-900 w-[15%]">渠道</th>
-              <th scope="col" className="px-4 py-4 font-semibold text-gray-900 w-[41%]">原始商品名</th>
+              <th scope="col" className={`px-4 py-4 font-semibold text-gray-900 ${mode === 'all' ? 'w-[31%]' : 'w-[41%]'}`}>原始商品名</th>
               <th scope="col" className="px-4 py-4 font-semibold text-gray-900 w-[8%]">价格</th>
               <th scope="col" className="px-4 py-4 font-semibold text-gray-900 w-[10%]">更新时间</th>
               <th scope="col" className="px-4 py-4 font-semibold text-gray-900 text-center text-xs w-[12%]">操作</th>
@@ -149,19 +162,26 @@ export const DetailTable: React.FC<DetailTableProps> = ({ details, types, showCa
               const isBuyDisabled = detail.status === 'offline' || detail.status === 'out_of_stock';
               return (
                 <tr key={detail.id} className="even:bg-gray-50/80 hover:bg-gray-100 transition-colors">
-                  {showCategoryInfo && (
-                    <td className="px-4 py-4 text-gray-900 break-words">{typeInfo?.platform || '-'}</td>
+                  {(showCategoryInfo || mode === 'all') && (
+                    <td className="px-4 py-4 text-gray-900 break-words">{detail.platform || typeInfo?.platform || '-'}</td>
+                  )}
+                  {mode === 'all' && (
+                    <td className="px-4 py-4 text-gray-600 break-words">{detail.category || '-'}</td>
                   )}
                   <td className="px-4 py-4">{getStatusBadge(detail)}</td>
                   <td className="px-4 py-4">
                     <div className="text-gray-900 font-medium mb-2 break-words">{detail.channel}</div>
                     <div className="flex flex-wrap gap-1.5">
-                      <span className="inline-flex items-center rounded bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600">
-                        {detail.channelType}
-                      </span>
-                      <span suppressHydrationWarning className="inline-flex items-center rounded bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600">
-                        收录 {getIncludedDays(detail.includedTime)} 天
-                      </span>
+                      {detail.channelType && (
+                        <span className="inline-flex items-center rounded bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600">
+                          {detail.channelType}
+                        </span>
+                      )}
+                      {detail.includedTime && (
+                        <span suppressHydrationWarning className="inline-flex items-center rounded bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600">
+                          收录 {getIncludedDays(detail.includedTime)} 天
+                        </span>
+                      )}
                     </div>
                   </td>
                   <td className="px-4 py-4 text-gray-500 break-words">{detail.originalName}</td>

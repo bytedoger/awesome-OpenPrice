@@ -19,8 +19,8 @@ export interface ProductDetail {
   typeId: string;
   status: 'in_stock' | 'out_of_stock' | 'offline';
   channel: string;
-  channelType: string;
-  includedTime: string;
+  channelType?: string;
+  includedTime?: string;
   operateTime: string;
   originalName: string;
   price: number;
@@ -28,4 +28,6 @@ export interface ProductDetail {
   updateTime: string;
   risk: 'low' | 'medium' | 'high';
   inventory?: number | null;
+  platform?: string;
+  category?: string;
 }
