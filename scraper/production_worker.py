@@ -7,8 +7,8 @@ import random
 import os
 
 # 默认每次抓取完后，在一个时间区间内随机休眠（例如 15秒 到 45秒 之间）
-MIN_SLEEP_SECONDS = int(os.environ.get('MIN_SLEEP_SECONDS', 30))
-MAX_SLEEP_SECONDS = int(os.environ.get('MAX_SLEEP_SECONDS', 60))
+MIN_SLEEP_SECONDS = int(os.environ.get('MIN_SLEEP_SECONDS', 20))
+MAX_SLEEP_SECONDS = int(os.environ.get('MAX_SLEEP_SECONDS', 30))
 
 def run_production_worker():
     print(f"[{datetime.datetime.now()}] Booting Production Worker... Polling dynamically...")
@@ -95,6 +95,13 @@ def run_production_worker():
                         "last_crawled_at": datetime.datetime.now(datetime.timezone.utc).isoformat()
                     })
                 
+                # 先删除该渠道现有的所有商品数据
+                try:
+                    supabase.table('market_offers').delete().eq('target_id', source_id).execute()
+                    print(f"[{datetime.datetime.now()}] Deleted all old offers for target {source_id}.")
+                except Exception as del_e:
+                    print(f"[{datetime.datetime.now()}] Warning: Failed to delete old offers: {del_e}")
+
                 if formatted_offers:
                     # Deduplicate by product_title, keeping the lowest price
                     unique_offers = {}
@@ -109,18 +116,9 @@ def run_production_worker():
                                 unique_offers[key] = offer
                     deduped_offers = list(unique_offers.values())
                     
-                    # Upsert offers using Composite Unique Constraint
-                    upsert_res = supabase.table('market_offers').upsert(
-                        deduped_offers, 
-                        on_conflict="target_id,product_title"
-                    ).execute()
-                    print(f"[{datetime.datetime.now()}] Upserted {len(upsert_res.data)} valid offers.")
-                    
-                    # Mark products that were not seen in this crawl as offline
-                    supabase.table('market_offers').update({
-                        'status': 'offline',
-                        'last_crawled_at': datetime.datetime.now(datetime.timezone.utc).isoformat()
-                    }).eq('target_id', source_id).lt('updated_at', crawl_start_time).execute()
+                    # 重新全量插入最新爬取的数据
+                    insert_res = supabase.table('market_offers').insert(deduped_offers).execute()
+                    print(f"[{datetime.datetime.now()}] Inserted {len(deduped_offers)} valid offers.")
                     
                     
                 # Update target's last_valid_at to mark it as healthy
@@ -144,6 +142,13 @@ def run_production_worker():
                     'error_streak': target.get('error_streak', 0) + 1,
                     'latest_error_msg': error_msg
                 }).eq('id', source_id).execute()
+                
+                # 如果爬取出错，清空该渠道的所有商品
+                try:
+                    supabase.table('market_offers').delete().eq('target_id', source_id).execute()
+                    print(f"[{datetime.datetime.now()}] Deleted all offers for target {source_id} due to crawl error.")
+                except Exception as del_e:
+                    print(f"[{datetime.datetime.now()}] Failed to delete offers after error: {del_e}")
                 
             sleep_time = random.randint(MIN_SLEEP_SECONDS, MAX_SLEEP_SECONDS)
             print(f"[{datetime.datetime.now()}] Pacing: Sleeping randomly for {sleep_time} seconds before next target...")

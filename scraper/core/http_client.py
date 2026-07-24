@@ -7,7 +7,7 @@ from urllib3.util.retry import Retry
 class PacingSession(requests.Session):
     def request(self, method, url, **kwargs):
         # 每次真正发请求前，强制随机休眠 
-        sleep_time = random.uniform(3, 7)
+        sleep_time = random.uniform(3, 5)
         print(f"  [PacingSession] Delaying {sleep_time:.2f}s -> {method} {url}")
         time.sleep(sleep_time)
         import traceback
