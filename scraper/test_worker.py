@@ -6,6 +6,15 @@ from core.db import supabase
 from engine.rule_engine import classify_offer, classify_offer_with_name, sync_rules_from_db, RULES_CACHE
 from spider_registry import SPIDER_REGISTRY
 
+import re
+
+def strip_display_id(title: str, display_id: str) -> str:
+    if not display_id:
+        return title
+    pattern = re.compile(r'[\[\(\{\<【]?' + re.escape(display_id) + r'[\]\)\}\>】]?', re.IGNORECASE)
+    cleaned = pattern.sub('', title).strip()
+    return cleaned if cleaned else title
+
 def run_test_worker():
     print(f"[{datetime.datetime.now()}] Booting Test Worker...")
     if not RULES_CACHE:
@@ -76,9 +85,10 @@ def run_test_worker():
                         
                         formatted_offers = []
                         for ro in raw_offers:
-                            canonical_id, product_name = classify_offer_with_name(ro["sourceTitle"])
+                            canonical_id, product_name, matched_d_id = classify_offer_with_name(ro["sourceTitle"])
+                            final_title = strip_display_id(ro["sourceTitle"], matched_d_id) if matched_d_id else ro["sourceTitle"]
                             formatted_offers.append({
-                                "product_title": ro["sourceTitle"],
+                                "product_title": final_title,
                                 "price": ro["price"],
                                 "status": ro["status"],
                                 "url": ro["url"],

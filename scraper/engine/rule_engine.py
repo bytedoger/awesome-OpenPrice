@@ -25,7 +25,7 @@ def sync_rules_from_db():
     try:
         # Fetch platforms and their associated active products using Supabase Foreign Key join
         res = supabase.table('product_platforms') \
-            .select('id, name, rule_include, rule_exclude, sort_order, product_catalog(id, name, rule_include, rule_exclude, is_active, is_catch_all, sort_order)') \
+            .select('id, name, rule_include, rule_exclude, sort_order, product_catalog(id, name, display_id, rule_include, rule_exclude, is_active, is_catch_all, sort_order)') \
             .eq('is_active', True) \
             .execute()
             
@@ -48,6 +48,7 @@ def sync_rules_from_db():
                     {
                         "product_name": p.get('name'),
                         "canonicalId": p['id'],
+                        "display_id": p.get('display_id'),
                         "includeAny": p.get('rule_include') or [],
                         "exclude": p.get('rule_exclude') or [],
                         "is_catch_all": p.get('is_catch_all', False),
@@ -111,14 +112,20 @@ def matches_cnf(text: str, groups: list) -> bool:
                 
     return True
 
-def classify_offer(title: str) -> str:
+def classify_offer(title: str) -> tuple:
     """
-    Given a raw product title, returns the matching canonical product ID
-    using a 2-level (Platform -> Product) filtering logic.
-    Returns 'unknown' if no rules match.
+    Given a raw product title, returns the matching (canonicalId, matched_display_id).
+    Returns ('unknown', None) if no rules match.
     """
     normalized_title = clean_text(title)
     
+    # Phase 1: High Priority Exact Match on display_id
+    for platform in RULES_CACHE:
+        for rule in platform.get('products', []):
+            d_id = rule.get('display_id')
+            if d_id and d_id.lower() in normalized_title:
+                return rule.get('canonicalId'), d_id
+                
     other_platform = None
     
     for platform in RULES_CACHE:
@@ -154,11 +161,11 @@ def classify_offer(title: str) -> str:
                 if matches_cnf(normalized_title, prod_include):
                     # Must NOT match any exclude keywords
                     if not prod_exclude or not matches_any(normalized_title, prod_exclude):
-                        return rule.get('canonicalId')
+                        return rule.get('canonicalId'), None
             
             # If no standard product matched but we have a catch-all, return it
             if catch_all_id:
-                return catch_all_id
+                return catch_all_id, None
                 
     # Fallback: if data does not match any platform, try to match with products in 'other' platform
     if other_platform:
@@ -173,22 +180,29 @@ def classify_offer(title: str) -> str:
             
             if matches_cnf(normalized_title, prod_include):
                 if not prod_exclude or not matches_any(normalized_title, prod_exclude):
-                    return rule.get('canonicalId')
+                    return rule.get('canonicalId'), None
                     
         if catch_all_id:
-            return catch_all_id
+            return catch_all_id, None
 
-    return "unknown"
+    return "unknown", None
 
 def classify_offer_with_name(title: str):
     """
-    Returns (canonicalId, product_name). Useful for admin testing.
+    Returns (canonicalId, product_name, matched_display_id). Useful for admin testing.
     """
     if not title or not RULES_CACHE:
-        return "unknown", "未知"
+        return "unknown", "未知", None
         
     normalized_title = clean_text(title)
     
+    # Phase 1: High Priority Exact Match on display_id
+    for platform in RULES_CACHE:
+        for rule in platform.get('products', []):
+            d_id = rule.get('display_id')
+            if d_id and d_id.lower() in normalized_title:
+                return rule.get('canonicalId'), rule.get('product_name', '未知'), d_id
+                
     other_platform = None
     
     for platform in RULES_CACHE:
@@ -220,10 +234,10 @@ def classify_offer_with_name(title: str):
                 
                 if matches_cnf(normalized_title, prod_include):
                     if not prod_exclude or not matches_any(normalized_title, prod_exclude):
-                        return rule.get('canonicalId'), rule.get('product_name', '未知')
+                        return rule.get('canonicalId'), rule.get('product_name', '未知'), None
                         
             if catch_all_id:
-                return catch_all_id, catch_all_name
+                return catch_all_id, catch_all_name, None
                 
     # Fallback to 'other' platform products
     if other_platform:
@@ -241,9 +255,9 @@ def classify_offer_with_name(title: str):
             
             if matches_cnf(normalized_title, prod_include):
                 if not prod_exclude or not matches_any(normalized_title, prod_exclude):
-                    return rule.get('canonicalId'), rule.get('product_name', '未知')
+                    return rule.get('canonicalId'), rule.get('product_name', '未知'), None
                     
         if catch_all_id:
-            return catch_all_id, catch_all_name
+            return catch_all_id, catch_all_name, None
             
-    return "unknown", "未知"
+    return "unknown", "未知", None

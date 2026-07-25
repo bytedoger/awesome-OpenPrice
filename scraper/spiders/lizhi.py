@@ -58,7 +58,12 @@ class LizhiSpider(BaseSpider):
                 item_id = item.get('id')
                 item_url = f"{base}/item/{item_id}"
                 
-                stock = int(item.get('stock', 0))
+                stock_raw = item.get('stock', 0)
+                try:
+                    stock = int(stock_raw)
+                except (ValueError, TypeError):
+                    # If it's a string like "一般", "非常多", "即将售罄"
+                    stock = 0 if stock_raw in ['缺货', '售罄'] else 999
                 hidden = int(item.get('hide', 0)) != 0
                 status_val = int(item.get('status', 1))
                 disabled = status_val != 1 or hidden

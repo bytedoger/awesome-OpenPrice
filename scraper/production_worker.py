@@ -5,6 +5,14 @@ from engine.rule_engine import classify_offer, sync_rules_from_db
 from spider_registry import SPIDER_REGISTRY
 import random
 import os
+import re
+
+def strip_display_id(title: str, display_id: str) -> str:
+    if not display_id:
+        return title
+    pattern = re.compile(r'[\[\(\{\<【]?' + re.escape(display_id) + r'[\]\)\}\>】]?', re.IGNORECASE)
+    cleaned = pattern.sub('', title).strip()
+    return cleaned if cleaned else title
 
 # 默认每次抓取完后，在一个时间区间内随机休眠（例如 15秒 到 45秒 之间）
 MIN_SLEEP_SECONDS = int(os.environ.get('MIN_SLEEP_SECONDS', 20))
@@ -79,13 +87,15 @@ def run_production_worker():
                 
                 formatted_offers = []
                 for ro in raw_offers:
-                    canonical_id = classify_offer(ro["sourceTitle"])
+                    canonical_id, matched_d_id = classify_offer(ro["sourceTitle"])
                     
                     db_canonical_id = canonical_id if canonical_id != "unknown" else None
                     
+                    final_title = strip_display_id(ro["sourceTitle"], matched_d_id) if matched_d_id else ro["sourceTitle"]
+                    
                     formatted_offers.append({
                         "target_id": source_id,
-                        "product_title": ro["sourceTitle"],
+                        "product_title": final_title,
                         "price": ro["price"],
                         "status": ro["status"],
                         "url": ro["url"],

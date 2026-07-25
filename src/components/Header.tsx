@@ -85,6 +85,12 @@ export function Header() {
               >
                 渠道商
               </Link>
+              <Link 
+                href="/guide/getting-started"
+                className={`transition-colors ${pathname.startsWith('/guide') ? 'text-emerald-600' : 'hover:text-gray-900'}`}
+              >
+                指南
+              </Link>
             </nav>
             <div className="flex items-center gap-2 sm:gap-4 shrink-0">
               <button 
@@ -133,7 +139,7 @@ export function Header() {
       {isSubmitModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/40 backdrop-blur-sm p-4 animate-in fade-in duration-200">
           <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl animate-in zoom-in-95 duration-200">
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-4">
               <h3 className="text-xl font-bold text-gray-900">提交渠道收录</h3>
               <button 
                 onClick={() => setIsSubmitModalOpen(false)}
@@ -142,7 +148,28 @@ export function Header() {
                 <X className="h-5 w-5" />
               </button>
             </div>
-            
+
+            <div className="mb-5 bg-emerald-50/80 rounded-xl p-3.5 text-sm text-emerald-800 border border-emerald-100/50 flex flex-col gap-2">
+              <div className="font-semibold flex items-center gap-1.5">
+                💡 提交前建议阅读以下指南：
+              </div>
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 ml-6">
+                <Link 
+                  href="/guide/getting-started" 
+                  onClick={() => setIsSubmitModalOpen(false)} 
+                  className="flex items-center gap-1 hover:text-emerald-900 underline underline-offset-2 transition-colors"
+                >
+                  如何被正确收录？
+                </Link>
+                <Link 
+                  href="/guide/best-practices" 
+                  onClick={() => setIsSubmitModalOpen(false)} 
+                  className="flex items-center gap-1 hover:text-emerald-900 underline underline-offset-2 transition-colors"
+                >
+                  如何获取更多流量？
+                </Link>
+              </div>
+            </div>
             <form 
               className="space-y-4" 
               onSubmit={handleSubmit}

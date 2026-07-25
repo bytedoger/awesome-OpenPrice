@@ -7,7 +7,7 @@ export const revalidate = 300;
 export async function GET() {
   try {
     const [typesResponse, marketQuotes] = await Promise.all([
-      supabase.from('product_catalog').select('id, name, platform_id, product_platforms(name, sort_order)'),
+      supabase.from('product_catalog').select('id, name, platform_id, sort_order, product_platforms(name, sort_order)'),
       (async () => {
         let allOffers: any[] = [];
         let from = 0;
@@ -46,6 +46,7 @@ export async function GET() {
         category: catalogItem?.name || 'Uncategorized',
         platform: catalogItem?.product_platforms?.name || catalogItem?.platform_id || 'Unknown Platform',
         platformSortOrder: catalogItem?.product_platforms?.sort_order || 9999,
+        productSortOrder: catalogItem?.sort_order || 9999,
       };
     });
 

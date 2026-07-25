@@ -25,6 +25,7 @@ export interface OfferItem {
   category: string;
   platform: string;
   platformSortOrder: number;
+  productSortOrder: number;
 }
 
 interface AllProductsClientProps {}
@@ -103,11 +104,17 @@ export const AllProductsClient: React.FC<AllProductsClientProps> = () => {
         return priorityA - priorityB;
       }
 
-      if (a.platformSortOrder !== b.platformSortOrder) {
-        return a.platformSortOrder - b.platformSortOrder;
+      if (a.productSortOrder !== b.productSortOrder) {
+        return (a.productSortOrder || 9999) - (b.productSortOrder || 9999);
       }
-      const platformCompare = a.platform.localeCompare(b.platform);
-      if (platformCompare !== 0) return platformCompare;
+      
+      if (a.category === b.category) {
+        return a.price - b.price;
+      }
+      
+      const categoryCompare = a.category.localeCompare(b.category);
+      if (categoryCompare !== 0) return categoryCompare;
+      
       return a.title.localeCompare(b.title);
     });
   }, [searchQuery, selectedPlatform, selectedCategory, initialItems]);
