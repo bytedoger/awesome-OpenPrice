@@ -8,7 +8,14 @@ import { CopyButton } from '@/components/CopyButton';
 import { ShareLinkButton } from '@/components/ShareLinkButton';
 
 export const metadata: Metadata = {
-  title: '获取更好的展示 - 指南 | OpenPrice',
+  title: '如何更好的展示商品？(渠道商最佳实践) | OpenPrice',
+  description: '了解如何在 OpenPrice 开源比价平台上获得更好的商品展示效果。通过简单的类目 ID 映射，帮助爬虫引擎更精准地分类您的 ChatGPT、Claude 等商品，让买家更容易找到您的优质渠道。',
+  keywords: ['OpenPrice接入', '商品类目映射', '卡网收录规范', '渠道商指南', '开源比价平台'],
+  openGraph: {
+    title: '如何更好的展示商品？(渠道商最佳实践) | OpenPrice',
+    description: '了解如何在 OpenPrice 开源比价平台上获得更好的商品展示效果。通过简单的类目 ID 映射，帮助爬虫引擎更精准地分类您的 ChatGPT、Claude 等商品，让买家更容易找到您的优质渠道。',
+    type: 'article',
+  }
 };
 
 export default async function BestPracticesPage() {

@@ -7,7 +7,14 @@ import { CopyableText } from '@/components/CopyableText';
 import { CopyableAllFields } from '@/components/CopyableAllFields';
 
 export const metadata: Metadata = {
-  title: '如何被平台收录 - 指南 | OpenPrice',
+  title: '如何被收录？(渠道接入指南) | OpenPrice',
+  description: '卡网怎么免费引流？如何被全网比价平台收录？OpenPrice 提供详细的渠道接入指南。无论您使用的是主流发卡系统还是自建商城，都能轻松完成对接，让您的 ChatGPT、Claude 等数字商品快速获取海量免费曝光。',
+  keywords: ['卡网免费引流', '发卡系统对接', '卡网推广', '渠道收录', 'AI订阅分销', 'JSON-LD'],
+  openGraph: {
+    title: '如何被收录？(渠道接入指南) | OpenPrice',
+    description: '卡网怎么免费引流？如何被全网比价平台收录？OpenPrice 提供详细的渠道接入指南。无论您使用的是主流发卡系统还是自建商城，都能轻松完成对接，让您的 ChatGPT、Claude 等数字商品快速获取海量免费曝光。',
+    type: 'article',
+  }
 };
 
 export default function GuideOverviewPage() {
@@ -32,9 +39,9 @@ export default function GuideOverviewPage() {
         <p className="text-gray-600 mb-8">
           平台针对不同类型的建站系统提供了相应的收录方式，请根据你的情况查看：
           <br />
-          1. <a href="#standard-sites" className="text-emerald-600 font-medium hover:underline">标准建站系统接入（免开发）</a>
+          1. <a href="#standard-sites" className="text-emerald-600 font-medium hover:underline">标准建站系统接入</a>
           <br />
-          2. <a href="#self-built-sites" className="text-emerald-600 font-medium hover:underline">非标准建站 / 自建商城规范</a>
+          2. <a href="#self-built-sites" className="text-emerald-600 font-medium hover:underline">非标准建站 / 自建商城</a>
         </p>
 
         {/* 标准建站系统 */}
@@ -43,7 +50,7 @@ export default function GuideOverviewPage() {
             1. 标准建站系统
           </h2>
           <p>
-            如果你使用的是主流商业发卡系统，我们的爬虫引擎已内置解析支持，无需任何代码开发即可直接收录。当前已完美支持的系统包括：
+            如果你使用的是主流商业发卡系统，我们的爬虫引擎已内置解析支持，可直接被收录。当前已完美支持的系统包括：
           </p>
           <ul className="list-disc pl-5 text-gray-700 font-medium">
             <li>链动小铺</li>
@@ -61,7 +68,7 @@ export default function GuideOverviewPage() {
             2. 非标准建站(自建商城)
           </h2>
           <p>
-            如果你拥有自主研发的商城系统，或者使用的是小众的定制系统，为了能够被 OpenPrice 爬虫精准识别和收录，<strong className="text-gray-900">请务必在你的商品列表页 HTML 源码中嵌入 JSON-LD 结构化数据</strong>。
+            如果你拥有自主研发的商城系统，或者使用的是小众的定制系统，为了能够被 OpenPrice 爬虫精准识别和收录，<strong className="text-gray-900">请务必在你的商品列表页嵌入 JSON-LD 结构化数据</strong>。
           </p>
 
           <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-start my-6">
@@ -114,20 +121,6 @@ export default function GuideOverviewPage() {
 ]
 </script>`} />
 
-          <div className="mt-5 mb-8 bg-blue-50/50 border border-blue-200 rounded-xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div className="text-blue-900 text-sm">
-              <strong className="block text-base mb-1">✅ 验证你的代码格式</strong>
-              植入代码完成后，强烈建议你使用 Google 官方的富媒体搜索结果测试工具，输入你的网页链接进行检测，确保 JSON-LD 格式完全正确。
-            </div>
-            <a 
-              href="https://search.google.com/test/rich-results" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="shrink-0 inline-flex items-center justify-center px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-colors shadow-sm text-sm"
-            >
-              前往 Google 测试工具 ➔
-            </a>
-          </div>
           <div className="flex justify-between items-center mt-8 mb-4">
             <h3 className="text-lg font-bold text-gray-900 m-0">关键字段说明</h3>
             <CopyableAllFields />
@@ -175,6 +168,21 @@ export default function GuideOverviewPage() {
                 </tr>
               </tbody>
             </table>
+          </div>
+
+          <div className="mt-8 mb-4 bg-blue-50/50 border border-blue-200 rounded-xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="text-blue-900 text-sm">
+              <strong className="block text-base mb-1">✅ 验证你的代码格式</strong>
+              植入代码完成后，强烈建议你使用 Google 官方的富媒体搜索结果测试工具，输入你的网页链接进行检测，确保 JSON-LD 格式完全正确。
+            </div>
+            <a 
+              href="https://search.google.com/test/rich-results" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="shrink-0 inline-flex items-center justify-center px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-colors shadow-sm text-sm"
+            >
+              前往 Google 测试工具 ➔
+            </a>
           </div>
         </div>
         
