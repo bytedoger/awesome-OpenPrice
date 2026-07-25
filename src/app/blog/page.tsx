@@ -6,7 +6,7 @@ import BlogListClient from './BlogListClient';
 
 export const metadata: Metadata = {
   title: '博客 | OpenPrice',
-  description: 'OpenPrice 博客 - 获取最新的行业动态、使用教程和平台更新。',
+  description: 'OpenPrice 官方博客 - 为您提供最新、最全的 AI 订阅教程、买号避坑指南及防封号攻略。全面涵盖 ChatGPT Plus 充值、Claude Pro 防封、AI 工具使用技巧等前沿动态。每天五分钟，跟上最新技术。',
 };
 
 // Revalidate every 60 seconds for ISR

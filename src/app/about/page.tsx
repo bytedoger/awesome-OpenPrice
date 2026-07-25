@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: '关于 | OpenPrice',
-  description: 'OpenPrice 是一个开源的收录全网卡网渠道各种 AI订阅以及其它数字产品的项目。',
+  description: 'OpenPrice 是一个完全开源、中立的 AI 订阅全网比价聚合平台。我们致力于打破信息孤岛，通过自动追踪全网优质卡网渠道的实时底价与库存，帮你低价买到最靠谱的 ChatGPT、Claude 及 Cursor AI 订阅产品。',
 };
 
 export default function AboutPage() {
