@@ -91,6 +91,12 @@ export function Header() {
               >
                 指南
               </Link>
+              <Link 
+                href="/blog"
+                className={`transition-colors ${pathname.startsWith('/blog') ? 'text-emerald-600' : 'hover:text-gray-900'}`}
+              >
+                博客
+              </Link>
             </nav>
             <div className="flex items-center gap-2 sm:gap-4 shrink-0">
               <button 
