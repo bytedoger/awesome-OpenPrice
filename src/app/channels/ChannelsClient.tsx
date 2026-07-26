@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { FilterBar } from '../../components/FilterBar';
 import { getRelativeTime } from '../../lib/utils';
 import { ViewDetailsButton } from '../../components/ViewDetailsButton';
 import { PlatformCountBadge } from '../../components/PlatformCountBadge';
 import { Info } from 'lucide-react';
+import { useUrlState } from '../../hooks/useUrlState';
 
 interface Channel {
   id: string;
@@ -31,7 +32,7 @@ function formatScraperType(type: string) {
 
 
 export const ChannelsClient: React.FC<ChannelsClientProps> = ({ initialChannels }) => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useUrlState('q', '');
 
 
 

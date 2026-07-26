@@ -13,6 +13,7 @@ import { useBuyAction } from '../../../hooks/useBuyAction';
 import { GoToBuyButton } from '../../../components/GoToBuyButton';
 import { DetailTable } from '../../../components/DetailTable';
 import type { ProductDetail } from '../../../data';
+import { useUrlState } from '../../../hooks/useUrlState';
 
 export interface OfferItem {
   id: string;
@@ -33,9 +34,11 @@ interface AllProductsClientProps {}
 export const AllProductsClient: React.FC<AllProductsClientProps> = () => {
   const [initialItems, setInitialItems] = useState<OfferItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedPlatform, setSelectedPlatform] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
+  
+  const [searchQuery, setSearchQuery] = useUrlState('q', '');
+  const [selectedPlatform, setSelectedPlatform] = useUrlState('platform', '');
+  const [selectedCategory, setSelectedCategory] = useUrlState('category', '');
+  
   const [isScrolled, setIsScrolled] = useState(false);
   const [feedbackModalItem, setFeedbackModalItem] = useState<OfferItem | null>(null);
   

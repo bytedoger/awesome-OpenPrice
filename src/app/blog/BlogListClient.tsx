@@ -1,14 +1,16 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { BlogPost } from '@/lib/notion';
 import { Search, Calendar, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { format } from 'date-fns';
+import { useUrlState } from '@/hooks/useUrlState';
 
 export default function BlogListClient({ initialPosts }: { initialPosts: BlogPost[] }) {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useUrlState('q', '');
+  const [selectedTagRaw, setSelectedTag] = useUrlState('tag', '');
+  const selectedTag = selectedTagRaw || null;
 
   // Extract all unique tags
   const allTags = useMemo(() => {
@@ -55,7 +57,7 @@ export default function BlogListClient({ initialPosts }: { initialPosts: BlogPos
             <h3 className="font-semibold text-gray-900 mb-4">按标签筛选</h3>
             <div className="flex flex-wrap gap-2">
               <button
-                onClick={() => setSelectedTag(null)}
+                onClick={() => setSelectedTag('')}
                 className={`px-3 py-1.5 rounded-xl text-sm font-medium transition-colors ${
                   selectedTag === null
                     ? 'bg-gray-900 text-white shadow-sm'
@@ -91,7 +93,7 @@ export default function BlogListClient({ initialPosts }: { initialPosts: BlogPos
               <button
                 onClick={() => {
                   setSearchQuery('');
-                  setSelectedTag(null);
+                  setSelectedTag('');
                 }}
                 className="text-emerald-600 hover:text-emerald-700 text-sm font-medium"
               >

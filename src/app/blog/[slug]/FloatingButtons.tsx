@@ -28,7 +28,7 @@ export default function FloatingButtons() {
   };
 
   return (
-    <div className="fixed bottom-8 right-6 sm:right-10 z-50 flex flex-col gap-3">
+    <div className="fixed bottom-24 md:bottom-8 right-6 sm:right-10 z-50 flex flex-col gap-3">
       {/* 返回列表按钮（常驻显示） */}
       <button
         onClick={() => router.push('/blog')}

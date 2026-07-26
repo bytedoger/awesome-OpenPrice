@@ -8,6 +8,7 @@ import { GoToBuyButton } from '../../../components/GoToBuyButton';
 import { BuyDisclaimerModal } from '../../../components/BuyDisclaimerModal';
 import { useBuyAction } from '../../../hooks/useBuyAction';
 import { useRouter } from 'next/navigation';
+import { useUrlState } from '../../../hooks/useUrlState';
 
 interface ChannelOffer {
   id: string;
@@ -32,7 +33,7 @@ interface ChannelDetailClientProps {
 
 
 export const ChannelDetailClient: React.FC<ChannelDetailClientProps> = ({ channel, offers }) => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useUrlState('q', '');
   const [isScrolled, setIsScrolled] = useState(false);
   const { isBuyModalOpen, handleBuyClick, handleBuyConfirm, handleBuyCancel } = useBuyAction();
   const router = useRouter();

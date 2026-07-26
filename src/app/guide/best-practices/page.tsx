@@ -29,88 +29,90 @@ export default async function BestPracticesPage() {
     (categories || []).map(cat => `${cat.name} : ${cat.display_id || '-'}`).join('\n');
 
   return (
-    <div className="p-8 sm:p-12">
-      <div className="flex items-center gap-4 mb-8 border-b border-gray-100 pb-8">
-        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-100 text-amber-600">
-          <Star className="h-6 w-6" />
+    <div className="p-4 sm:p-8 lg:p-12">
+      <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8 border-b border-gray-100 pb-6 sm:pb-8">
+        <div className="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-2xl bg-amber-100 text-amber-600">
+          <Star className="h-5 w-5 sm:h-6 sm:w-6" />
         </div>
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900">
           如何获取更好的展示？
         </h1>
       </div>
 
       <div className="prose prose-amber max-w-none prose-p:text-gray-600 prose-p:leading-relaxed">
-        <p>
+        <p className="text-sm sm:text-base">
           在 OpenPrice 平台上，我们会对全网的卡网商品进行客观的聚合与排序。为了让你的商品和渠道能获得更多的点击和更高的转化，建议你遵循以下最佳实践：
         </p>
 
-        <div id="category-id" className="bg-gradient-to-br from-purple-50 to-indigo-50 border border-purple-100 rounded-2xl p-6 sm:p-8 shadow-sm mb-12 relative overflow-hidden scroll-mt-24">
-          <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
+        <div id="category-id" className="bg-gradient-to-br from-purple-50 to-indigo-50 border border-purple-100 rounded-2xl p-4 sm:p-8 shadow-sm mb-8 sm:mb-12 relative overflow-hidden scroll-mt-24">
+          <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none hidden sm:block">
             <Hash className="w-32 h-32" />
           </div>
-          <div className="flex items-start gap-4 relative z-10">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-purple-600 text-white shadow-md">
-              <Hash className="h-6 w-6" />
+          <div className="flex flex-col sm:flex-row items-start gap-4 relative z-10">
+            <div className="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-xl bg-purple-600 text-white shadow-md">
+              <Hash className="h-5 w-5 sm:h-6 sm:w-6" />
             </div>
-            <div className="flex-1">
-              <h2 className="text-xl font-bold text-gray-900 mb-2">
+            <div className="flex-1 w-full">
+              <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-2">
                 核心优化：使用商品类目 ID 实现 100% 精准收录
               </h2>
-              <p className="text-gray-700 text-sm leading-relaxed mb-4">
+              <p className="text-gray-700 text-xs sm:text-sm leading-relaxed mb-4">
                 <strong>渠道商强烈建议：</strong> 默认分类方式是按照商品标题关键词匹配，<strong>但可能存在误差，有可能把你的商品错误分类</strong>。想要你的商品被收录在指定类目，<strong>只需在你的商品标题任意位置，加上我们平台指定商品类目 ID 即可</strong>。
               </p>
               
-              <div className="bg-white/60 rounded-xl p-4 border border-purple-100 mb-6">
-                <p className="text-sm text-gray-800 mb-3 font-medium">举个例子（假设 ChatGPT 成品账号的类目 ID 是 #044）：</p>
-                <div className="flex flex-col sm:flex-row gap-4 items-center">
-                  <div className="flex-1 w-full bg-white p-3 rounded-lg border border-gray-200 text-sm text-gray-500 line-through">
+              <div className="bg-white/60 rounded-xl p-3 sm:p-4 border border-purple-100 mb-6">
+                <p className="text-xs sm:text-sm text-gray-800 mb-3 font-medium">举个例子（假设 ChatGPT 成品账号的类目 ID 是 #044）：</p>
+                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-center">
+                  <div className="flex-1 w-full bg-white p-3 rounded-lg border border-gray-200 text-xs sm:text-sm text-gray-500 line-through text-center sm:text-left">
                     ChatGPT Plus 成品账号
                   </div>
                   <div className="hidden sm:block text-purple-400 font-bold">➔</div>
                   <div className="block sm:hidden text-purple-400 font-bold">⬇</div>
-                  <div className="flex-1 w-full bg-white p-3 rounded-lg border-2 border-purple-400 text-sm font-semibold text-gray-900 shadow-sm relative">
+                  <div className="flex-1 w-full bg-white p-3 rounded-lg border-2 border-purple-400 text-xs sm:text-sm font-semibold text-gray-900 shadow-sm relative text-center sm:text-left">
                     ChatGPT Plus 成品账号 #044
-                    <div className="absolute -top-2.5 -right-2.5 bg-green-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow">推荐</div>
+                    <div className="absolute -top-2.5 -right-2.5 sm:-right-2.5 bg-green-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow">推荐</div>
                   </div>
                 </div>
               </div>
 
               <details open className="group border-2 border-purple-400 rounded-xl bg-white overflow-hidden shadow-lg mb-6">
-                <summary className="px-5 py-4 cursor-pointer text-base font-bold text-white bg-purple-600 hover:bg-purple-700 flex items-center justify-between transition-colors">
-                  <span className="flex items-center gap-3">
-                    <span className="flex items-center gap-2">
-                      <Star className="h-5 w-5 text-yellow-300 fill-yellow-300" />
-                      【必看】OpenPrice 官方类目 ID 映射表
+                <summary className="px-4 sm:px-5 py-3 sm:py-4 cursor-pointer text-sm sm:text-base font-bold text-white bg-purple-600 hover:bg-purple-700 flex flex-col sm:flex-row items-start sm:items-center justify-between transition-colors gap-3 sm:gap-0">
+                  <span className="flex items-center gap-2 sm:gap-3">
+                    <span className="flex items-center gap-1.5 sm:gap-2">
+                      <Star className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-300 fill-yellow-300 shrink-0" />
+                      <span className="break-all">【必看】OpenPrice 类目 ID 映射表</span>
                     </span>
                     <ShareLinkButton hashId="category-id" />
                   </span>
-                  <span className="text-xs font-medium text-purple-100 group-open:hidden border border-purple-400 bg-purple-500 px-3 py-1 rounded-full shadow-sm">
-                    点击展开全部
-                  </span>
-                  <span className="text-xs font-medium text-purple-100 hidden group-open:block border border-purple-400 bg-purple-500 px-3 py-1 rounded-full shadow-sm">
-                    点击收起
-                  </span>
+                  <div className="flex justify-end w-full sm:w-auto">
+                    <span className="text-[11px] sm:text-xs font-medium text-purple-100 group-open:hidden border border-purple-400 bg-purple-500 px-2.5 sm:px-3 py-1 rounded-full shadow-sm">
+                      点击展开全部
+                    </span>
+                    <span className="text-[11px] sm:text-xs font-medium text-purple-100 hidden group-open:block border border-purple-400 bg-purple-500 px-2.5 sm:px-3 py-1 rounded-full shadow-sm">
+                      点击收起
+                    </span>
+                  </div>
                 </summary>
                 
                 {/* 复制全部控制栏 */}
-                <div className="px-5 py-3 bg-purple-100/50 border-t border-purple-200 flex justify-between items-center">
-                  <span className="text-sm text-purple-800 font-medium flex items-center gap-1.5">
+                <div className="px-4 sm:px-5 py-3 bg-purple-100/50 border-t border-purple-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                  <span className="text-xs sm:text-sm text-purple-800 font-medium flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-purple-500"></span>
                     当前已支持 {categories?.length || 0} 个有效类目
                   </span>
                   <CopyButton 
                     textToCopy={categoriesTextToCopy} 
                     buttonText="一键复制全部" 
-                    className="text-purple-700 bg-white hover:bg-purple-100 rounded-lg border-purple-200 shadow-sm"
+                    className="w-full sm:w-auto justify-center text-purple-700 bg-white hover:bg-purple-100 rounded-lg border-purple-200 shadow-sm"
                   />
                 </div>
 
-                <div className="px-5 py-4 bg-purple-50/50 border-t border-purple-200 max-h-[500px] overflow-y-auto">
-                  <table className="min-w-full text-sm">
+                <div className="px-3 sm:px-5 py-3 sm:py-4 bg-purple-50/50 border-t border-purple-200 max-h-[500px] overflow-y-auto">
+                  <table className="min-w-full text-xs sm:text-sm">
                     <thead>
                       <tr>
-                        <th className="py-2 px-3 text-left font-semibold text-gray-600 border-b">类目名称</th>
-                        <th className="py-2 px-3 text-left font-semibold text-gray-600 border-b">类目 ID (展示ID)</th>
+                        <th className="py-2 px-2 sm:px-3 text-left font-semibold text-gray-600 border-b">类目名称</th>
+                        <th className="py-2 px-2 sm:px-3 text-left font-semibold text-gray-600 border-b">类目 ID</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-100">

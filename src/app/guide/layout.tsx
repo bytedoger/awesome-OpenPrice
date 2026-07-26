@@ -14,22 +14,21 @@ export default function GuideLayout({
 }) {
   return (
     <div className="min-h-screen bg-gray-50/50 py-8 md:py-12">
-      <div className="w-full flex flex-col md:flex-row justify-center items-start px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl flex flex-col md:flex-row items-start px-4 sm:px-6 lg:px-8">
         
         {/* 左侧真实的侧边栏 */}
-        <div className="w-full md:w-56 lg:w-64 shrink-0 md:mr-8 lg:mr-12 mb-8 md:mb-0">
+        <div className="w-full md:w-56 lg:w-64 shrink-0 mb-8 md:mb-0">
           <GuideSidebar />
         </div>
         
-        {/* 绝对居中的正文区域 */}
-        <main className="w-full max-w-4xl min-w-0">
-          <div className="bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden">
-            {children}
+        {/* 正文区域 */}
+        <main className="w-full md:flex-1 md:pl-8 lg:pl-12 min-w-0">
+          <div className="w-full max-w-4xl mx-auto xl:mx-0">
+            <div className="bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden">
+              {children}
+            </div>
           </div>
         </main>
-        
-        {/* 右侧占位符（保持和左侧等宽，以确保中间的正文在视觉上完美居中） */}
-        <div className="hidden md:block md:w-56 lg:w-64 shrink-0 md:ml-8 lg:ml-12 pointer-events-none" />
       </div>
     </div>
   );

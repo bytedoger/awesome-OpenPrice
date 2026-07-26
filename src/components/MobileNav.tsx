@@ -32,8 +32,8 @@ export function MobileNav() {
         </Link>
         <div className="w-[1px] h-4 bg-gray-100 shrink-0"></div>
         <Link 
-          href="/guide" 
-          className={`flex items-center justify-center w-full h-full transition-colors ${pathname === '/guide' ? 'text-emerald-600 font-bold bg-emerald-50/50' : 'text-gray-500 font-medium hover:text-gray-700 hover:bg-gray-50/50'}`}
+          href="/guide/getting-started" 
+          className={`flex items-center justify-center w-full h-full transition-colors ${pathname.startsWith('/guide') ? 'text-emerald-600 font-bold bg-emerald-50/50' : 'text-gray-500 font-medium hover:text-gray-700 hover:bg-gray-50/50'}`}
         >
           <span className="text-[13px]">指南</span>
         </Link>

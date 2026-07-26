@@ -7,6 +7,7 @@ import { MasterTable } from '../../components/MasterTable';
 import { FilterBar } from '../../components/FilterBar';
 import { CustomDropdown } from '../../components/CustomDropdown';
 import { PlatformCountBadge } from '../../components/PlatformCountBadge';
+import { useUrlState } from '../../hooks/useUrlState';
 
 interface CardProductsClientProps {
   initialProducts: ProductType[];
@@ -14,7 +15,7 @@ interface CardProductsClientProps {
 }
 
 export const CardProductsClient: React.FC<CardProductsClientProps> = ({ initialProducts, platformCount }) => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useUrlState('q', '');
   const [selectedPlatform, setSelectedPlatform] = useState('');
   
   const availablePlatforms = useMemo(() => {
