@@ -68,7 +68,9 @@ export default async function CardProductsPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-      <CardProductsClient initialProducts={mappedTypes} platformCount={platformCount} />
+      <React.Suspense fallback={<div className="py-8 text-center text-gray-500">Loading products...</div>}>
+        <CardProductsClient initialProducts={mappedTypes} platformCount={platformCount} />
+      </React.Suspense>
     </div>
   );
 }

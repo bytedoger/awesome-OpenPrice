@@ -49,7 +49,9 @@ export default async function ChannelsPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-      <ChannelsClient initialChannels={channelsWithCounts} />
+      <React.Suspense fallback={<div className="py-8 text-center text-gray-500">Loading channels...</div>}>
+        <ChannelsClient initialChannels={channelsWithCounts} />
+      </React.Suspense>
     </div>
   );
 }

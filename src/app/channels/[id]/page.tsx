@@ -67,7 +67,9 @@ export default async function ChannelDetailPage({ params }: PageProps) {
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-      <ChannelDetailClient channel={channel} offers={mappedOffers} />
+      <React.Suspense fallback={<div className="py-8 text-center text-gray-500">Loading channel details...</div>}>
+        <ChannelDetailClient channel={channel} offers={mappedOffers} />
+      </React.Suspense>
     </div>
   );
 }

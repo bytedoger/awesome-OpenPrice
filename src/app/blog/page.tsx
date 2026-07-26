@@ -34,7 +34,9 @@ export default async function BlogPage() {
           </div>
         )}
 
-        <BlogListClient initialPosts={posts} />
+        <React.Suspense fallback={<div className="py-8 text-center text-gray-500">Loading blog posts...</div>}>
+          <BlogListClient initialPosts={posts} />
+        </React.Suspense>
       </div>
     </div>
   );

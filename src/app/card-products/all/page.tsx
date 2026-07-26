@@ -24,7 +24,9 @@ export const revalidate = 300; // 5分钟静态重生成
 export default function AllProductsPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-      <AllProductsClient />
+      <React.Suspense fallback={<div className="py-8 text-center text-gray-500">Loading products...</div>}>
+        <AllProductsClient />
+      </React.Suspense>
     </div>
   );
 }
