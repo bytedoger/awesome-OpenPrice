@@ -31,18 +31,18 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   }
 
   return (
-    <div className="bg-white pb-24 min-h-screen relative">
+    <div className="bg-white pb-16 min-h-screen relative">
       {/* 头部区 */}
-      <div className="bg-gray-50 border-b border-gray-100 py-16 px-4 sm:px-6 lg:px-8">
+      <div className="bg-gray-50 border-b border-gray-100 py-10 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl">
-          <Link href="/blog" className="inline-flex items-center text-sm text-gray-500 hover:text-emerald-600 transition-colors mb-8">
+          <Link href="/blog" className="inline-flex items-center text-xs text-gray-500 hover:text-emerald-600 transition-colors mb-5">
             <ArrowLeft className="w-4 h-4 mr-1" />
             返回博客列表
           </Link>
 
-          <div className="flex flex-wrap items-center gap-3 text-sm mb-4">
+          <div className="flex flex-wrap items-center gap-2 text-xs mb-3">
             {post.tags.map(tag => (
-              <span key={tag} className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 font-medium">
+              <span key={tag} className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-medium">
                 {tag}
               </span>
             ))}
@@ -52,12 +52,12 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
             </time>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight mb-4">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 leading-tight mb-3">
             {post.title}
           </h1>
           
           {post.description && (
-            <p className="text-lg text-gray-600">
+            <p className="text-sm sm:text-base leading-6 text-gray-600">
               {post.description}
             </p>
           )}
@@ -66,16 +66,16 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
 
       {/* 封面图 */}
       {post.cover && (
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 -mt-10 mb-12">
-          <div className="rounded-3xl overflow-hidden shadow-lg border border-gray-100 bg-white">
-            <img src={post.cover} alt={post.title} className="w-full h-auto max-h-[500px] object-cover" />
+        <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 -mt-7 mb-8">
+          <div className="rounded-2xl overflow-hidden shadow-md border border-gray-100 bg-white">
+            <img src={post.cover} alt={post.title} className="w-full h-auto max-h-[400px] object-cover" />
           </div>
         </div>
       )}
 
       {/* 正文渲染 */}
-      <article className={`mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 ${!post.cover ? 'pt-12' : ''}`}>
-        <div className="prose prose-lg prose-emerald max-w-none prose-headings:text-gray-900 prose-a:text-emerald-600 hover:prose-a:text-emerald-700">
+      <article className={`mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 ${!post.cover ? 'pt-8' : ''}`}>
+        <div className="prose prose-base prose-emerald max-w-none prose-headings:text-gray-900 prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-p:leading-7 prose-a:text-emerald-600 hover:prose-a:text-emerald-700">
           <ReactMarkdown>{markdown}</ReactMarkdown>
         </div>
       </article>

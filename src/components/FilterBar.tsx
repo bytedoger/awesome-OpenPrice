@@ -1,4 +1,6 @@
-import React from 'react';
+"use client";
+
+import React, { useEffect, useRef, useState } from 'react';
 import { CircleHelp, RotateCcw, Search } from 'lucide-react';
 
 interface FilterBarProps {
@@ -22,6 +24,31 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   leftAddon,
   isExpanded = true
 }) => {
+  const [isSearchHelpOpen, setIsSearchHelpOpen] = useState(false);
+  const searchHelpRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isSearchHelpOpen) return;
+
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!searchHelpRef.current?.contains(event.target as Node)) {
+        setIsSearchHelpOpen(false);
+      }
+    };
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsSearchHelpOpen(false);
+      }
+    };
+
+    document.addEventListener('pointerdown', handlePointerDown);
+    document.addEventListener('keydown', handleEscape);
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown);
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [isSearchHelpOpen]);
+
   return (
     <div className="flex justify-end items-start sticky top-14 sm:top-16 z-40 mb-2 sm:mb-3 px-0 pointer-events-none max-w-7xl mx-auto w-full">
       <div className="bg-[#01c573] rounded-xl shadow-md p-1 sm:p-2 w-full md:w-fit max-w-full flex flex-row items-center pointer-events-auto gap-1 sm:gap-2 md:gap-0 transition-all duration-500 ease-in-out">
@@ -53,18 +80,31 @@ export const FilterBar: React.FC<FilterBarProps> = ({
               }}
             />
             {searchHelp && (
-              <details className="group absolute inset-y-0 right-0 flex items-center">
-                <summary
+              <div
+                ref={searchHelpRef}
+                className="absolute inset-y-0 right-0 flex items-center"
+                onBlur={(event) => {
+                  if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+                    setIsSearchHelpOpen(false);
+                  }
+                }}
+              >
+                <button
+                  type="button"
+                  onClick={() => setIsSearchHelpOpen(current => !current)}
                   className="mr-2 md:mr-3 list-none cursor-pointer rounded-full text-gray-400 transition-colors hover:text-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 [&::-webkit-details-marker]:hidden"
                   aria-label="查看搜索技巧"
+                  aria-expanded={isSearchHelpOpen}
                 >
                   <CircleHelp className="h-4 w-4" />
-                </summary>
-                <div className="absolute right-0 top-full z-50 mt-2 w-64 rounded-lg bg-gray-900 px-3 py-2.5 text-left text-xs font-normal leading-relaxed text-white shadow-lg">
-                  <div className="mb-1 font-semibold">搜索技巧</div>
-                  {searchHelp}
-                </div>
-              </details>
+                </button>
+                {isSearchHelpOpen && (
+                  <div className="absolute right-0 top-full z-50 mt-2 w-64 rounded-lg bg-gray-900 px-3 py-2.5 text-left text-xs font-normal leading-relaxed text-white shadow-lg">
+                    <div className="mb-1 font-semibold">搜索技巧</div>
+                    {searchHelp}
+                  </div>
+                )}
+              </div>
             )}
           </div>
 

@@ -16,15 +16,15 @@ export default async function BlogPage() {
   const posts = await getPublishedBlogPosts();
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-      <div className="max-w-5xl mx-auto">
-        <div className="flex items-center gap-4 mb-8 pb-6 border-b border-gray-100">
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-600">
-            <BookOpen className="h-6 w-6" />
+    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto">
+        <div className="flex items-center gap-3 mb-4 pb-3 border-b border-gray-100">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600">
+            <BookOpen className="h-4 w-4" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">博客</h1>
-            <p className="text-gray-500">获取最新的行业动态、使用教程和平台更新</p>
+            <h1 className="text-xl font-bold text-gray-900 mb-0.5">博客</h1>
+            <p className="text-xs text-gray-500">获取最新的行业动态、使用教程和平台更新</p>
           </div>
         </div>
 
