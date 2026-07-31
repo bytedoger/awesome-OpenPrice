@@ -34,6 +34,7 @@ open price,就是开放价格的意思。所以这是一个开源的收录全网
 
 **🛒 买家入口：**
 - [**查看全网 AI 订阅 各个渠道的最新底价**](https://www.openprice.cc/card-products)
+- [**对比 ChatGPT、Claude、Grok 在 app store不同地区的官方订阅价格**](https://www.openprice.cc/official-prices)
 
 **🏪 渠道商必看：**
 - [**卡网商家一键免费收录**](https://www.openprice.cc/)
@@ -58,9 +59,12 @@ open price,就是开放价格的意思。所以这是一个开源的收录全网
 ## ✨ 核心特性 (Features)
 
 * **全网价格透明化**: 实时聚合各卡网（如链动小铺、独角卡网等）渠道产品价格，最低价及质保服务一目了然。
+* **官方订阅价格对比**: 展示 ChatGPT、Claude、Grok 等热门 AI 应用的 App Store 不同地区的官方订阅价格，可按套餐查看不同国家和地区的完整价格排行。
 * **AI 及数字产品深度定制**: 针对市面上热门的 AI 产品（Claude, GPT 等的代充、成品号、日抛）以及接码、住宅代理等服务，进行深度的数据分类与智能匹配。
 * **商家一键入驻**: 目前已无缝支持市面主流发卡系统（如**链动小铺、独角数卡、二次元发卡**等）的**免开发一键接入**。同时，对于**自建商城/非标系统**，平台也已发布了标准化的 **[JSON-LD 接入规范](https://www.openprice.cc/guide/getting-started)**，只需简单优化代码，即可被精准收录，轻松获取海量免费流量。
 * **极致的用户体验**: 告别繁杂的信息堆砌，提供直观、清爽的产品聚合展示，流畅地检索、对比和挑选心仪的商品，享受极速、顺滑的购物决策体验。
+
+卡网渠道与官方订阅在购买来源、账号归属、售后方式和风险方面并不相同。第一次使用前建议阅读 [官方订阅与卡网渠道有什么区别？](https://www.openprice.cc/guide/official-vs-card-products)。
 
 ## 🛠 技术栈 (Tech Stack)
 
@@ -126,22 +130,6 @@ pip install -r requirements.txt
 # 运行主程序
 python main.py
 ```
-
-官方价格只有一个脚本。它固定抓取 ChatGPT、Claude、Grok 在 32 个地区的价格。默认写入数据库，只有加 `--local-only` 时才改为保存本地诊断文件：
-
-```bash
-# 抓取并写入生产数据库
-ENV_FILE=.env.production python tasks/app_store_worker.py
-
-# 只抓取并保存本地，不连接数据库
-python tasks/app_store_worker.py --local-only
-```
-
-本地模式的文件保存在 `scraper/debug/app_store/<运行时间>/`。脚本内部完成金额解析、套餐映射、订阅与 Credits 分类和人民币换算，只把最终价格 upsert 到现有的 `apple_store_prices` 表。未知套餐或任一价格校验失败时，该地区不会写入；任务也不会自动删除数据库里的旧价格。
-
-为了满足 `apple_store_prices.apple_app_id` 的外键并正确显示覆盖地区，任务还会把本地三个 App 的最小注册信息 upsert 到 `apple_store_apps`。不需要 `apple_store_plans`、`apple_store_plan_aliases` 或数据库 RPC 函数。
-
-仓库中的 `.github/workflows/app-store-prices.yml` 会在每周一北京时间 04:30 自动运行，也可以在 GitHub Actions 页面手动触发。使用前需要在仓库的 `Settings → Secrets and variables → Actions` 中添加 `SUPABASE_URL` 和 `SUPABASE_SERVICE_ROLE_KEY`。只要有一个地区抓取、映射或写库失败，工作流就会显示失败并在日志末尾列出原因；失败地区的数据库旧数据不会被删除。
 
 ## 🤝 贡献与入驻
 
