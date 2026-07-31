@@ -68,6 +68,13 @@ export default async function AppPricesDetailPage({ params }: { params: { appId:
   }
 
   const appConfig = OFFICIAL_APP_CONFIGS[appId];
+  const latestUpdatedAt = (pricesData || []).reduce<string | null>((latest, price) => {
+    if (!price.updated_at) return latest;
+    if (!latest) return price.updated_at;
+    return new Date(price.updated_at).getTime() > new Date(latest).getTime()
+      ? price.updated_at
+      : latest;
+  }, null);
 
   // Group prices by subscription name
   const subscriptionsMap: Record<string, any[]> = {};
@@ -118,6 +125,7 @@ export default async function AppPricesDetailPage({ params }: { params: { appId:
     name: appConfig?.name || appData.name,
     iconUrl: appConfig?.iconUrl || '',
     description: appConfig?.description || '',
+    updatedAt: latestUpdatedAt,
     subscriptions
   };
 

@@ -2,8 +2,9 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Trophy } from 'lucide-react';
+import { ArrowLeft, Clock3, Trophy } from 'lucide-react';
 import { getCountryNameChinese } from '@/lib/country-names';
+import { getRelativeTime } from '@/lib/utils';
 
 interface PriceInfo {
   country: string;
@@ -24,6 +25,7 @@ interface AppDetails {
   name: string;
   iconUrl: string;
   description: string;
+  updatedAt: string | null;
   subscriptions: SubscriptionData[];
 }
 
@@ -61,13 +63,17 @@ export default function AppDetailClient({ app }: Props) {
           onClick={() => setActiveTab(sub.name)}
           className={`rounded-lg border px-3 py-2 text-sm font-medium transition-colors ${
             activeTab === sub.name
-              ? 'border-emerald-500 bg-emerald-50 text-emerald-700'
+              ? 'border-[#01c573] bg-[#01c573] text-white shadow-sm'
               : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300 hover:text-gray-900'
           }`}
         >
           <span>{getPlanBaseName(sub.name, sub.billingPeriod)}</span>
           {sub.billingPeriod && BILLING_LABELS[sub.billingPeriod] && (
-            <span className="ml-1.5 rounded bg-blue-50 px-1.5 py-0.5 text-[10px] font-semibold text-blue-700">
+            <span className={`ml-1.5 rounded px-1.5 py-0.5 text-[10px] font-semibold ${
+              activeTab === sub.name
+                ? 'bg-white/20 text-white'
+                : 'bg-blue-50 text-blue-700'
+            }`}>
               {BILLING_LABELS[sub.billingPeriod]}
             </span>
           )}
@@ -96,6 +102,14 @@ export default function AppDetailClient({ app }: Props) {
           )}
           <div className="min-w-0 flex-1">
             <h1 className="text-xl font-bold text-gray-900 sm:text-2xl">{app.name} 官方订阅价格</h1>
+            {app.updatedAt && (
+              <div className="mt-1.5 flex items-center gap-1 text-xs text-gray-400">
+                <Clock3 className="h-3.5 w-3.5" />
+                <time dateTime={app.updatedAt} suppressHydrationWarning>
+                  数据更新于 {getRelativeTime(app.updatedAt)}
+                </time>
+              </div>
+            )}
             {app.description && (
               <>
                 <p
