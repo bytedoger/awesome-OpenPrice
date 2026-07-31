@@ -49,12 +49,12 @@ export const ChannelsClient: React.FC<ChannelsClientProps> = ({ initialChannels 
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 relative">
       <PlatformCountBadge count={initialChannels.length} />
-      <div className="mb-10 flex flex-col md:flex-row items-start gap-4 md:gap-6">
+      <div className="mb-6 flex flex-col md:flex-row items-start gap-4 md:gap-6">
         <div className="flex-1 w-full">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-3 flex items-center gap-3">
+          <h1 className="text-xl font-bold tracking-tight text-gray-900 sm:text-2xl mb-2 flex items-center gap-3">
             渠道商列表
           </h1>
-          <p className="text-lg text-gray-500 max-w-2xl leading-relaxed mb-3">
+          <p className="text-sm text-gray-500 max-w-2xl leading-relaxed mb-3">
             在这里可以查看所有被收录并正在活跃更新的渠道，感谢各位渠道商和用户的提交，共同维护这片生态。
           </p>
           <div className="inline-flex items-center gap-1.5 text-sm text-blue-700 bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-100/50 shadow-sm">
@@ -73,7 +73,7 @@ export const ChannelsClient: React.FC<ChannelsClientProps> = ({ initialChannels 
         />
         
         {/* Mobile Card Layout */}
-        <div className="flex flex-col gap-3 md:hidden mt-4">
+        <div className="flex flex-col gap-3 md:hidden">
           {filteredChannels.length > 0 ? (
             filteredChannels.map((channel) => (
               <div key={channel.id} className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 flex flex-col gap-3">
@@ -103,7 +103,7 @@ export const ChannelsClient: React.FC<ChannelsClientProps> = ({ initialChannels 
         </div>
 
         {/* Desktop Table Layout */}
-        <div className="hidden md:block bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden relative mt-4">
+        <div className="hidden md:block bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden relative">
           <div className="overflow-x-auto min-h-[400px]">
             <table className="w-full text-left border-collapse">
               <thead>

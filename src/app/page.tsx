@@ -17,7 +17,7 @@ export default async function HomePage() {
       
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
         <div className="animate-in fade-in slide-in-from-bottom-8 duration-700 relative">
-          <PlatformCountBadge count={platformCount} />
+          <PlatformCountBadge count={platformCount} href="/channels" />
           
           {/* Hero Section */}
           <div className="text-center max-w-4xl mx-auto mb-20 pt-8">
@@ -25,7 +25,7 @@ export default async function HomePage() {
               <Sparkles className="mr-2 h-4 w-4 text-emerald-600" />
               全网卡网渠道数据聚合与比价平台
             </div>
-            <h1 className="text-5xl font-extrabold tracking-tight text-gray-900 sm:text-6xl lg:text-7xl mb-8 leading-[1.15]">
+            <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl mb-7 leading-[1.15]">
               一个免费无广的<br className="hidden sm:block" />
               <span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">收录所有卡网AI订阅价格的项目</span>
             </h1>
@@ -52,7 +52,7 @@ export default async function HomePage() {
           </div>
 
           {/* Features / Value Props Section */}
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto mt-16">
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 max-w-7xl mx-auto mt-16">
             
             {/* Card 1: For Buyers */}
             <div className="group relative overflow-hidden rounded-3xl bg-white p-8 shadow-sm ring-1 ring-gray-200 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
@@ -73,7 +73,26 @@ export default async function HomePage() {
               </div>
             </div>
 
-            {/* Card 2: For Sellers */}
+            {/* Card 2: Official subscriptions */}
+            <div className="group relative overflow-hidden rounded-3xl bg-white p-8 shadow-sm ring-1 ring-gray-200 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+              <div className="absolute top-0 right-0 p-8 opacity-5 transition-opacity group-hover:opacity-10">
+                <Sparkles className="h-24 w-24" />
+              </div>
+              <div className="relative z-10">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-orange-100 text-orange-600 mb-6 group-hover:scale-110 group-hover:bg-orange-500 group-hover:text-white transition-all duration-300">
+                  <Sparkles className="h-7 w-7" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-4">官方订阅：地区价格对比</h3>
+                <p className="text-gray-500 leading-relaxed mb-6">
+                  查看 ChatGPT、Claude 和 Grok 在不同 App Store 地区的官方订阅价格，快速找到更划算的地区。
+                </p>
+                <Link href="/official-prices" className="inline-flex items-center text-sm font-semibold text-orange-600 hover:text-orange-700">
+                  查看官方订阅 <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </div>
+            </div>
+
+            {/* Card 3: For Sellers */}
             <div className="group relative overflow-hidden rounded-3xl bg-white p-8 shadow-sm ring-1 ring-gray-200 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
               <div className="absolute top-0 right-0 p-8 opacity-5 transition-opacity group-hover:opacity-10">
                 <Store className="h-24 w-24" />
@@ -94,8 +113,8 @@ export default async function HomePage() {
               </div>
             </div>
 
-            {/* Card 3: User Experience */}
-            <div className="group relative overflow-hidden rounded-3xl bg-white p-8 shadow-sm ring-1 ring-gray-200 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl sm:col-span-2 lg:col-span-1">
+            {/* Card 4: User Experience */}
+            <div className="group relative overflow-hidden rounded-3xl bg-white p-8 shadow-sm ring-1 ring-gray-200 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
               <div className="absolute top-0 right-0 p-8 opacity-5 transition-opacity group-hover:opacity-10">
                 <Zap className="h-24 w-24" />
               </div>

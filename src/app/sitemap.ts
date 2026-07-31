@@ -41,6 +41,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/card-products/all`, priority: 0.9, changeFrequency: 'daily' as const },
     { url: `${baseUrl}/channels`, priority: 0.9, changeFrequency: 'daily' as const },
     { url: `${baseUrl}/blog`, priority: 0.9, changeFrequency: 'daily' as const },
+    { url: `${baseUrl}/guide`, priority: 0.8, changeFrequency: 'weekly' as const },
+    { url: `${baseUrl}/guide/official-vs-card-products`, priority: 0.8, changeFrequency: 'monthly' as const },
     { url: `${baseUrl}/guide/getting-started`, priority: 0.8, changeFrequency: 'weekly' as const },
     { url: `${baseUrl}/guide/best-practices`, priority: 0.8, changeFrequency: 'weekly' as const },
     { url: `${baseUrl}/about`, priority: 0.7, changeFrequency: 'monthly' as const },

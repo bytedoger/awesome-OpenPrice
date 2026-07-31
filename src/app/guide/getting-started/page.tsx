@@ -25,6 +25,7 @@ export default function GuideOverviewPage() {
           <CheckCircle className="h-5 w-5" />
         </div>
         <div>
+          <div className="mb-1 text-xs font-semibold text-emerald-600">渠道商指南</div>
           <h1 className="text-2xl font-bold text-gray-900 mb-1">
             如何被平台收录？
           </h1>

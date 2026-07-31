@@ -58,14 +58,14 @@ export const ChannelDetailClient: React.FC<ChannelDetailClientProps> = ({ channe
 
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="mb-10 flex flex-col md:flex-row items-start gap-4 md:gap-6">
+      <div className="mb-6 flex flex-col md:flex-row items-start gap-4 md:gap-6">
         <BackButton href="/channels" />
         <div className="flex-1 w-full">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-3 flex items-center gap-3">
+          <h1 className="text-xl font-bold tracking-tight text-gray-900 sm:text-2xl mb-2 flex items-center gap-3">
             {channel.name} 
             <span className="text-sm px-3 py-1 bg-blue-100 text-blue-800 rounded-full font-medium shadow-sm border border-blue-200">收录商品数: {offers.length}</span>
           </h1>
-          <p className="text-lg text-gray-500 max-w-2xl leading-relaxed">
+          <p className="text-sm text-gray-500 max-w-2xl leading-relaxed">
             该渠道下的所有在售商品列表，您可以浏览分类及价格。
           </p>
         </div>
@@ -101,7 +101,7 @@ export const ChannelDetailClient: React.FC<ChannelDetailClientProps> = ({ channe
         />
         
         {/* Mobile Card Layout */}
-        <div className="flex flex-col gap-3 md:hidden mt-4">
+        <div className="flex flex-col gap-3 md:hidden">
           {filteredOffers.length > 0 ? (
             filteredOffers.map((offer) => (
               <div key={offer.id} className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 flex flex-col gap-3">
@@ -141,7 +141,7 @@ export const ChannelDetailClient: React.FC<ChannelDetailClientProps> = ({ channe
         </div>
 
         {/* Desktop Table Layout */}
-        <div className="hidden md:block bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden relative mt-4">
+        <div className="hidden md:block bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden relative">
           <div className="overflow-x-auto min-h-[400px]">
             <table className="w-full text-left text-sm table-fixed border-collapse">
               <thead>

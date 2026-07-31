@@ -8,6 +8,8 @@ import { FilterBar } from '../../components/FilterBar';
 import { CustomDropdown } from '../../components/CustomDropdown';
 import { PlatformCountBadge } from '../../components/PlatformCountBadge';
 import { useUrlState } from '../../hooks/useUrlState';
+import { useRouter } from 'next/navigation';
+import { matchesSearchQuery } from '../../lib/search-query';
 
 interface CardProductsClientProps {
   initialProducts: ProductType[];
@@ -15,6 +17,7 @@ interface CardProductsClientProps {
 }
 
 export const CardProductsClient: React.FC<CardProductsClientProps> = ({ initialProducts, platformCount }) => {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useUrlState('q', '');
   const [selectedPlatform, setSelectedPlatform] = useState('');
   
@@ -53,19 +56,17 @@ export const CardProductsClient: React.FC<CardProductsClientProps> = ({ initialP
 
   const handlePlatformChange = (val: string) => {
     setSelectedPlatform(val);
-    if (val) {
-      window.location.hash = val;
-    } else {
-      window.history.pushState("", document.title, window.location.pathname + window.location.search);
-    }
+    const baseUrl = window.location.pathname + window.location.search;
+    const targetUrl = val ? `${baseUrl}#${encodeURIComponent(val)}` : baseUrl;
+    router.replace(targetUrl, { scroll: false });
   };
 
   const filteredProducts = useMemo(() => {
     const filtered = initialProducts.filter(p => {
-      const query = searchQuery.toLowerCase();
-      const matchSearch = p.name.toLowerCase().includes(query) || 
-                          p.platform.toLowerCase().includes(query) ||
-                          (p.searchKeywords && p.searchKeywords.some(kw => kw.toLowerCase().includes(query)));
+      const matchSearch = matchesSearchQuery(
+        [p.name, p.platform, ...(p.searchKeywords ?? [])],
+        searchQuery,
+      );
       const matchPlatform = selectedPlatform ? p.platform === selectedPlatform : true;
       
       return matchSearch && matchPlatform;
@@ -83,14 +84,14 @@ export const CardProductsClient: React.FC<CardProductsClientProps> = ({ initialP
 
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 relative">
-      <PlatformCountBadge count={platformCount} />
-      <div className="mb-12 max-w-3xl pt-2">
-        <div className="flex items-center justify-between mb-4">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+      <PlatformCountBadge count={platformCount} href="/channels" />
+      <div className="mb-6 max-w-3xl pt-2">
+        <div className="flex items-center justify-between mb-3">
+          <h1 className="text-xl font-bold tracking-tight text-gray-900 sm:text-2xl">
             卡网商品聚合
           </h1>
         </div>
-        <p className="text-lg text-gray-500 max-w-3xl leading-relaxed">
+        <p className="text-sm text-gray-500 max-w-3xl leading-relaxed">
           打破信息差，轻松触达全网底价。OpenPrice 实时聚合全网卡网渠道，无论是 ChatGPT、Claude 等 AI订阅、成品号等，还是接码、邮箱、社媒账号等，海量底价一目了然，让大家以最优的价格购买合适的产品。也希望您一键提交知道的靠谱渠道，共同完善这个平台。
         </p>
       </div>
@@ -101,9 +102,10 @@ export const CardProductsClient: React.FC<CardProductsClientProps> = ({ initialP
           onSearchChange={setSearchQuery}
           onReset={() => {
             setSearchQuery("");
-            setSelectedPlatform("");
+            handlePlatformChange("");
           }}
-          searchPlaceholder="搜索商品或平台..."
+          searchPlaceholder="搜索商品或平台（-关键词可排除）"
+          searchHelp="排除不想看的结果：在词语前加“-”。例如输入“-共享”，就不会显示含“共享”的商品。"
         >
           <Link
             href="/card-products/all"
@@ -121,7 +123,7 @@ export const CardProductsClient: React.FC<CardProductsClientProps> = ({ initialP
           />
         </FilterBar>
         
-        <div className="min-h-[400px] relative mt-8">
+        <div className="min-h-[400px] relative">
           <MasterTable products={filteredProducts} />
         </div>
       </div>

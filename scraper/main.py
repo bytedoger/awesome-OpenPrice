@@ -12,14 +12,17 @@ def main():
     
     prod_process.start()
     test_process.start()
-    
+
     try:
         # Keep the main process alive while workers are running
         while True:
             time.sleep(1)
             # If either process dies unexpectedly, you could potentially restart it here,
             # but for now we just keep the main thread alive.
-            if not prod_process.is_alive() or not test_process.is_alive():
+            if (
+                not prod_process.is_alive()
+                or not test_process.is_alive()
+            ):
                 print("One of the workers stopped. Exiting main process...")
                 break
                 

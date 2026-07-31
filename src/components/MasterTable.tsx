@@ -21,9 +21,9 @@ export const MasterTable: React.FC<MasterTableProps> = ({ products }) => {
   }, {} as Record<string, ProductType[]>);
   
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-4">
       {platformsOrder.map((platform, index) => (
-        <div key={platform} className="flex flex-col gap-8">
+        <div key={platform} className="flex flex-col gap-4">
           
           {/* Platform Title and Divider Outside the Table */}
           <div className="flex items-center gap-4 px-1">

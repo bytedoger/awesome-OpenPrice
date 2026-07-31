@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: '指南 | OpenPrice',
-  description: 'OpenPrice 指南，了解如何将你的发卡网或渠道收录到平台。',
+  description: 'OpenPrice 用户与渠道商指南：了解官方订阅和卡网渠道的区别，以及渠道收录和商品展示方法。',
 };
 
 export default function GuideLayout({

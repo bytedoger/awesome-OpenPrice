@@ -71,3 +71,5 @@ venv/
 
 # Scraper data
 scraper/engine/rules.json
+/scraper/debug/
+/scraper/tasks/rates.json

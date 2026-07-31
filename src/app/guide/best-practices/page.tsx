@@ -34,9 +34,12 @@ export default async function BestPracticesPage() {
         <div className="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-2xl bg-amber-100 text-amber-600">
           <Star className="h-5 w-5 sm:h-6 sm:w-6" />
         </div>
-        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900">
-          如何获取更好的展示？
-        </h1>
+        <div>
+          <div className="mb-1 text-xs font-semibold text-amber-600">渠道商指南</div>
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900">
+            如何获取更好的展示？
+          </h1>
+        </div>
       </div>
 
       <div className="prose prose-amber max-w-none prose-p:text-gray-600 prose-p:leading-relaxed">

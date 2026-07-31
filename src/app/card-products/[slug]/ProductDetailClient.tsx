@@ -14,6 +14,7 @@ import { useBuyAction } from '../../../hooks/useBuyAction';
 import { PlatformCountBadge } from '../../../components/PlatformCountBadge';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { matchesSearchQuery } from '../../../lib/search-query';
 
 interface ProductDetailClientProps {
   slug: string;
@@ -62,8 +63,7 @@ export const ProductDetailClient: React.FC<ProductDetailClientProps> = ({ slug, 
 
   const filteredCurrentDetails = useMemo(() => {
     const filtered = currentDetails.filter(d => {
-      const matchSearch = d.originalName.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          d.channel.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchSearch = matchesSearchQuery([d.originalName, d.channel], searchQuery);
       const matchPrice = checkPriceMatch(d.price);
       const matchChannel = selectedChannel ? d.channel === selectedChannel : true;
       return matchSearch && matchPrice && matchChannel;
@@ -96,14 +96,14 @@ export const ProductDetailClient: React.FC<ProductDetailClientProps> = ({ slug, 
         <PlatformCountBadge count={selectedProduct.channelCount} prefix="该商品有" suffix="个渠道报价" />
         
         {/* Option A: Static Header with Title and Back Button */}
-        <div className="mb-10 flex flex-col md:flex-row items-start gap-4 md:gap-6">
+        <div className="mb-6 flex flex-col md:flex-row items-start gap-4 md:gap-6">
           <BackButton href="/card-products" />
           <div className="flex-1 w-full">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-3 flex items-center gap-3">
+            <h1 className="text-lg font-bold tracking-tight text-gray-900 sm:text-xl mb-2 flex items-center gap-2">
               {selectedProduct.name}
-              <span className="text-sm px-3 py-1 bg-gray-100 text-gray-600 rounded-full font-medium">{selectedProduct.platform}</span>
+              <span className="text-xs px-2.5 py-0.5 bg-gray-100 text-gray-600 rounded-full font-medium">{selectedProduct.platform}</span>
             </h1>
-            <p className="text-lg text-gray-500 max-w-2xl leading-relaxed">
+            <p className="text-sm text-gray-500 max-w-2xl leading-relaxed">
               {selectedProduct.shortDesc || '暂无详细描述'}
             </p>
           </div>
@@ -119,7 +119,8 @@ export const ProductDetailClient: React.FC<ProductDetailClientProps> = ({ slug, 
               setCustomMinPrice("");
               setCustomMaxPrice("");
             }}
-            searchPlaceholder="在当前商品中搜索..."
+            searchPlaceholder="在当前商品中搜索（-关键词可排除）"
+            searchHelp="排除不想看的结果：在词语前加“-”。例如输入“-共享”，就不会显示含“共享”的商品。"
             isExpanded={isScrolled}
             leftAddon={<StickyHeaderAddon title={selectedProduct.name} />}
           >

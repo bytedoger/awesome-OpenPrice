@@ -1,11 +1,12 @@
 import React from 'react';
-import { RotateCcw, Search } from 'lucide-react';
+import { CircleHelp, RotateCcw, Search } from 'lucide-react';
 
 interface FilterBarProps {
   searchQuery: string;
   onSearchChange: (val: string) => void;
   onReset: () => void;
   searchPlaceholder?: string;
+  searchHelp?: string;
   children?: React.ReactNode;
   leftAddon?: React.ReactNode;
   isExpanded?: boolean;
@@ -16,12 +17,13 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   onSearchChange,
   onReset,
   searchPlaceholder = "搜索...",
+  searchHelp,
   children,
   leftAddon,
   isExpanded = true
 }) => {
   return (
-    <div className="flex justify-end items-start sticky top-14 sm:top-16 z-40 mb-6 sm:mb-10 px-0 pointer-events-none max-w-7xl mx-auto w-full">
+    <div className="flex justify-end items-start sticky top-14 sm:top-16 z-40 mb-2 sm:mb-3 px-0 pointer-events-none max-w-7xl mx-auto w-full">
       <div className="bg-[#01c573] rounded-xl shadow-md p-1 sm:p-2 w-full md:w-fit max-w-full flex flex-row items-center pointer-events-auto gap-1 sm:gap-2 md:gap-0 transition-all duration-500 ease-in-out">
         {leftAddon && (
           <div className={`flex overflow-hidden justify-start md:transition-all md:duration-500 md:ease-in-out ${isExpanded ? 'w-auto md:w-[1200px] opacity-100 pr-0 md:pr-4' : 'w-auto md:w-0 opacity-100 md:opacity-0 pr-0'}`}>
@@ -43,13 +45,27 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             <input
               type="text"
               placeholder={searchPlaceholder}
-              className="w-full pl-8 md:pl-11 pr-3 md:pr-4 h-8 sm:h-10 bg-white/95 border-none shadow-sm rounded-lg text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-900 placeholder-gray-500 hover:bg-white focus:outline-none focus:ring-2 focus:ring-white/50 transition-all truncate"
+              className={`w-full pl-8 md:pl-11 ${searchHelp ? 'pr-9 md:pr-10' : 'pr-3 md:pr-4'} h-8 sm:h-10 bg-white/95 border-none shadow-sm rounded-lg text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-900 placeholder-gray-500 hover:bg-white focus:outline-none focus:ring-2 focus:ring-white/50 transition-all truncate`}
               value={searchQuery}
               onChange={(e) => {
                 onSearchChange(e.target.value);
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
             />
+            {searchHelp && (
+              <details className="group absolute inset-y-0 right-0 flex items-center">
+                <summary
+                  className="mr-2 md:mr-3 list-none cursor-pointer rounded-full text-gray-400 transition-colors hover:text-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 [&::-webkit-details-marker]:hidden"
+                  aria-label="查看搜索技巧"
+                >
+                  <CircleHelp className="h-4 w-4" />
+                </summary>
+                <div className="absolute right-0 top-full z-50 mt-2 w-64 rounded-lg bg-gray-900 px-3 py-2.5 text-left text-xs font-normal leading-relaxed text-white shadow-lg">
+                  <div className="mb-1 font-semibold">搜索技巧</div>
+                  {searchHelp}
+                </div>
+              </details>
+            )}
           </div>
 
           {/* Reset Button */}

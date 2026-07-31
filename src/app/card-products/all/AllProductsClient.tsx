@@ -14,6 +14,7 @@ import { GoToBuyButton } from '../../../components/GoToBuyButton';
 import { DetailTable } from '../../../components/DetailTable';
 import type { ProductDetail } from '../../../data';
 import { useUrlState } from '../../../hooks/useUrlState';
+import { matchesSearchQuery } from '../../../lib/search-query';
 
 export interface OfferItem {
   id: string;
@@ -86,8 +87,7 @@ export const AllProductsClient: React.FC<AllProductsClientProps> = () => {
 
   const filteredItems = useMemo(() => {
     return initialItems.filter(p => {
-      const query = searchQuery.toLowerCase();
-      const matchSearch = p.title.toLowerCase().includes(query) || p.shopName.toLowerCase().includes(query);
+      const matchSearch = matchesSearchQuery([p.title, p.shopName], searchQuery);
       const matchPlatform = selectedPlatform ? p.platform === selectedPlatform : true;
       const matchCategory = selectedCategory ? p.category === selectedCategory : true;
       
@@ -166,13 +166,13 @@ export const AllProductsClient: React.FC<AllProductsClientProps> = () => {
 
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 relative">
-      <div className="mb-10 flex flex-col md:flex-row items-start gap-4 md:gap-6 mt-4">
+      <div className="mb-6 flex flex-col md:flex-row items-start gap-4 md:gap-6 mt-4">
         <BackButton href="/card-products" />
         <div className="flex-1 w-full">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-3 flex items-center gap-3">
+          <h1 className="text-xl font-bold tracking-tight text-gray-900 sm:text-2xl mb-2 flex items-center gap-3">
             所有渠道所有商品
           </h1>
-          <p className="text-lg text-gray-500 max-w-2xl leading-relaxed">
+          <p className="text-sm text-gray-500 max-w-2xl leading-relaxed">
             查看 OpenPrice 收录的所有卡网渠道所有商品，涵盖 ChatGPT、Claude、Gemini、Cursor、Gork、Kiro等AI订阅，以及谷歌邮箱、outlook 邮箱以及苹果账号、telegram 账号以及接码服务等。支持多维度价格和平台筛选，快速找到全网最低价。
           </p>
         </div>
@@ -187,7 +187,8 @@ export const AllProductsClient: React.FC<AllProductsClientProps> = () => {
             setSelectedPlatform("");
             setSelectedCategory("");
           }}
-          searchPlaceholder="搜索商品名称或店铺..."
+          searchPlaceholder="搜索商品或店铺（-关键词可排除）"
+          searchHelp="排除不想看的结果：在词语前加“-”。例如输入“-共享”，就不会显示含“共享”的商品。"
           isExpanded={isScrolled}
           leftAddon={<StickyHeaderAddon title="所有渠道商品" />}
         >
@@ -209,7 +210,7 @@ export const AllProductsClient: React.FC<AllProductsClientProps> = () => {
           </div>
         </FilterBar>
         
-        <div className="min-h-[400px] relative mt-8">
+        <div className="min-h-[400px] relative">
           {loading ? (
             <div className="flex flex-col items-center justify-center h-64 space-y-4 text-gray-500">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>

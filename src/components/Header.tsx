@@ -3,7 +3,7 @@
 import React, { useState, useTransition, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Store, Plus, X, Tags, Github } from 'lucide-react';
+import { Plus, X, Tags } from 'lucide-react';
 import { QQGroupModal } from './QQGroupModal';
 
 export function Header() {
@@ -68,25 +68,19 @@ export function Header() {
             </Link>
             <nav className="hidden md:flex items-center gap-8 text-base font-medium text-gray-600">
               <Link 
-                href="/"
-                className={`transition-colors ${pathname === '/' ? 'text-emerald-600' : 'hover:text-gray-900'}`}
-              >
-                首页
-              </Link>
-              <Link 
                 href="/card-products"
                 className={`transition-colors ${pathname === '/card-products' ? 'text-emerald-600' : 'hover:text-gray-900'}`}
               >
                 卡网商品
               </Link>
-              <Link 
-                href="/channels"
-                className={`transition-colors ${pathname === '/channels' ? 'text-emerald-600' : 'hover:text-gray-900'}`}
+              <Link
+                href="/official-prices"
+                className={`transition-colors ${pathname === '/official-prices' ? 'text-emerald-600' : 'hover:text-gray-900'}`}
               >
-                渠道商
+                官方订阅
               </Link>
               <Link 
-                href="/guide/getting-started"
+                href="/guide"
                 className={`transition-colors ${pathname.startsWith('/guide') ? 'text-emerald-600' : 'hover:text-gray-900'}`}
               >
                 指南

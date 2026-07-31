@@ -13,10 +13,13 @@ export const Footer = () => {
             <Link href="/about" className="hover:text-emerald-600 transition-colors">
               关于
             </Link>
+            <Link href="/channels" className="hover:text-emerald-600 transition-colors">
+              渠道商
+            </Link>
             <Link href="/blog" className="hover:text-emerald-600 transition-colors">
               博客
             </Link>
-            <Link href="/guide/getting-started" className="hover:text-emerald-600 transition-colors">
+            <Link href="/guide" className="hover:text-emerald-600 transition-colors">
               指南
             </Link>
             <a 
