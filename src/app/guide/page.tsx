@@ -5,6 +5,7 @@ import { ArrowRight, CheckCircle, Scale, Star, Store, UserRound } from 'lucide-r
 export const metadata: Metadata = {
   title: 'OpenPrice 指南｜用户购买指南与渠道商接入',
   description: '按用户和渠道商分类查看 OpenPrice 指南，了解官方订阅与卡网渠道的区别、渠道收录方式和商品展示建议。',
+  alternates: { canonical: '/guide' },
 };
 
 const sections = [

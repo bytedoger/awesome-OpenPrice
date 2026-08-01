@@ -7,6 +7,7 @@ const description = '获取Claude 、ChatGPT、Gemini、Grok、cursor、谷歌�
 export const metadata: Metadata = {
   title,
   description,
+  alternates: { canonical: '/card-products' },
   openGraph: {
     title,
     description,

@@ -4,6 +4,11 @@ import { Search, Store, Zap, ArrowRight, Sparkles, TrendingDown } from 'lucide-r
 import { PlatformCountBadge } from '../components/PlatformCountBadge';
 import { SubmitChannelButton } from '../components/SubmitChannelButton';
 import { getChannelProviderCount } from './actions';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  alternates: { canonical: '/' },
+};
 
 export const revalidate = 300; // 5分钟静态重生成
 

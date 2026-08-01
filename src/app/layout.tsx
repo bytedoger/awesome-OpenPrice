@@ -4,12 +4,14 @@ import { FloatingGithubBanner } from '../components/FloatingGithubBanner';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import NextTopLoader from 'nextjs-toploader';
 import { Analytics } from "@vercel/analytics/next";
+import { JsonLd } from '../components/JsonLd';
+import { SITE_URL, absoluteUrl } from '../lib/site';
 import './globals.css';
 
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
+  metadataBase: new URL(SITE_URL),
   title: 'OpenPrice | 全网卡网渠道比价',
   description: '开源的收录全网卡网渠道各种AI订阅价格的项目，打破信息差，获取价格最低的AI订阅',
   keywords: ['卡网', '比价', '账号购买', '充值渠道', 'ChatGPT', 'Netflix', 'Spotify'],
@@ -43,6 +45,25 @@ export default function RootLayout({
   return (
     <html lang="zh-CN">
       <body className="min-h-screen flex flex-col">
+        <JsonLd data={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'Organization',
+            '@id': `${SITE_URL}/#organization`,
+            name: 'OpenPrice',
+            url: SITE_URL,
+            logo: absoluteUrl('/icon.svg'),
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'WebSite',
+            '@id': `${SITE_URL}/#website`,
+            name: 'OpenPrice',
+            url: SITE_URL,
+            inLanguage: 'zh-CN',
+            publisher: { '@id': `${SITE_URL}/#organization` },
+          },
+        ]} />
         <NextTopLoader color="#10b981" showSpinner={false} shadow="0 0 10px #10b981,0 0 5px #10b981" />
         <Header />
         <div className="flex-1 pb-11 md:pb-0">

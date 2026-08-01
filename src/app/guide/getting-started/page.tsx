@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: '如何被收录？(渠道接入指南) | OpenPrice',
   description: '卡网怎么免费引流？如何被全网比价平台收录？OpenPrice 提供详细的渠道接入指南。无论您使用的是主流发卡系统还是自建商城，都能轻松完成对接，让您的 ChatGPT、Claude 等数字商品快速获取海量免费曝光。',
   keywords: ['卡网免费引流', '发卡系统对接', '卡网推广', '渠道收录', 'AI订阅分销', 'JSON-LD'],
+  alternates: { canonical: '/guide/getting-started' },
   openGraph: {
     title: '如何被收录？(渠道接入指南) | OpenPrice',
     description: '卡网怎么免费引流？如何被全网比价平台收录？OpenPrice 提供详细的渠道接入指南。无论您使用的是主流发卡系统还是自建商城，都能轻松完成对接，让您的 ChatGPT、Claude 等数字商品快速获取海量免费曝光。',

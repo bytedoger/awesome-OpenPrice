@@ -15,6 +15,7 @@ export const metadata: Metadata = {
     'App Store 低价区',
     'AI 订阅哪个区便宜',
   ],
+  alternates: { canonical: '/official-prices' },
   openGraph: {
     title: 'ChatGPT、Claude、Grok 官方订阅价格对比',
     description: '对比热门 AI 官方订阅在不同 App Store 国家和地区的月付、年付价格与低价区排行。',

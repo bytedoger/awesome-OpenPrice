@@ -71,10 +71,16 @@ export async function getSingleBlogPost(slug: string): Promise<{ post: BlogPost 
     const response = await notion.databases.query({
       database_id: databaseId,
       filter: {
-        property: 'slug',
-        rich_text: {
-          equals: slug,
-        },
+        and: [
+          {
+            property: 'slug',
+            rich_text: { equals: slug },
+          },
+          {
+            property: 'published',
+            checkbox: { equals: true },
+          },
+        ],
       },
     });
 

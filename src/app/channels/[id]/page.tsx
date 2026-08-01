@@ -3,6 +3,8 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { supabaseAdmin } from '../../../lib/supabase-admin';
 import { ChannelDetailClient } from './ChannelDetailClient';
+import { JsonLd } from '@/components/JsonLd';
+import { absoluteUrl } from '@/lib/site';
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -26,6 +28,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `${channel.name} 渠道收录详情 - OpenPrice`,
     description: `查看 ${channel.name} 渠道收录的所有商品、分类及价格信息。`,
+    alternates: { canonical: `/channels/${id}` },
+    robots: {
+      index: false,
+      follow: true,
+    },
+    openGraph: {
+      title: `${channel.name} 渠道收录详情 - OpenPrice`,
+      description: `查看 ${channel.name} 渠道收录的所有商品、分类及价格信息。`,
+      url: `/channels/${id}`,
+      type: 'website',
+    },
   };
 }
 
@@ -67,6 +80,14 @@ export default async function ChannelDetailPage({ params }: PageProps) {
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+      <JsonLd data={{
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: '渠道商', item: absoluteUrl('/channels') },
+          { '@type': 'ListItem', position: 2, name: channel.name },
+        ],
+      }} />
       <React.Suspense fallback={<div className="py-8 text-center text-gray-500">Loading channel details...</div>}>
         <ChannelDetailClient channel={channel} offers={mappedOffers} />
       </React.Suspense>

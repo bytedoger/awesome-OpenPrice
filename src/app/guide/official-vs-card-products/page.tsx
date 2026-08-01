@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: '官方订阅和卡网渠道有什么区别？AI 订阅购买指南 | OpenPrice',
   description: '用通俗方式了解 AI 官方订阅与卡网渠道在购买来源、价格、账号归属、售后和风险方面的区别，购买前先看清商品类型。',
   keywords: ['官方订阅和卡网区别', 'AI 订阅购买指南', '卡网是什么', 'ChatGPT 官方订阅', '第三方 AI 订阅渠道'],
+  alternates: { canonical: '/guide/official-vs-card-products' },
   openGraph: {
     title: '官方订阅和卡网渠道有什么区别？',
     description: '了解两种购买方式在价格、账号归属、售后和风险方面的区别。',

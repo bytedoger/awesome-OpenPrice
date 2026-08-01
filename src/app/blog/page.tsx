@@ -7,6 +7,18 @@ import BlogListClient from './BlogListClient';
 export const metadata: Metadata = {
   title: '博客 | OpenPrice',
   description: 'OpenPrice 官方博客 - 为您提供最新、最全的 AI 订阅教程、买号避坑指南及防封号攻略。全面涵盖 ChatGPT Plus 充值、Claude Pro 防封、AI 工具使用技巧等前沿动态。每天五分钟，跟上最新技术。',
+  alternates: { canonical: '/blog' },
+  openGraph: {
+    title: 'OpenPrice 博客｜AI 订阅教程与购买指南',
+    description: '获取 AI 订阅教程、购买指南、避坑建议和 OpenPrice 平台动态。',
+    type: 'website',
+    url: '/blog',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'OpenPrice 博客｜AI 订阅教程与购买指南',
+    description: '获取 AI 订阅教程、购买指南、避坑建议和 OpenPrice 平台动态。',
+  },
 };
 
 // Revalidate every 60 seconds for ISR
@@ -14,6 +26,10 @@ export const revalidate = 60;
 
 export default async function BlogPage() {
   const posts = await getPublishedBlogPosts();
+  const postsWithStableCovers = posts.map(post => ({
+    ...post,
+    cover: post.cover ? `/api/blog-cover/${encodeURIComponent(post.slug)}` : null,
+  }));
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
@@ -35,7 +51,7 @@ export default async function BlogPage() {
         )}
 
         <React.Suspense fallback={<div className="py-8 text-center text-gray-500">Loading blog posts...</div>}>
-          <BlogListClient initialPosts={posts} />
+          <BlogListClient initialPosts={postsWithStableCovers} />
         </React.Suspense>
       </div>
     </div>

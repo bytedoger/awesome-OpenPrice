@@ -2,6 +2,8 @@ import React from 'react';
 import { Metadata } from 'next';
 import { supabase } from '../../../lib/supabase';
 import { ProductDetailClient } from './ProductDetailClient';
+import { JsonLd } from '@/components/JsonLd';
+import { absoluteUrl } from '@/lib/site';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -44,6 +46,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title,
     description,
+    alternates: { canonical: `/card-products/${slug}` },
     openGraph: {
       title,
       description,
@@ -143,6 +146,14 @@ export default async function ProductDetailPage({ params }: PageProps) {
   
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+      <JsonLd data={{
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: '卡网商品', item: absoluteUrl('/card-products') },
+          { '@type': 'ListItem', position: 2, name: productRow.name },
+        ],
+      }} />
       <ProductDetailClient slug={slug} initialProduct={product} initialDetails={mappedDetails} />
     </div>
   );

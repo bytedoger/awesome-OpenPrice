@@ -2,6 +2,8 @@ import { Metadata } from 'next';
 import { supabaseAdmin as supabase } from '@/lib/supabase-admin';
 import { OFFICIAL_APP_CONFIGS } from '@/lib/official-apps';
 import AppDetailClient from './AppDetailClient';
+import { JsonLd } from '@/components/JsonLd';
+import { absoluteUrl } from '@/lib/site';
 
 export const revalidate = 28800; // Revalidate every 8 hours
 
@@ -24,6 +26,7 @@ export async function generateMetadata({ params }: { params: { appId: string } }
     title,
     description,
     keywords: appConfig?.seo.keywords,
+    alternates: { canonical: `/official-prices/${params.appId}` },
     openGraph: {
       title,
       description,
@@ -131,6 +134,14 @@ export default async function AppPricesDetailPage({ params }: { params: { appId:
 
   return (
     <div className="bg-gray-50 min-h-screen">
+      <JsonLd data={{
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: '官方订阅', item: absoluteUrl('/official-prices') },
+          { '@type': 'ListItem', position: 2, name: appDetails.name },
+        ],
+      }} />
       <AppDetailClient app={appDetails} />
     </div>
   );
