@@ -3,7 +3,7 @@ import { supabaseAdmin as supabase } from '@/lib/supabase-admin';
 import { OFFICIAL_APP_CONFIGS } from '@/lib/official-apps';
 import AppDetailClient from './AppDetailClient';
 import { JsonLd } from '@/components/JsonLd';
-import { absoluteUrl } from '@/lib/site';
+import { DEFAULT_SHARE_IMAGE, absoluteUrl } from '@/lib/site';
 
 export const revalidate = 28800; // Revalidate every 8 hours
 
@@ -32,11 +32,13 @@ export async function generateMetadata({ params }: { params: { appId: string } }
       description,
       type: 'website',
       url: `/official-prices/${params.appId}`,
+      images: [DEFAULT_SHARE_IMAGE],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
+      images: [DEFAULT_SHARE_IMAGE],
     },
   };
 }

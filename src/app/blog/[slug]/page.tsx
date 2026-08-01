@@ -10,7 +10,7 @@ import FloatingButtons from './FloatingButtons';
 import { JsonLd } from '@/components/JsonLd';
 import { SITE_URL, absoluteUrl } from '@/lib/site';
 
-export const revalidate = 60; // ISR 60 seconds
+export const revalidate = 10800; // ISR 3 hours
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const { post } = await getSingleBlogPost(params.slug);

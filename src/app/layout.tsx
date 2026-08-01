@@ -5,7 +5,7 @@ import { GoogleAnalytics } from '@next/third-parties/google';
 import NextTopLoader from 'nextjs-toploader';
 import { Analytics } from "@vercel/analytics/next";
 import { JsonLd } from '../components/JsonLd';
-import { SITE_URL, absoluteUrl } from '../lib/site';
+import { DEFAULT_SHARE_IMAGE, SITE_URL, absoluteUrl } from '../lib/site';
 import './globals.css';
 
 import { Metadata } from 'next';
@@ -13,20 +13,22 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: 'OpenPrice | 全网卡网渠道比价',
-  description: '开源的收录全网卡网渠道各种AI订阅价格的项目，打破信息差，获取价格最低的AI订阅',
+  description: '开源的收录全网卡网渠道各种AI订阅价格的项目，打破信息差，获取AI订阅的最低价',
   keywords: ['卡网', '比价', '账号购买', '充值渠道', 'ChatGPT', 'Netflix', 'Spotify'],
   openGraph: {
     title: 'OpenPrice | 全网卡网渠道比价',
-    description: '开源的收录全网卡网渠道各种AI订阅价格的项目，打破信息差，获取最优价格最低的AI订阅',
+    description: '开源的收录全网卡网渠道各种AI订阅价格的项目，打破信息差，获取AI订阅的最低价',
     url: '/',
     siteName: 'OpenPrice',
     locale: 'zh_CN',
     type: 'website',
+    images: [{ url: DEFAULT_SHARE_IMAGE, width: 1200, height: 630, alt: 'OpenPrice 全网卡网渠道 AI 订阅比价' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'OpenPrice | 全网卡网渠道比价',
-    description: '开源的收录全网卡网渠道各种AI订阅价格的项目，打破信息差，获取最优价格最低的AI订阅',
+    description: '开源的收录全网卡网渠道各种AI订阅价格的项目，打破信息差，获取AI订阅的最低价',
+    images: [DEFAULT_SHARE_IMAGE],
   },
   icons: {
     icon: '/icon.svg?v=2',

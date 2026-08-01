@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import { BookOpen } from 'lucide-react';
 import { getPublishedBlogPosts } from '@/lib/notion';
 import BlogListClient from './BlogListClient';
+import { DEFAULT_SHARE_IMAGE } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: '博客 | OpenPrice',
@@ -13,16 +14,18 @@ export const metadata: Metadata = {
     description: '获取 AI 订阅教程、购买指南、避坑建议和 OpenPrice 平台动态。',
     type: 'website',
     url: '/blog',
+    images: [DEFAULT_SHARE_IMAGE],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'OpenPrice 博客｜AI 订阅教程与购买指南',
     description: '获取 AI 订阅教程、购买指南、避坑建议和 OpenPrice 平台动态。',
+    images: [DEFAULT_SHARE_IMAGE],
   },
 };
 
-// Revalidate every 60 seconds for ISR
-export const revalidate = 60;
+// Revalidate every 3 hours for ISR
+export const revalidate = 10800;
 
 export default async function BlogPage() {
   const posts = await getPublishedBlogPosts();

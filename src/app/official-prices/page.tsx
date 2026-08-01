@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { supabaseAdmin as supabase } from '@/lib/supabase-admin';
 import { OFFICIAL_APP_CONFIGS } from '@/lib/official-apps';
 import OfficialPricesClient from './OfficialPricesClient';
+import { DEFAULT_SHARE_IMAGE } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'ChatGPT、Claude、Grok 官方订阅价格对比 - OpenPrice',
@@ -21,11 +22,13 @@ export const metadata: Metadata = {
     description: '对比热门 AI 官方订阅在不同 App Store 国家和地区的月付、年付价格与低价区排行。',
     type: 'website',
     url: '/official-prices',
+    images: [DEFAULT_SHARE_IMAGE],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'ChatGPT、Claude、Grok 官方订阅价格对比',
     description: '对比热门 AI 官方订阅在不同 App Store 国家和地区的月付、年付价格与低价区排行。',
+    images: [DEFAULT_SHARE_IMAGE],
   },
 };
 

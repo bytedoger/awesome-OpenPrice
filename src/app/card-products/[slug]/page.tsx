@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import { supabase } from '../../../lib/supabase';
 import { ProductDetailClient } from './ProductDetailClient';
 import { JsonLd } from '@/components/JsonLd';
-import { absoluteUrl } from '@/lib/site';
+import { DEFAULT_SHARE_IMAGE, absoluteUrl } from '@/lib/site';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -52,11 +52,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description,
       url: `/card-products/${slug}`,
       type: 'website',
+      images: [DEFAULT_SHARE_IMAGE],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
+      images: [DEFAULT_SHARE_IMAGE],
     },
   };
 }
