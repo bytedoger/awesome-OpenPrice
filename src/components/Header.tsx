@@ -3,7 +3,7 @@
 import React, { useState, useTransition, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Plus, X, Tags } from 'lucide-react';
+import { ChevronDown, MapPinned, Plus, ShieldCheck, Tags, X } from 'lucide-react';
 import { QQGroupModal } from './QQGroupModal';
 
 export function Header() {
@@ -66,7 +66,7 @@ export function Header() {
                 Open<span className="text-emerald-500">Price</span>
               </span>
             </Link>
-            <nav className="hidden md:flex items-center gap-8 text-base font-medium text-gray-600">
+            <nav className="hidden md:flex items-center gap-7 text-base font-medium text-gray-600">
               <Link 
                 href="/card-products"
                 className={`transition-colors ${pathname === '/card-products' ? 'text-emerald-600' : 'hover:text-gray-900'}`}
@@ -91,6 +91,35 @@ export function Header() {
               >
                 博客
               </Link>
+              <div className="group relative">
+                <button
+                  type="button"
+                  className="inline-flex items-center gap-1 transition-colors hover:text-gray-900 group-focus-within:text-gray-900"
+                >
+                  更多工具
+                  <ChevronDown className="h-4 w-4 transition-transform group-hover:rotate-180 group-focus-within:rotate-180" />
+                </button>
+                <div className="invisible absolute left-1/2 top-full z-30 mt-3 w-56 -translate-x-1/2 rounded-lg border border-gray-100 bg-white p-2 text-sm font-medium text-gray-700 opacity-0 shadow-lg transition-all group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+                  <a
+                    href="https://www.fastool.cc/2fn"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 rounded-md px-3 py-2.5 transition-colors hover:bg-emerald-50 hover:text-emerald-700"
+                  >
+                    <ShieldCheck className="h-4 w-4 text-emerald-500" />
+                    <span>2fn 双因素验证</span>
+                  </a>
+                  <a
+                    href="https://www.fastool.cc/address"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 rounded-md px-3 py-2.5 transition-colors hover:bg-emerald-50 hover:text-emerald-700"
+                  >
+                    <MapPinned className="h-4 w-4 text-emerald-500" />
+                    <span>全球随机地址生成</span>
+                  </a>
+                </div>
+              </div>
             </nav>
             <div className="flex items-center gap-2 sm:gap-4 shrink-0">
               <button 
