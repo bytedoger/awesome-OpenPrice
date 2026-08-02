@@ -24,11 +24,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // 2. 获取官方订阅 App 详情
   const { data: officialApps } = await supabase
     .from('apple_store_apps')
-    .select('apple_app_id, updated_at')
+    .select('slug, updated_at')
     .eq('is_active', true);
 
   const officialAppUrls = (officialApps || []).map((app) => ({
-    url: `${baseUrl}/official-prices/${app.apple_app_id}`,
+    url: `${baseUrl}/official-prices/${app.slug}`,
     lastModified: app.updated_at ? new Date(app.updated_at) : undefined,
     changeFrequency: 'daily' as const,
     priority: 0.8,

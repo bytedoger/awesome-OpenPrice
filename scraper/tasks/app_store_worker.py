@@ -10,6 +10,7 @@ import random
 import re
 import sys
 import time
+import urllib.request
 from dataclasses import asdict, dataclass
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
@@ -524,6 +525,30 @@ def print_run_summary(results: list[dict[str, Any]]) -> bool:
     return not failed_results
 
 
+def revalidate_official_price_cache() -> None:
+    url = os.environ.get("REVALIDATE_URL")
+    secret = os.environ.get("REVALIDATE_SECRET")
+    if not url or not secret:
+        return
+
+    request = urllib.request.Request(
+        url,
+        data=json.dumps({"scope": "official"}).encode("utf-8"),
+        headers={
+            "Authorization": f"Bearer {secret}",
+            "Content-Type": "application/json",
+        },
+        method="POST",
+    )
+
+    try:
+        with urllib.request.urlopen(request, timeout=15) as response:
+            if response.status != 200:
+                logger.warning("Cache revalidation returned HTTP %s", response.status)
+    except Exception:
+        logger.exception("Failed to revalidate official price cache")
+
+
 def run(local_only: bool) -> bool:
     started_at = datetime.datetime.now(datetime.timezone.utc).isoformat()
     output_dir = None
@@ -546,16 +571,13 @@ def run(local_only: bool) -> bool:
     if not local_only:
         from core.db import supabase as database
         supabase = database
-        supabase.table("apple_store_apps").upsert([
-            {
-                "apple_app_id": app_id,
+        for app_id, app_name in APP_CONFIGS:
+            supabase.table("apple_store_apps").update({
                 "name": app_name,
                 "target_countries": list(TARGET_COUNTRIES),
                 "is_active": True,
                 "updated_at": started_at,
-            }
-            for app_id, app_name in APP_CONFIGS
-        ], on_conflict="apple_app_id").execute()
+            }).eq("apple_app_id", app_id).execute()
 
     results = []
     total = len(APP_CONFIGS) * len(TARGET_COUNTRIES)
@@ -675,6 +697,8 @@ def run(local_only: bool) -> bool:
         print(f"Saved to: {output_dir}")
     else:
         print("Database sync finished.")
+        if succeeded:
+            revalidate_official_price_cache()
     return succeeded
 
 

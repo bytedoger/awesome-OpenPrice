@@ -1,5 +1,7 @@
 import { Client } from '@notionhq/client';
 import { NotionToMarkdown } from 'notion-to-md';
+import { unstable_cache } from 'next/cache';
+import { cache } from 'react';
 
 // Initialize Notion client (will safely fail or do nothing if env vars are missing during build)
 const notionApiKey = process.env.NOTION_API_KEY || '';
@@ -22,7 +24,7 @@ export interface BlogPost {
   cover: string | null;
 }
 
-export async function getPublishedBlogPosts(): Promise<BlogPost[]> {
+async function fetchPublishedBlogPosts(): Promise<BlogPost[]> {
   if (!notionApiKey || !databaseId) {
     console.warn('Notion API Key or Database ID is missing. Returning empty blog posts.');
     return [];
@@ -62,7 +64,7 @@ export async function getPublishedBlogPosts(): Promise<BlogPost[]> {
   }
 }
 
-export async function getSingleBlogPost(slug: string): Promise<{ post: BlogPost | null, markdown: string }> {
+async function fetchSingleBlogPost(slug: string): Promise<{ post: BlogPost | null, markdown: string }> {
   if (!notionApiKey || !databaseId) {
     return { post: null, markdown: '' };
   }
@@ -109,3 +111,18 @@ export async function getSingleBlogPost(slug: string): Promise<{ post: BlogPost 
     return { post: null, markdown: '' };
   }
 }
+
+const getCachedPublishedBlogPosts = unstable_cache(
+  fetchPublishedBlogPosts,
+  ['published-blog-posts'],
+  { revalidate: 86400, tags: ['blog-list'] },
+);
+
+const getCachedSingleBlogPost = unstable_cache(
+  fetchSingleBlogPost,
+  ['single-blog-post'],
+  { revalidate: 86400, tags: ['blog-posts'] },
+);
+
+export const getPublishedBlogPosts = cache(getCachedPublishedBlogPosts);
+export const getSingleBlogPost = cache(getCachedSingleBlogPost);

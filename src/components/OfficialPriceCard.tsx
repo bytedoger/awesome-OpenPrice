@@ -11,6 +11,7 @@ interface PriceInfo {
 
 export interface OfficialApp {
   id: string;
+  slug: string;
   name: string;
   iconUrl: string;
   subscriptions: {
@@ -46,7 +47,7 @@ function getPlanBaseName(name: string, billingPeriod?: string | null): string {
 export const OfficialPriceCard: React.FC<OfficialPriceCardProps> = ({ app }) => {
   return (
     <Link 
-      href={`/official-prices/${app.id}`}
+      href={`/official-prices/${app.slug}`}
       className="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-gray-100 flex flex-col h-full hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer block"
     >
       {/* Header */}

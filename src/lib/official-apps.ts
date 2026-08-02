@@ -58,3 +58,7 @@ export const OFFICIAL_APP_CONFIGS: Record<string, OfficialAppConfig> = {
     },
   },
 };
+
+export function getOfficialAppConfig(appId: string): OfficialAppConfig | undefined {
+  return OFFICIAL_APP_CONFIGS[appId];
+}

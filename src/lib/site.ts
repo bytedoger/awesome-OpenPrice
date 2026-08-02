@@ -7,4 +7,4 @@ export function absoluteUrl(path: string): string {
   return `${SITE_URL}${path.startsWith('/') ? path : `/${path}`}`;
 }
 
-export const DEFAULT_SHARE_IMAGE = absoluteUrl('/openprice-share.png');
+export const DEFAULT_SHARE_IMAGE = absoluteUrl('/openprice-share.jpg');

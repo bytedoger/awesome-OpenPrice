@@ -1,11 +1,12 @@
 import { Metadata } from 'next';
-import { supabaseAdmin as supabase } from '@/lib/supabase-admin';
-import { OFFICIAL_APP_CONFIGS } from '@/lib/official-apps';
+import { redirect } from 'next/navigation';
+import { getOfficialAppConfig } from '@/lib/official-apps';
+import { getOfficialAppByIdentifier, getOfficialApps, getOfficialPrices } from '@/lib/official-price-data';
 import AppDetailClient from './AppDetailClient';
 import { JsonLd } from '@/components/JsonLd';
 import { DEFAULT_SHARE_IMAGE, absoluteUrl } from '@/lib/site';
 
-export const revalidate = 28800; // Revalidate every 8 hours
+export const revalidate = 86400;
 
 function billingPeriodFromName(name: string): 'monthly' | 'annual' | null {
   if (/[（(]月付[）)]$/.test(name)) return 'monthly';
@@ -17,21 +18,29 @@ function isCreditLike(name: string): boolean {
   return /\bcredits?\b|积分|点数|额度/i.test(name);
 }
 
+export async function generateStaticParams() {
+  const apps = await getOfficialApps();
+  return apps.map(app => ({ appId: app.slug }));
+}
+
 export async function generateMetadata({ params }: { params: { appId: string } }): Promise<Metadata> {
-  const appConfig = OFFICIAL_APP_CONFIGS[params.appId];
-  const title = appConfig?.seo.title || `${appConfig?.name || 'AI 应用'} App Store 官方订阅价格 - OpenPrice`;
-  const description = appConfig?.seo.description || `查看 ${appConfig?.name || 'AI 应用'} 在不同 App Store 国家和地区的官方订阅价格与低价排行。`;
+  const app = await getOfficialAppByIdentifier(params.appId);
+  const appConfig = app ? getOfficialAppConfig(app.apple_app_id) : undefined;
+  const appName = appConfig?.name || app?.name || 'AI 应用';
+  const appSlug = app?.slug || params.appId;
+  const title = appConfig?.seo.title || `${appName} App Store 官方订阅价格 - OpenPrice`;
+  const description = appConfig?.seo.description || `查看 ${appName} 在不同 App Store 国家和地区的官方订阅价格与低价排行。`;
 
   return {
     title,
     description,
     keywords: appConfig?.seo.keywords,
-    alternates: { canonical: `/official-prices/${params.appId}` },
+    alternates: { canonical: `/official-prices/${appSlug}` },
     openGraph: {
       title,
       description,
       type: 'website',
-      url: `/official-prices/${params.appId}`,
+      url: `/official-prices/${appSlug}`,
       images: [DEFAULT_SHARE_IMAGE],
     },
     twitter: {
@@ -44,16 +53,9 @@ export async function generateMetadata({ params }: { params: { appId: string } }
 }
 
 export default async function AppPricesDetailPage({ params }: { params: { appId: string } }) {
-  const appId = params.appId;
-  
-  // Fetch app record
-  const { data: appData, error: appError } = await supabase
-    .from('apple_store_apps')
-    .select('*')
-    .eq('apple_app_id', appId)
-    .single();
+  const appData = await getOfficialAppByIdentifier(params.appId);
 
-  if (appError || !appData) {
+  if (!appData) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-gray-500">找不到该应用的数据或已下架</div>
@@ -61,19 +63,17 @@ export default async function AppPricesDetailPage({ params }: { params: { appId:
     );
   }
 
-  // Fetch all prices for this app, sorted by price ascending
-  const { data: pricesData, error: pricesError } = await supabase
-    .from('apple_store_prices')
-    .select('*')
-    .eq('apple_app_id', appId)
-    .order('price_rmb', { ascending: true });
-
-  if (pricesError) {
-    console.error('Failed to fetch prices:', pricesError);
+  if (params.appId !== appData.slug) {
+    redirect(`/official-prices/${appData.slug}`);
   }
 
-  const appConfig = OFFICIAL_APP_CONFIGS[appId];
-  const latestUpdatedAt = (pricesData || []).reduce<string | null>((latest, price) => {
+  const appId = appData.apple_app_id;
+
+  const allPrices = await getOfficialPrices();
+  const pricesData = allPrices.filter(price => price.apple_app_id === appId);
+
+  const appConfig = getOfficialAppConfig(appId);
+  const latestUpdatedAt = pricesData.reduce<string | null>((latest, price) => {
     if (!price.updated_at) return latest;
     if (!latest) return price.updated_at;
     return new Date(price.updated_at).getTime() > new Date(latest).getTime()

@@ -19,7 +19,6 @@
     "@popperjs/core": "2.11.8",
     "@supabase/supabase-js": "^2.110.3",
     "@tailwindcss/typography": "^0.5.20",
-    "@vercel/analytics": "^2.0.1",
     "canvas-confetti": "1.9.4",
     "date-fns": "3.6.0",
     "lucide-react": "0.487.0",

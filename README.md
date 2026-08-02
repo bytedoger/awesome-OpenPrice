@@ -26,7 +26,7 @@
 open price,就是开放价格的意思。所以这是一个开源的收录全网卡网渠道各种AI订阅价格的项目。项目的目的只有一个，打破信息茧房，让友友们能方便挑选价格更低、更更低的 AI 订阅服务。本项目不提供 AI 服务，只是 AI 订阅产品的搬运工。
 
 ### 📊 汇聚全网海量渠道底价
-![OpenPrice Demo](./public/demo.png)
+![OpenPrice Demo](./public/demo.jpg)
 
 ---
 

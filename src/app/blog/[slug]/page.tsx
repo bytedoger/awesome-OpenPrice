@@ -1,16 +1,22 @@
 import React from 'react';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { getSingleBlogPost } from '@/lib/notion';
+import { getPublishedBlogPosts, getSingleBlogPost } from '@/lib/notion';
 import ReactMarkdown from 'react-markdown';
 import { Calendar, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { format } from 'date-fns';
 import FloatingButtons from './FloatingButtons';
 import { JsonLd } from '@/components/JsonLd';
 import { SITE_URL, absoluteUrl } from '@/lib/site';
 
-export const revalidate = 10800; // ISR 3 hours
+export const revalidate = 86400;
+
+export async function generateStaticParams() {
+  const posts = await getPublishedBlogPosts();
+  return posts.map(post => ({ slug: post.slug }));
+}
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const { post } = await getSingleBlogPost(params.slug);
@@ -22,7 +28,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const canonicalPath = `/blog/${post.slug}`;
   const coverPath = post.cover
     ? `/api/blog-cover/${encodeURIComponent(post.slug)}`
-    : '/demo.png';
+    : '/openprice-share.jpg';
 
   return {
     title: `${post.title} | OpenPrice 博客`,
@@ -70,7 +76,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
           dateModified: post.date,
           inLanguage: 'zh-CN',
           mainEntityOfPage: absoluteUrl(canonicalPath),
-          image: absoluteUrl(coverPath || '/demo.png'),
+          image: absoluteUrl(coverPath || '/openprice-share.jpg'),
           author: { '@type': 'Organization', name: 'OpenPrice', url: SITE_URL },
           publisher: { '@id': `${SITE_URL}/#organization` },
           keywords: post.tags.join(', '),
@@ -119,8 +125,15 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
       {/* 封面图 */}
       {coverPath && (
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 -mt-7 mb-8">
-          <div className="rounded-2xl overflow-hidden shadow-md border border-gray-100 bg-white">
-            <img src={coverPath} alt={post.title} className="w-full h-auto max-h-[400px] object-cover" />
+          <div className="relative h-[220px] overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-md sm:h-[360px]">
+            <Image
+              src={coverPath}
+              alt={post.title}
+              fill
+              priority
+              sizes="(min-width: 768px) 768px, 100vw"
+              className="object-cover"
+            />
           </div>
         </div>
       )}

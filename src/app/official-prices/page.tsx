@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
-import { supabaseAdmin as supabase } from '@/lib/supabase-admin';
 import { OFFICIAL_APP_CONFIGS } from '@/lib/official-apps';
+import { getOfficialApps, getOfficialPrices } from '@/lib/official-price-data';
 import OfficialPricesClient from './OfficialPricesClient';
 import { DEFAULT_SHARE_IMAGE } from '@/lib/site';
 
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   },
 };
 
-export const revalidate = 28800; // Revalidate every 8 hours
+export const revalidate = 86400;
 
 function billingPeriodFromName(name: string): 'monthly' | 'annual' | null {
   if (/[（(]月付[）)]$/.test(name)) return 'monthly';
@@ -49,35 +49,17 @@ function isCreditLike(name: string): boolean {
 }
 
 export default async function OfficialPricesPage() {
-  
-  // Fetch apps
-  const { data: appsData, error: appsError } = await supabase
-    .from('apple_store_apps')
-    .select('apple_app_id, name, is_active, target_countries')
-    .eq('is_active', true);
-    
-  if (appsError) {
-    console.error('Error fetching apps:', appsError);
-    return <div>Error loading data.</div>;
-  }
-  
-  // Fetch prices
-  const { data: pricesData, error: pricesError } = await supabase
-    .from('apple_store_prices')
-    .select('apple_app_id, country, subscription_name, original_price_str, price_rmb, updated_at')
-    .order('price_rmb', { ascending: true }); // Pre-sort by price ascending so the first one we see is the cheapest
-
-  if (pricesError) {
-    console.error('Error fetching prices:', pricesError);
-    return <div>Error loading data.</div>;
-  }
+  const [appsData, pricesData] = await Promise.all([
+    getOfficialApps(),
+    getOfficialPrices(),
+  ]);
 
   // Aggregate prices: Group by App ID -> Subscription Name -> find cheapest
-  const appsWithPrices = (appsData || []).map((app) => {
+  const appsWithPrices = appsData.map((app) => {
     const appConfig = OFFICIAL_APP_CONFIGS[app.apple_app_id];
     
     // Filter prices for this app
-    const appPrices = (pricesData || []).filter(p => p.apple_app_id === app.apple_app_id);
+    const appPrices = pricesData.filter(p => p.apple_app_id === app.apple_app_id);
     const coveredCountries = new Set(appPrices.map(p => p.country)).size;
     const totalCountries = new Set(app.target_countries || []).size;
     
@@ -126,6 +108,7 @@ export default async function OfficialPricesPage() {
 
     return {
       id: app.apple_app_id,
+      slug: app.slug,
       name: appConfig?.name || app.name,
       iconUrl: appConfig?.iconUrl || '',
       subscriptions: aggregatedSubscriptions,

@@ -24,8 +24,8 @@ export const metadata: Metadata = {
   },
 };
 
-// Revalidate every 3 hours for ISR
-export const revalidate = 10800;
+// Refresh the public blog snapshot once per day.
+export const revalidate = 86400;
 
 export default async function BlogPage() {
   const posts = await getPublishedBlogPosts();

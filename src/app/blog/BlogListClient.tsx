@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useMemo } from 'react';
-import { BlogPost } from '@/lib/notion';
+import type { BlogPost } from '@/lib/notion';
 import { Search, Calendar, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { format } from 'date-fns';
 import { useUrlState } from '@/hooks/useUrlState';
 
@@ -108,11 +109,15 @@ export default function BlogListClient({ initialPosts }: { initialPosts: BlogPos
               >
                 {post.cover && (
                   <div className="shrink-0 w-full md:w-36 h-32 md:h-28 rounded-lg overflow-hidden block">
-                    <img
+                    <div className="relative h-full w-full">
+                    <Image
                       src={post.cover}
                       alt={post.title}
+                      fill
+                      sizes="(min-width: 768px) 144px, 100vw"
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
+                    </div>
                   </div>
                 )}
 
