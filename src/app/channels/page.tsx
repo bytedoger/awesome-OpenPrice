@@ -7,7 +7,7 @@ export const revalidate = 300; // 每5分钟刷新一次静态缓存
 
 export const metadata: Metadata = {
   title: '渠道商 - OpenPrice',
-  description: '查看所有收录的活着的爬取渠道，获取最新的AI订阅和充值账号来源。',
+  description: '查看所有收录的活跃的爬取渠道，获取最新的AI订阅和充值账号来源。',
   alternates: { canonical: '/channels' },
 };
 

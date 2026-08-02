@@ -11,12 +11,12 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: 'OpenPrice | 全网卡网渠道比价',
-  description: '开源的收录全网卡网渠道各种AI订阅价格的项目，打破信息差，获取AI订阅的最低价',
-  keywords: ['卡网', '比价', '账号购买', '充值渠道', 'ChatGPT', 'Netflix', 'Spotify'],
+  title: 'OpenPrice | AI订阅比价与卡网渠道价格聚合平台',
+  description: 'OpenPrice 聚合 ChatGPT Plus、Claude Pro、Gemini、Grok、Cursor 等 AI 订阅的官方价格与卡网渠道报价，支持查询 AI 订阅价格、卡网渠道比价和实时低价。',
+  keywords: ['AI订阅比价', 'AI订阅价格', '卡网渠道比价', 'ChatGPT Plus价格', 'Claude Pro价格', 'Gemini价格', 'Grok价格', 'Cursor价格', 'AI代充价格', '成品号价格'],
   openGraph: {
-    title: 'OpenPrice | 全网卡网渠道比价',
-    description: '开源的收录全网卡网渠道各种AI订阅价格的项目，打破信息差，获取AI订阅的最低价',
+    title: 'OpenPrice | AI订阅比价与卡网渠道价格聚合平台',
+    description: '聚合 ChatGPT Plus、Claude Pro、Gemini、Grok、Cursor 等 AI 订阅官方价格与卡网渠道报价，帮助用户查询和对比 AI 订阅价格。',
     url: '/',
     siteName: 'OpenPrice',
     locale: 'zh_CN',
@@ -25,8 +25,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'OpenPrice | 全网卡网渠道比价',
-    description: '开源的收录全网卡网渠道各种AI订阅价格的项目，打破信息差，获取AI订阅的最低价',
+    title: 'OpenPrice | AI订阅比价与卡网渠道价格聚合平台',
+    description: '聚合 ChatGPT Plus、Claude Pro、Gemini、Grok、Cursor 等 AI 订阅官方价格与卡网渠道报价，帮助用户查询和对比 AI 订阅价格。',
     images: [DEFAULT_SHARE_IMAGE],
   },
   icons: {

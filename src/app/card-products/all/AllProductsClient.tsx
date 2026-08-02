@@ -173,7 +173,7 @@ export const AllProductsClient: React.FC<AllProductsClientProps> = () => {
             所有渠道所有商品
           </h1>
           <p className="text-sm text-gray-500 max-w-2xl leading-relaxed">
-            查看 OpenPrice 收录的所有卡网渠道所有商品，涵盖 ChatGPT、Claude、Gemini、Cursor、Gork、Kiro等AI订阅，以及谷歌邮箱、outlook 邮箱以及苹果账号、telegram 账号以及接码服务等。支持多维度价格和平台筛选，快速找到全网最低价。
+            查看 OpenPrice 收录的所有卡网渠道所有商品，涵盖 ChatGPT、Claude、Gemini、Cursor、Grok、Kiro等AI订阅，以及谷歌邮箱、outlook 邮箱以及苹果账号、telegram 账号以及接码服务等。支持多维度价格和平台筛选，快速找到全网最低价。
           </p>
         </div>
       </div>

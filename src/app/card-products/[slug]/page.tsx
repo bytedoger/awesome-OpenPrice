@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   
   const { data: product } = await supabase
     .from('product_catalog')
-    .select('name, short_desc')
+    .select('id, name, short_desc')
     .eq('slug', slug)
     .single();
 
@@ -40,8 +40,24 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
-  const title = `${product.name} 价格比对与购买 - OpenPrice`;
-  const description = product.short_desc || `查看最新的 ${product.name} 价格，寻找最优质的账号和充值渠道。`;
+  const { data: offers } = await supabase
+    .from('market_offers')
+    .select('price, status')
+    .eq('canonical_product_id', product.id)
+    .eq('status', 'in_stock');
+
+  const inStockPrices = (offers || [])
+    .map((offer) => Number(offer.price || 0))
+    .filter((price) => price > 0);
+  const lowestPrice = inStockPrices.length > 0 ? Math.min(...inStockPrices) : 0;
+  const channelCount = inStockPrices.length;
+  const shortDesc = String(product.short_desc || '').trim();
+  const descriptionSubject = (shortDesc || `查看 ${product.name} 的实时渠道报价`).replace(/[。.!！]+$/, '');
+
+  const title = `${product.name}价格对比｜AI订阅卡网渠道比价 - OpenPrice`;
+  const description = channelCount > 0 && lowestPrice > 0
+    ? `${descriptionSubject}。OpenPrice 当前收录 ${channelCount} 个在售渠道报价，最低价约 ¥${lowestPrice}，按价格排序展示库存和更新时间，不参与交易。`
+    : `${descriptionSubject}。OpenPrice 聚合公开渠道价格，支持 AI 订阅和数字产品多渠道比价，不参与交易。`;
 
   return {
     title,

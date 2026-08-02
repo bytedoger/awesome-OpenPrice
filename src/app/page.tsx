@@ -5,9 +5,29 @@ import { PlatformCountBadge } from '../components/PlatformCountBadge';
 import { SubmitChannelButton } from '../components/SubmitChannelButton';
 import { getChannelProviderCount } from './actions';
 import type { Metadata } from 'next';
+import { DEFAULT_SHARE_IMAGE } from '@/lib/site';
+
+const homeTitle = 'OpenPrice | AI订阅比价与卡网渠道价格聚合平台';
+const homeDescription = 'OpenPrice 聚合 ChatGPT Plus、Claude Pro、Gemini、Grok、Cursor 等 AI 订阅的官方价格与卡网渠道报价，支持查询 AI 订阅价格、卡网渠道比价和实时低价。';
 
 export const metadata: Metadata = {
+  title: homeTitle,
+  description: homeDescription,
+  keywords: ['AI订阅比价', 'AI订阅价格', '卡网渠道比价', 'ChatGPT Plus价格', 'Claude Pro价格', 'AI代充价格', '成品号价格'],
   alternates: { canonical: '/' },
+  openGraph: {
+    title: homeTitle,
+    description: homeDescription,
+    url: '/',
+    type: 'website',
+    images: [DEFAULT_SHARE_IMAGE],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: homeTitle,
+    description: homeDescription,
+    images: [DEFAULT_SHARE_IMAGE],
+  },
 };
 
 export const revalidate = 300; // 5分钟静态重生成

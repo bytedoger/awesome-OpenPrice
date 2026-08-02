@@ -1,11 +1,34 @@
-# OpenPrice
+# OpenPrice - AI 订阅价格聚合与卡网渠道比价平台
+OpenPrice 是一个开源的 AI 订阅价格聚合与比价平台，专注于收录和比较不同平台、国家地区以及卡网渠道的 AI 产品价格。
 
+项目汇集 ChatGPT、Claude、Gemini、Grok、Cursor 等产品的官方订阅价格与卡网渠道报价，帮助用户快速进行价格查询、多渠道比价，并比较不同渠道的 AI 套餐差异、价格差异，找到更适合自己的选择。
+
+OpenPrice 仅提供公开价格信息的整理、聚合与比价展示，不销售任何商品，也不参与用户与卡网渠道之间的交易。
+
+### 汇聚全网海量渠道底价
+![OpenPrice AI 订阅价格与卡网渠道比价平台截图](./public/demo.jpg)
+
+---
+
+## 快速访问 (Quick Links)
+
+**买家入口：**
+- [**查看全网 AI 订阅 各个渠道的最新底价**](https://www.openprice.cc/card-products)
+- [**对比 ChatGPT、Claude、Grok 在 app store不同地区的官方订阅价格**](https://www.openprice.cc/official-prices)
+
+**渠道商必看：**
+- [**卡网商家一键免费收录**](https://www.openprice.cc/)
+- [**如何被正确收录？(渠道商接入指南)**](https://www.openprice.cc/guide/getting-started)
+- [**如何更好的展示商品？(渠道商最佳实践)**](https://www.openprice.cc/guide/best-practices)
+
+**开发者及其他：**
+- [**快速开始部署指南**](#-快速开始-getting-started)
+- [**免责声明**](#️-免责声明-disclaimer)
+
+## 技术交流与分享
 <div align="center">
   <a href="https://t.me/openprice1" target="_blank">
     <img src="https://img.shields.io/badge/telegram-交流群-2CA5E0.svg?logo=telegram&style=for-the-badge&logoColor=white" alt="telegram Group" />
-  </a>
-  <a href="https://t.me/bytedoger" target="_blank">
-    <img src="https://img.shields.io/badge/telegram-个人-2CA5E0.svg?logo=telegram&style=for-the-badge&logoColor=white" alt="telegram Contact" />
   </a>
   <a href="https://qm.qq.com/q/6syItALFu0" target="_blank">
     <img src="https://img.shields.io/badge/QQ-交流群-12B7F5.svg?logo=qq&style=for-the-badge&logoColor=white" alt="QQ Group" />
@@ -14,38 +37,13 @@
     <img src="https://img.shields.io/badge/V2EX-技术社区-333333.svg?style=for-the-badge" alt="V2EX Community" />
   </a>
   <a href="https://www.nodeseek.com/post-836071-1" target="_blank">
-    <img src="https://img.shields.io/badge/NodeSeek-技术社区-000000.svg?style=for-the-badge&logo=data%3Aimage/png%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAACAAAAAQCAYAAAB3AH1ZAAAEsElEQVR4nMVVXWgcVRQ%2B92fnb5vsZkNClLZGCYViMLXWh9YITdPSEmMj1ZaIPigq1OBTQRFSWxVLlTZPKViqqPikaSuBSn2I3QW3xRS30vrSpjRCCZFkScJudmZnZ3buPXKH2dIma1%2B9cIeZc8/Pd75zzh2A/3mRlYJ0Ov1CPB7vdV331vbt289ks9knhBDvapq2rlwuX965c%2BephznMZDLthJAjjLEGz/Nyvb29J9Lp9OOMsfeklK7v%2Byf37NmzVNPnK4yTUspThmG0l0qlw7lcLlYsFs%2BmUqnNhUJhhjF2sqabSCQ2AcAW9SqEuIOIvzuOk29pafknn89P67r%2BmaZpr6TT6SXP8340DGNfU1PT%2BqWlJRX8nh96PwAhRL9lWe2Li4uzyWTyVLFYfNWyrM3FYrHg%2B/7enp6eXCKRaG9sbDyPiJOI%2BJVyRikdZ4xda2hoONTZ2env2LHjmOu6HyMiEEIOd3R0eFLK49VqVX0PqsTqAiCE9MdiMUDE8xcuXCgh4vuUUgXs2O7du6%2BnUqm1iPiz7/v7fN/XlY0KEgQBVCqVtYSQkcbGxuHI1xeO41y3LGv97OzsfkQ8a9v2EqW0q1wub1wFYGxsTCOEdCqUUsqJ7u7uZ3Rd77Rte05K%2Ba3SCYLgEynlk4ODgzAwMKCAhcG3bt0KQ0NDwBhTgA6r8vT09FQA4HvOuZK9vGvXrkUAuGFZFq9Wq12rALS1tSUQsdXzPME5v0Up3WKapjr6QxlbltWGiHuVQAUbHh4OA/q%2BD/39/TAyMqJ8KFAGAAxGLPzmOI5ExE0R7XeUDaW0YxUAIYROCNGEED4A2Ii4jpBwSKbVgzH2GAA0K8qllCH1atfKoHQjfXX%2BdARgPgiCMiEkNTMzE5dSLkb6qXpTUEFEFdyoVquUMRZ6p5SGNCCiQSkNI4yOjkINiKZpMD4%2BDnNzczA/Px%2ByQgip%2BQ2iHdN1PbZy6h4A4LpuyTCMBcZYCwA0McZmoyzXRyp5APAZY9q5c%2BdCga6HfQi5XA4mJyfDb9W0UsqbEaspSukaRFwMgsDRdf2RyFdhVQn6%2Bvo8AJhSdVfN6Pv%2Bn67rKgBd2Wy2ybbt24iYrgWuBQ%2Bz4BwMwwhLgIgCEX%2BIyvZcPB7nhJC7nHMBAE%2BpppVSTtUdQyFEVmWAiC/GYrGc7/t/m6b5aKVS6VPHiHgIEWfh4WvUtu3LqumklO8ofwDwk67rHZzzjeVy2eOcX6sLABF/KZVKHmOsv1qttgLAaZUdY%2BzI1atXm23bvkkIeQkA/oqa7N5GRFvN/vLy8gchx4XCkGmaz9q2Pc85/wYA3lYjKKXM5vP523UBXLlyZUpKmU4mkwnO%2BXFN0762bftuIpHY4DjOd5lMpm15eTnHOX%2BeELJfSvm5lPI0Iqq7v7tYLH6IiEEmk3kjFoudiC61E67rrmGMHVT3BmPszIEDB1Q56v%2BMJiYmunVdPx4EATLGXhNCbOCcf4qI8SAIfjVN86Nt27a5/8X/pUuXugghXzLGLCHEjYWFhYPNzc2vm6b5VqVSmW5tbX1TXdcPLSIikrGxMYaIIUPqXdX04sWL%2BtGjRx9gbeXKZDJc6al9v0z5qGfwL472eqU1c3RXAAAAAElFTkSuQmCC" alt="NodeSeek Community" />
+    <img src="https://img.shields.io/badge/NodeSeek-技术社区-111111.svg?style=for-the-badge" alt="NodeSeek Community" />
   </a>
 </div>
 
 <br/>
 
-> **💖 如果这个项目对您有帮助，请在右上角帮我们点个 Star ⭐！**
-> 您的支持是我们持续开源更新的最大动力！请关注项目后续的新功能发布，接下来我们将接入更多类型的渠道 ，敬请期待！
-
-open price,就是开放价格的意思。所以这是一个开源的收录全网卡网渠道各种AI订阅价格的项目。项目的目的只有一个，打破信息茧房，让友友们能方便挑选价格更低、更更低的 AI 订阅服务。本项目不提供 AI 服务，只是 AI 订阅产品的搬运工。
-
-### 📊 汇聚全网海量渠道底价
-![OpenPrice Demo](./public/demo.jpg)
-
----
-
-## 🔗 快速访问 (Quick Links)
-
-**🛒 买家入口：**
-- [**查看全网 AI 订阅 各个渠道的最新底价**](https://www.openprice.cc/card-products)
-- [**对比 ChatGPT、Claude、Grok 在 app store不同地区的官方订阅价格**](https://www.openprice.cc/official-prices)
-
-**🏪 渠道商必看：**
-- [**卡网商家一键免费收录**](https://www.openprice.cc/)
-- [**如何被正确收录？(渠道商接入指南)**](https://www.openprice.cc/guide/getting-started)
-- [**如何更好的展示商品？(渠道商最佳实践)**](https://www.openprice.cc/guide/best-practices)
-
-**💻 开发者及其他：**
-- [**快速开始部署指南**](#-快速开始-getting-started)
-- [**免责声明**](#️-免责声明-disclaimer)
-
-## 💡 项目初衷与解决的痛点
+## 项目初衷与解决的痛点
 
 如今大家对 AI 订阅如 Claude、chatgpt 有着很大的需求，虽然市面上有着非常多高性价比的产品，但它们往往分散在各个不同的渠道中，例如**链动小铺、独角卡网、二次元发卡、微信群、QQ群、闲鱼、淘宝**等。这种信息不对称导致了两个主要问题：
 1. **对于买家（普通用户）**：很难找到靠谱、便宜的购买渠道，往往需要花费很多时间找渠道，甚至容易买贵。
@@ -56,7 +54,7 @@ open price,就是开放价格的意思。所以这是一个开源的收录全网
 * **适合买家**：平台汇聚了全网绝大部分的卡网ai产品价格数据。无论是**代充、成品号、日抛、rt、at、带质保**等形式的 AI 产品（如 **Claude, GPT, Codex, Gemini** 等），还是非 AI 类的数字产品（如**接码、住宅代理、TG账号、谷歌账号**等），渠道价格在这里**一览无余**。你能轻松对比全网价格，打破信息差，以**最低价**购买到最适合自己的产品。👉 [**点击这里查看全网 AI 订阅最新底价**](https://www.openprice.cc/card-products)
 * **适合卡网商家/渠道商**：支持商家**一键免费提交**自己的卡网渠道。无需复杂的推广，即可获得曝光，方便地向全网用户展示和推销自己的优质产品。👉 [**点击这里快速免费收录您的渠道**](https://www.openprice.cc/)
 
-## ✨ 核心特性 (Features)
+## 核心特性 (Features)
 
 * **全网价格透明化**: 实时聚合各卡网（如链动小铺、独角卡网等）渠道产品价格，最低价及质保服务一目了然。
 * **官方订阅价格对比**: 展示 ChatGPT、Claude、Grok 等热门 AI 应用的 App Store 不同地区的官方订阅价格，可按套餐查看不同国家和地区的完整价格排行。
@@ -66,13 +64,13 @@ open price,就是开放价格的意思。所以这是一个开源的收录全网
 
 卡网渠道与官方订阅在购买来源、账号归属、售后方式和风险方面并不相同。第一次使用前建议阅读 [官方订阅与卡网渠道有什么区别？](https://www.openprice.cc/guide/official-vs-card-products)。
 
-## 🛠 技术栈 (Tech Stack)
+## 技术栈 (Tech Stack)
 
 * **前端**: Next.js 14 (React 18), Tailwind CSS, Material UI, Framer Motion
 * **后端/数据库**: Supabase (PostgreSQL, Authentication)
 * **抓取/引擎**: 基于 Python 的爬虫工具与规则分类引擎
 
-## 🚀 快速开始 (Getting Started)
+## 快速开始 (Getting Started)
 
 ### 环境要求
 
@@ -131,29 +129,29 @@ pip install -r requirements.txt
 python main.py
 ```
 
-## 🤝 贡献与入驻
+## 贡献
 
 * **提交渠道**: 如果您是卡网商家，欢迎在平台上免费提交您的渠道信息。
 * **代码贡献**: 本开源项目欢迎任何形式的代码贡献！如果你发现了 Bug 或者有新功能建议，请提交 Issue 或者 Pull Request。
 
 
-## ⚠️ 免责声明 (Disclaimer)
+## 免责声明 (Disclaimer)
 
 **本网站/项目仅提供对全网渠道价格的客观聚合展示，不参与任何实际交易，也不对任何第三方产品的质量提供任何担保。**
 本项目只是对第三方渠道做收录，任何人都可以自由提交渠道并被平台收录。平台内展示的具体商品**完全按照价格高低进行客观排序**，绝不存在弄虚作假、暗箱操作或故意更改排序的行为。
 用户在进行购买决策时，需自行仔细甄别，并遵循原商品发布平台的规则与质保条款。所有交易风险由买卖双方自行承担。
 
-## 📄 许可证 (License)
+## 许可证 (License)
 
 本项目采用 **自定义许可协议**。
 
-**✅ 允许以下行为：**
+**允许以下行为：**
 * 学习、研究和代码阅读。
 * 个人自用和本地部署。
 * 内部非商业使用。
 * 提交 Issue、Pull Request 和改进建议。
 
-**🚫 未经书面授权，不允许：**
+**未经书面授权，不允许：**
 * **直接运营或商业化**：将 OpenPrice 或其修改版本作为公开网站、SaaS 平台对外运营，或在项目中接入广告、推广链接（AFF）、付费导流等任何形式的商业变现。
 * **竞品化**：利用本项目的代码或核心逻辑，运营与 OpenPrice 定位高度相似的比价、导航、或数据聚合服务。
 * **滥用品牌与数据**：使用 OpenPrice 的名称、截图、线上抓取的数据快照或渠道资源用于商业服务。
