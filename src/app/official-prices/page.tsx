@@ -6,7 +6,7 @@ import { DEFAULT_SHARE_IMAGE } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'ChatGPT、Claude、Grok 官方订阅价格对比 - OpenPrice',
-  description: '对比 ChatGPT Plus、Claude Pro、Claude Max、SuperGrok 等官方订阅在不同 App Store 国家和地区的月付、年付价格，查看各套餐低价区和完整价格排行。',
+  description: '对比 ChatGPT Plus、Claude Pro、Claude Max、SuperGrok 等在 App Store 不同国家和地区的官方 AI订阅价格，查看各种 AI 订阅的低价区，查看玻利维亚、土耳其、菲律宾等地区的最新 AI 订阅价格。',
   keywords: [
     'AI 官方订阅价格',
     'App Store 订阅价格对比',
@@ -124,9 +124,9 @@ export default async function OfficialPricesPage() {
     <div className="bg-gray-50 min-h-screen py-8">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">AI 官方订阅价格对比</h1>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">AI 官方订阅不同国家和地区比价</h1>
           <p className="text-gray-500 text-sm">
-            对比 ChatGPT Plus、Claude Pro、Claude Max 和 SuperGrok 等套餐在不同 App Store 国家和地区的月付、年付价格。
+            对比 ChatGPT Plus、Claude Pro、Claude Max 和 SuperGrok 等官方订阅在App Store 不同国家和地区的价格，查看各种 AI 订阅的官方低价区，拒绝买贵。
           </p>
         </div>
         
