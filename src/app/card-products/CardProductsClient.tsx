@@ -88,11 +88,11 @@ export const CardProductsClient: React.FC<CardProductsClientProps> = ({ initialP
       <div className="mb-6 max-w-3xl pt-2">
         <div className="flex items-center justify-between mb-3">
           <h1 className="text-xl font-bold tracking-tight text-gray-900 sm:text-2xl">
-            卡网商品聚合
+            AI 订阅比价与卡网渠道报价聚合
           </h1>
         </div>
         <p className="text-sm text-gray-500 max-w-3xl leading-relaxed">
-          打破信息差，轻松触达全网底价。OpenPrice 实时聚合全网卡网渠道，无论是 ChatGPT、Claude 等 AI订阅、成品号等，还是接码、邮箱、社媒账号等，海量底价一目了然，让大家以最优的价格购买合适的产品。也希望您一键提交知道的靠谱渠道，共同完善这个平台。
+          OpenPrice 提供卡网渠道报价聚合与 AI 订阅比价，覆盖 ChatGPT、Claude、Gemini、Grok、Cursor 等 AI 订阅，以及代充、成品号、接码、邮箱和账号等数字产品，是一站式 AI 订阅多渠道比价平台。
         </p>
       </div>
 
