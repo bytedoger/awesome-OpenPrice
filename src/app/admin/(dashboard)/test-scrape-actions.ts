@@ -1,8 +1,11 @@
 'use server';
 
 import { supabaseAdmin } from '@/lib/supabase-admin';
+import { requireAdmin } from '@/lib/admin-auth';
 
 export async function createTestJob(scrapeUrl: string, scraperType: string) {
+  await requireAdmin();
+
   const { data, error } = await supabaseAdmin
     .from('scraper_test_jobs')
     .insert([
@@ -19,6 +22,8 @@ export async function createTestJob(scrapeUrl: string, scraperType: string) {
 }
 
 export async function getTestJob(jobId: string) {
+  await requireAdmin();
+
   const { data, error } = await supabaseAdmin
     .from('scraper_test_jobs')
     .select('*')

@@ -2,8 +2,11 @@
 
 import { revalidatePath } from 'next/cache';
 import { supabaseAdmin } from '@/lib/supabase-admin';
+import { requireAdmin } from '@/lib/admin-auth';
 
 export async function togglePlatformStatus(id: string, currentStatus: boolean) {
+  await requireAdmin();
+
   const { error } = await supabaseAdmin
     .from('product_platforms')
     .update({ is_active: !currentStatus })
@@ -20,6 +23,8 @@ export async function togglePlatformStatus(id: string, currentStatus: boolean) {
 }
 
 export async function updatePlatformSortOrder(id: string, sortOrder: number) {
+  await requireAdmin();
+
   const { error } = await supabaseAdmin
     .from('product_platforms')
     .update({ sort_order: sortOrder })
@@ -35,6 +40,8 @@ export async function updatePlatformSortOrder(id: string, sortOrder: number) {
 }
 
 export async function deletePlatform(id: string) {
+  await requireAdmin();
+
   const { error } = await supabaseAdmin
     .from('product_platforms')
     .delete()
@@ -52,6 +59,8 @@ export async function deletePlatform(id: string) {
 }
 
 export async function upsertPlatform(formData: FormData) {
+  await requireAdmin();
+
   const isEdit = formData.get('is_edit') === 'true';
   const id = formData.get('id') as string;
   const name = formData.get('name') as string;

@@ -6,6 +6,7 @@ export const env = {
   
   // Admin Configuration
   ADMIN_PASSWORD: process.env.ADMIN_PASSWORD || '',
+  ADMIN_SESSION_SECRET: process.env.ADMIN_SESSION_SECRET || '',
   
   // App Environment
   NODE_ENV: process.env.NODE_ENV || 'development',
@@ -19,5 +20,11 @@ if (typeof window === 'undefined') {
   }
   if (!env.SUPABASE_SERVICE_ROLE_KEY) {
     console.warn('⚠️ Missing environment variable: SUPABASE_SERVICE_ROLE_KEY');
+  }
+  if (!env.ADMIN_PASSWORD) {
+    console.warn('⚠️ Missing environment variable: ADMIN_PASSWORD');
+  }
+  if (new TextEncoder().encode(env.ADMIN_SESSION_SECRET).byteLength < 32) {
+    console.warn('⚠️ ADMIN_SESSION_SECRET must contain at least 32 bytes');
   }
 }

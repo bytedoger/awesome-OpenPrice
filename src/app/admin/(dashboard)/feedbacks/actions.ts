@@ -2,8 +2,11 @@
 
 import { revalidatePath } from 'next/cache';
 import { supabaseAdmin } from '@/lib/supabase-admin';
+import { requireAdmin } from '@/lib/admin-auth';
 
 export async function resolveFeedback(id: string) {
+  await requireAdmin();
+
   const { error } = await supabaseAdmin
     .from('user_feedbacks')
     .update({ status: 'resolved' })
@@ -19,6 +22,8 @@ export async function resolveFeedback(id: string) {
 }
 
 export async function ignoreFeedback(id: string) {
+  await requireAdmin();
+
   const { error } = await supabaseAdmin
     .from('user_feedbacks')
     .update({ status: 'ignored' })
