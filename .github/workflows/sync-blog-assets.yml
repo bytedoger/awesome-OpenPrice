@@ -1,0 +1,29 @@
+name: Sync Blog Assets (Cron)
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 每天 UTC 时间 18:00 执行（针对原本 vercel.json 里的定时同步规则的 GitHub Actions 零成本迁移方案）
+    - cron: "0 18 * * *"
+
+concurrency:
+  group: sync-blog-assets
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Trigger blog assets sync endpoint
+        run: |
+          if [ -z "${{ vars.PRODUCTION_URL }}" ]; then
+            echo "ERROR: 请在 GitHub Repository Settings -> Secrets and variables -> Variables 中添加 PRODUCTION_URL (如主域名地址)"
+            exit 1
+          fi
+          echo "Syncing blog assets for: ${{ vars.PRODUCTION_URL }}/api/blog-assets/sync"
+          curl -f -i -X GET "${{ vars.PRODUCTION_URL }}/api/blog-assets/sync" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}"

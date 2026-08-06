@@ -1,0 +1,11 @@
+# Cloudflare Worker configuration for OpenNext
+name = "awesome-openprice"
+main = ".open-next/worker.js"
+compatibility_date = "2026-03-01"
+compatibility_flags = ["nodejs_compat"]
+assets = { directory = ".open-next/assets", binding = "ASSETS" }
+minify = true
+
+# 提示: 本地开发与生产环境相关的秘钥及参数，如:
+# NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, NOTION_API_KEY, CLOUDFLARE_R2_* 等
+# 请在 Cloudflare Dashboard 对应的 Worker 详情页 -> Settings -> Variables and Secrets 中统一配置。
