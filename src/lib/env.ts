@@ -1,15 +1,15 @@
 export const env = {
   // Supabase Configuration
-  SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-  SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
-  SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY || '',
+  get SUPABASE_URL() { return process.env.NEXT_PUBLIC_SUPABASE_URL || ''; },
+  get SUPABASE_ANON_KEY() { return process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''; },
+  get SUPABASE_SERVICE_ROLE_KEY() { return process.env.SUPABASE_SERVICE_ROLE_KEY || ''; },
   
   // Admin Configuration
-  ADMIN_PASSWORD: process.env.ADMIN_PASSWORD || '',
+  get ADMIN_PASSWORD() { return process.env.ADMIN_PASSWORD || ''; },
   
   // App Environment
-  NODE_ENV: process.env.NODE_ENV || 'development',
-  IS_PRODUCTION: process.env.NODE_ENV === 'production',
+  get NODE_ENV() { return process.env.NODE_ENV || 'development'; },
+  get IS_PRODUCTION() { return process.env.NODE_ENV === 'production'; },
 };
 
 // Validate required server-side environment variables if we are on the server
