@@ -2,8 +2,11 @@
 
 import { revalidatePath } from 'next/cache';
 import { supabaseAdmin } from '@/lib/supabase-admin';
+import { requireAdmin } from '@/lib/admin-auth';
 
 export async function rejectSubmission(id: string) {
+  await requireAdmin();
+
   const { error } = await supabaseAdmin
     .from('user_target_submissions')
     .update({ status: 'rejected' })
@@ -19,6 +22,8 @@ export async function rejectSubmission(id: string) {
 }
 
 export async function approveSubmission(id: string, formData: FormData) {
+  await requireAdmin();
+
   let name = formData.get('name') as string;
   const isAutoApprove = formData.get('is_auto_approve') === 'true';
   const site_url_raw = (formData.get('site_url') as string) || '';
@@ -108,6 +113,8 @@ export async function approveSubmission(id: string, formData: FormData) {
 }
 
 export async function updateSubmissionScraperType(id: string, scraperType: string) {
+  await requireAdmin();
+
   const { error } = await supabaseAdmin
     .from('user_target_submissions')
     .update({ scraper_type: scraperType })

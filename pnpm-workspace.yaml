@@ -3,6 +3,7 @@ packages:
 supportedArchitectures:
   os:
     - linux
+    - darwin
   cpu:
     - x64
     - arm64

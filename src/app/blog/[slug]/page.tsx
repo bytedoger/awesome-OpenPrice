@@ -18,8 +18,9 @@ export async function generateStaticParams() {
   return posts.map(post => ({ slug: post.slug }));
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const { post } = await getSingleBlogPost(params.slug);
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const { post } = await getSingleBlogPost(slug);
   
   if (!post) {
     return { title: '未找到文章 | OpenPrice', robots: { index: false } };
@@ -52,8 +53,9 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default async function BlogPostPage({ params }: { params: { slug: string } }) {
-  const { post, markdown } = await getSingleBlogPost(params.slug);
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const { post, markdown } = await getSingleBlogPost(slug);
 
   if (!post) {
     notFound();

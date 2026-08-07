@@ -2,8 +2,11 @@
 
 import { revalidatePath } from 'next/cache';
 import { supabaseAdmin } from '@/lib/supabase-admin';
+import { requireAdmin } from '@/lib/admin-auth';
 
 export async function toggleTargetStatus(id: string, currentStatus: boolean) {
+  await requireAdmin();
+
   const newStatus = !currentStatus;
   const { error } = await supabaseAdmin
     .from('crawler_targets')
@@ -28,6 +31,8 @@ export async function toggleTargetStatus(id: string, currentStatus: boolean) {
 }
 
 export async function deleteTarget(id: string) {
+  await requireAdmin();
+
   const { error } = await supabaseAdmin
     .from('crawler_targets')
     .delete()
@@ -43,6 +48,8 @@ export async function deleteTarget(id: string) {
 }
 
 export async function upsertTarget(formData: FormData) {
+  await requireAdmin();
+
   const id = formData.get('id') as string | null;
   const rawName = formData.get('name') as string;
   const name = rawName ? rawName.trim() : '未命名 (自动获取)';
@@ -119,6 +126,8 @@ export async function upsertTarget(formData: FormData) {
 }
 
 export async function verifyTarget(id: string) {
+  await requireAdmin();
+
   const { error } = await supabaseAdmin
     .from('crawler_targets')
     .update({ 
@@ -138,6 +147,8 @@ export async function verifyTarget(id: string) {
 }
 
 export async function getTestHistory(scrapeUrl: string) {
+  await requireAdmin();
+
   const { data, error } = await supabaseAdmin
     .from('scraper_test_jobs')
     .select('*')
@@ -154,6 +165,8 @@ export async function getTestHistory(scrapeUrl: string) {
 }
 
 export async function resetTargetAttemptTime(id: string) {
+  await requireAdmin();
+
   const { error } = await supabaseAdmin
     .from('crawler_targets')
     .update({ 

@@ -24,15 +24,15 @@ export async function POST(request: Request) {
   }
 
   if (scope === 'blog' || scope === 'all') {
-    revalidateTag('blog-list');
-    revalidateTag('blog-posts');
+    revalidateTag('blog-list', 'max');
+    revalidateTag('blog-posts', 'max');
     revalidatePath('/blog');
     revalidatePath('/blog/[slug]', 'page');
   }
 
   if (scope === 'official' || scope === 'all') {
-    revalidateTag('official-app-list');
-    revalidateTag('official-prices');
+    revalidateTag('official-app-list', 'max');
+    revalidateTag('official-prices', 'max');
     revalidatePath('/official-prices');
     revalidatePath('/official-prices/[appId]', 'page');
   }

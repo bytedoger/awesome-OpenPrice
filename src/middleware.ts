@@ -1,15 +1,16 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { ADMIN_SESSION_COOKIE, verifyAdminSession } from '@/lib/admin-session';
 
-export function middleware(request: NextRequest) {
+// OpenNext Cloudflare does not yet support Next.js Node Middleware (proxy.ts).
+// Keep this Edge Middleware entry point until the adapter adds support.
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Protect /admin routes, but allow access to /admin/login
   if (pathname.startsWith('/admin') && pathname !== '/admin/login') {
-    const adminAuthCookie = request.cookies.get('admin_auth');
-    
-    // Check if the cookie matches the password (or just exists and is valid)
-    if (!adminAuthCookie || adminAuthCookie.value !== 'true') {
+    const session = request.cookies.get(ADMIN_SESSION_COOKIE)?.value;
+
+    if (!(await verifyAdminSession(session))) {
       const loginUrl = new URL('/admin/login', request.url);
       return NextResponse.redirect(loginUrl);
     }

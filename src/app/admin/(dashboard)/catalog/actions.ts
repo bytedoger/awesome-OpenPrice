@@ -2,8 +2,11 @@
 
 import { revalidatePath } from 'next/cache';
 import { supabaseAdmin } from '@/lib/supabase-admin';
+import { requireAdmin } from '@/lib/admin-auth';
 
 export async function toggleCatalogStatus(id: string, currentStatus: boolean) {
+  await requireAdmin();
+
   const { error } = await supabaseAdmin
     .from('product_catalog')
     .update({ is_active: !currentStatus })
@@ -20,6 +23,8 @@ export async function toggleCatalogStatus(id: string, currentStatus: boolean) {
 }
 
 export async function deleteCatalog(id: string) {
+  await requireAdmin();
+
   const { error } = await supabaseAdmin
     .from('product_catalog')
     .delete()
@@ -36,6 +41,8 @@ export async function deleteCatalog(id: string) {
 }
 
 export async function upsertCatalog(formData: FormData) {
+  await requireAdmin();
+
   const isEdit = formData.get('is_edit') === 'true';
   const id = formData.get('id') as string;
   const slug = formData.get('slug') as string;
@@ -122,6 +129,8 @@ export async function upsertCatalog(formData: FormData) {
 }
 
 export async function updateCatalogInline(id: string, updates: any) {
+  await requireAdmin();
+
   const { error } = await supabaseAdmin
     .from('product_catalog')
     .update(updates)

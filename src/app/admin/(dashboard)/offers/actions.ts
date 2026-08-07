@@ -2,8 +2,11 @@
 
 import { revalidatePath } from 'next/cache';
 import { supabaseAdmin } from '@/lib/supabase-admin';
+import { requireAdmin } from '@/lib/admin-auth';
 
 export async function deleteOffer(id: string) {
+  await requireAdmin();
+
   const { error } = await supabaseAdmin
     .from('market_offers')
     .delete()
@@ -19,6 +22,8 @@ export async function deleteOffer(id: string) {
 }
 
 export async function updateOffer(id: string, formData: FormData) {
+  await requireAdmin();
+
   const status = formData.get('status') as string;
   const canonical_product_id = formData.get('canonical_product_id') as string;
   const isManualOverrideRaw = formData.get('is_manual_override') as string;
