@@ -5,6 +5,30 @@ compatibility_date = "2026-03-01"
 compatibility_flags = ["nodejs_compat"]
 assets = { directory = ".open-next/assets", binding = "ASSETS" }
 minify = true
+keep_vars = true
+
+# OpenNext ISR/data cache. Create once with:
+# pnpm exec wrangler r2 bucket create awesome-openprice-next-cache
+[[r2_buckets]]
+binding = "NEXT_INC_CACHE_R2_BUCKET"
+bucket_name = "awesome-openprice-next-cache"
+
+# OpenNext uses a self-reference to perform background revalidation.
+[[services]]
+binding = "WORKER_SELF_REFERENCE"
+service = "awesome-openprice"
+
+[[durable_objects.bindings]]
+name = "NEXT_CACHE_DO_QUEUE"
+class_name = "DOQueueHandler"
+
+[[durable_objects.bindings]]
+name = "NEXT_TAG_CACHE_DO_SHARDED"
+class_name = "DOShardedTagCache"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["DOQueueHandler", "DOShardedTagCache"]
 
 # 提示: 本地开发与生产环境相关的秘钥及参数，如:
 # NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, NOTION_API_KEY, CLOUDFLARE_R2_* 等
