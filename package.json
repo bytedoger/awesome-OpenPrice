@@ -3,11 +3,15 @@
   "private": true,
   "version": "0.0.1",
   "type": "module",
+  "engines": {
+    "node": ">=20.9.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1103.0",
@@ -15,48 +19,37 @@
     "@emotion/styled": "11.14.1",
     "@mui/icons-material": "7.3.5",
     "@mui/material": "7.3.5",
-    "@next/third-parties": "^16.2.10",
+    "@next/third-parties": "^16.3.0",
     "@notionhq/client": "^2.2.15",
-    "@popperjs/core": "2.11.8",
     "@supabase/supabase-js": "^2.110.3",
     "@tailwindcss/typography": "^0.5.20",
     "canvas-confetti": "1.9.4",
     "date-fns": "3.6.0",
     "lucide-react": "0.487.0",
     "motion": "12.23.24",
-    "next": "^14.2.35",
+    "next": "^16.3.0",
     "nextjs-toploader": "^3.9.17",
     "notion-to-md": "^3.1.9",
     "react-dnd": "16.0.1",
     "react-dnd-html5-backend": "16.0.1",
     "react-markdown": "^10.1.0",
-    "react-popper": "2.3.0",
     "react-responsive-masonry": "2.7.1",
-    "react-router": "7.13.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
     "react-slick": "0.31.0",
     "tw-animate-css": "1.3.8"
   },
   "devDependencies": {
     "@types/node": "20.19.43",
-    "@types/react": "^18.3.31",
-    "@types/react-dom": "^18.3.7",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
     "autoprefixer": "^10.5.3",
     "lightningcss-darwin-arm64": "1.32.0",
-    "postcss": "^8.5.19",
+    "eslint": "^9.39.2",
+    "eslint-config-next": "^16.3.0",
+    "postcss": "^8.5.26",
     "tailwindcss": "^3.4.19",
     "typescript": "5.9.3"
-  },
-  "peerDependencies": {
-    "react": "18.3.1",
-    "react-dom": "18.3.1"
-  },
-  "peerDependenciesMeta": {
-    "react": {
-      "optional": true
-    },
-    "react-dom": {
-      "optional": true
-    }
   },
   "pnpm": {
     "overrides": {

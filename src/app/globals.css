@@ -1,10 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import 'tw-animate-css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import 'tw-animate-css';
 
 :root {
   --font-size: 18px;

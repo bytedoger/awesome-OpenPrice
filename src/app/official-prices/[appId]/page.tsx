@@ -23,11 +23,12 @@ export async function generateStaticParams() {
   return apps.map(app => ({ appId: app.slug }));
 }
 
-export async function generateMetadata({ params }: { params: { appId: string } }): Promise<Metadata> {
-  const app = await getOfficialAppByIdentifier(params.appId);
+export async function generateMetadata({ params }: { params: Promise<{ appId: string }> }): Promise<Metadata> {
+  const { appId } = await params;
+  const app = await getOfficialAppByIdentifier(appId);
   const appConfig = app ? getOfficialAppConfig(app.apple_app_id) : undefined;
   const appName = appConfig?.name || app?.name || 'AI 应用';
-  const appSlug = app?.slug || params.appId;
+  const appSlug = app?.slug || appId;
   const title = appConfig?.seo.title || `${appName} App Store 官方订阅价格 - OpenPrice`;
   const description = appConfig?.seo.description || `查看 ${appName} 在不同 App Store 国家和地区的官方订阅价格与低价排行。`;
 
@@ -52,8 +53,9 @@ export async function generateMetadata({ params }: { params: { appId: string } }
   };
 }
 
-export default async function AppPricesDetailPage({ params }: { params: { appId: string } }) {
-  const appData = await getOfficialAppByIdentifier(params.appId);
+export default async function AppPricesDetailPage({ params }: { params: Promise<{ appId: string }> }) {
+  const { appId: requestedAppId } = await params;
+  const appData = await getOfficialAppByIdentifier(requestedAppId);
 
   if (!appData) {
     return (
@@ -63,7 +65,7 @@ export default async function AppPricesDetailPage({ params }: { params: { appId:
     );
   }
 
-  if (params.appId !== appData.slug) {
+  if (requestedAppId !== appData.slug) {
     redirect(`/official-prices/${appData.slug}`);
   }
 

@@ -7,8 +7,8 @@ export const maxDuration = 120;
 
 async function runSync(slug?: string) {
   const result = await syncPublishedBlogAssets(slug);
-  revalidateTag('blog-list');
-  revalidateTag('blog-posts');
+  revalidateTag('blog-list', 'max');
+  revalidateTag('blog-posts', 'max');
   revalidatePath('/blog');
   revalidatePath('/blog/[slug]', 'page');
   return Response.json({ synced: true, ...result });

@@ -4,10 +4,11 @@ export const revalidate = 86400;
 
 export async function GET(
   _request: Request,
-  { params }: { params: { slug: string } },
+  { params }: { params: Promise<{ slug: string }> },
 ) {
+  const { slug } = await params;
   const posts = await getPublishedBlogPosts();
-  const post = posts.find(item => item.slug === params.slug);
+  const post = posts.find(item => item.slug === slug);
 
   if (!post?.cover) {
     return new Response(null, { status: 404 });
@@ -26,7 +27,7 @@ export async function GET(
       },
     });
   } catch (error) {
-    console.error(`Failed to proxy blog cover for ${params.slug}:`, error);
+    console.error(`Failed to proxy blog cover for ${slug}:`, error);
     return new Response(null, { status: 502 });
   }
 }
