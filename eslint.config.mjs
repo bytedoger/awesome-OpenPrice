@@ -31,6 +31,8 @@ export default defineConfig([
   ...downgradeLegacyErrors(nextTypeScript),
   globalIgnores([
     '.next/**',
+    '.open-next/**',
+    '.wrangler/**',
     'out/**',
     'build/**',
     'scraper/venv/**',

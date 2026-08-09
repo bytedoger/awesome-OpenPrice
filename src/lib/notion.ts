@@ -3,16 +3,18 @@ import { NotionToMarkdown } from 'notion-to-md';
 import { unstable_cache } from 'next/cache';
 import { cache } from 'react';
 
-// Initialize Notion client (will safely fail or do nothing if env vars are missing during build)
-const notionApiKey = process.env.NOTION_API_KEY || '';
-const databaseId = process.env.NOTION_BLOG_DATABASE_ID || '';
-
-const notion = new Client({
-  auth: notionApiKey,
-});
-
-// Initialize notion-to-md
-const n2m = new NotionToMarkdown({ notionClient: notion });
+// Dynamic initialization for Cloudflare Workers edge compatibility
+function getNotionConfig() {
+  const apiKey = process.env.NOTION_API_KEY || '';
+  const databaseId = process.env.NOTION_BLOG_DATABASE_ID || '';
+  if (!apiKey || !databaseId) return { apiKey, databaseId, notion: null, n2m: null };
+  // The SDK defaults to node-fetch, whose node:http implementation is not
+  // compatible with the Cloudflare Workers runtime. Use the runtime-native
+  // fetch implementation so Notion requests stay on the Workers Fetch API.
+  const notion = new Client({ auth: apiKey, fetch });
+  const n2m = new NotionToMarkdown({ notionClient: notion });
+  return { apiKey, databaseId, notion, n2m };
+}
 
 export interface BlogPost {
   id: string;
@@ -25,7 +27,8 @@ export interface BlogPost {
 }
 
 async function fetchPublishedBlogPosts(): Promise<BlogPost[]> {
-  if (!notionApiKey || !databaseId) {
+  const { apiKey, databaseId, notion } = getNotionConfig();
+  if (!apiKey || !databaseId || !notion) {
     console.warn('Notion API Key or Database ID is missing. Returning empty blog posts.');
     return [];
   }
@@ -65,7 +68,8 @@ async function fetchPublishedBlogPosts(): Promise<BlogPost[]> {
 }
 
 async function fetchSingleBlogPost(slug: string): Promise<{ post: BlogPost | null, markdown: string }> {
-  if (!notionApiKey || !databaseId) {
+  const { apiKey, databaseId, notion, n2m } = getNotionConfig();
+  if (!apiKey || !databaseId || !notion || !n2m) {
     return { post: null, markdown: '' };
   }
 
