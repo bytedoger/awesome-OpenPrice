@@ -133,6 +133,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               alt={post.title}
               fill
               priority
+              unoptimized
               sizes="(min-width: 768px) 768px, 100vw"
               className="object-cover"
             />

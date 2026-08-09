@@ -8,7 +8,10 @@ function getNotionConfig() {
   const apiKey = process.env.NOTION_API_KEY || '';
   const databaseId = process.env.NOTION_BLOG_DATABASE_ID || '';
   if (!apiKey || !databaseId) return { apiKey, databaseId, notion: null, n2m: null };
-  const notion = new Client({ auth: apiKey });
+  // The SDK defaults to node-fetch, whose node:http implementation is not
+  // compatible with the Cloudflare Workers runtime. Use the runtime-native
+  // fetch implementation so Notion requests stay on the Workers Fetch API.
+  const notion = new Client({ auth: apiKey, fetch });
   const n2m = new NotionToMarkdown({ notionClient: notion });
   return { apiKey, databaseId, notion, n2m };
 }

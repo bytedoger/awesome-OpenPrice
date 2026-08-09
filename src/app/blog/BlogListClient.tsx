@@ -114,6 +114,7 @@ export default function BlogListClient({ initialPosts }: { initialPosts: BlogPos
                       src={post.cover}
                       alt={post.title}
                       fill
+                      unoptimized
                       sizes="(min-width: 768px) 144px, 100vw"
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
