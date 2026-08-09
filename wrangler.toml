@@ -1,11 +1,16 @@
 # Cloudflare Worker configuration for OpenNext
 name = "awesome-openprice"
-main = ".open-next/worker.js"
+main = "cloudflare-worker.mjs"
 compatibility_date = "2026-03-01"
 compatibility_flags = ["nodejs_compat"]
 assets = { directory = ".open-next/assets", binding = "ASSETS" }
 minify = true
 keep_vars = true
+
+# Cloudflare Images transforms Notion/R2 source images into WebP variants
+# before the immutable results are uploaded to the public R2 bucket.
+[images]
+binding = "IMAGES"
 
 # OpenNext ISR/data cache. Create once with:
 # pnpm exec wrangler r2 bucket create awesome-openprice-next-cache

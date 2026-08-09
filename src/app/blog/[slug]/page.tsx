@@ -10,6 +10,7 @@ import { format } from 'date-fns';
 import FloatingButtons from './FloatingButtons';
 import { JsonLd } from '@/components/JsonLd';
 import { SITE_URL, absoluteUrl } from '@/lib/site';
+import { blogCoverUrl } from '@/lib/blog-cover';
 
 export const revalidate = 86400;
 
@@ -27,9 +28,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 
   const canonicalPath = `/blog/${post.slug}`;
-  const coverPath = post.cover
-    ? `/api/blog-cover/${encodeURIComponent(post.slug)}`
-    : '/openprice-share.jpg';
+  const coverPath = blogCoverUrl(post) || '/openprice-share.jpg';
 
   return {
     title: `${post.title} | OpenPrice 博客`,
@@ -62,9 +61,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   }
 
   const canonicalPath = `/blog/${post.slug}`;
-  const coverPath = post.cover
-    ? `/api/blog-cover/${encodeURIComponent(post.slug)}`
-    : null;
+  const coverPath = blogCoverUrl(post);
 
   return (
     <div className="bg-white pb-16 min-h-screen relative">

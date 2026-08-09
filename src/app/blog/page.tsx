@@ -1,9 +1,9 @@
-import React from 'react';
 import { Metadata } from 'next';
 import { BookOpen } from 'lucide-react';
 import { getPublishedBlogPosts } from '@/lib/notion';
 import BlogListClient from './BlogListClient';
 import { DEFAULT_SHARE_IMAGE } from '@/lib/site';
+import { blogCoverThumbnailUrl } from '@/lib/blog-cover';
 
 export const metadata: Metadata = {
   title: '博客 | OpenPrice',
@@ -31,7 +31,7 @@ export default async function BlogPage() {
   const posts = await getPublishedBlogPosts();
   const postsWithStableCovers = posts.map(post => ({
     ...post,
-    cover: post.cover ? `/api/blog-cover/${encodeURIComponent(post.slug)}` : null,
+    cover: blogCoverThumbnailUrl(post),
   }));
 
   return (
@@ -53,9 +53,7 @@ export default async function BlogPage() {
           </div>
         )}
 
-        <React.Suspense fallback={<div className="py-8 text-center text-gray-500">Loading blog posts...</div>}>
-          <BlogListClient initialPosts={postsWithStableCovers} />
-        </React.Suspense>
+        <BlogListClient initialPosts={postsWithStableCovers} />
       </div>
     </div>
   );

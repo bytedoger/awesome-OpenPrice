@@ -1,16 +1,40 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import type { BlogPost } from '@/lib/notion';
 import { Search, Calendar, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { format } from 'date-fns';
-import { useUrlState } from '@/hooks/useUrlState';
+
+function useBlogUrlState(key: string) {
+  // Keep the server render deterministic so blog cards are present in the
+  // initial HTML. URL filters are applied after hydration and on back/forward.
+  const [value, setValue] = useState('');
+
+  useEffect(() => {
+    const readValue = () => {
+      setValue(new URLSearchParams(window.location.search).get(key) || '');
+    };
+    readValue();
+    window.addEventListener('popstate', readValue);
+    return () => window.removeEventListener('popstate', readValue);
+  }, [key]);
+
+  const updateValue = useCallback((nextValue: string) => {
+    setValue(nextValue);
+    const url = new URL(window.location.href);
+    if (nextValue) url.searchParams.set(key, nextValue);
+    else url.searchParams.delete(key);
+    window.history.replaceState(null, '', url);
+  }, [key]);
+
+  return [value, updateValue] as const;
+}
 
 export default function BlogListClient({ initialPosts }: { initialPosts: BlogPost[] }) {
-  const [searchQuery, setSearchQuery] = useUrlState('q', '');
-  const [selectedTagRaw, setSelectedTag] = useUrlState('tag', '');
+  const [searchQuery, setSearchQuery] = useBlogUrlState('q');
+  const [selectedTagRaw, setSelectedTag] = useBlogUrlState('tag');
   const selectedTag = selectedTagRaw || null;
 
   // Extract all unique tags

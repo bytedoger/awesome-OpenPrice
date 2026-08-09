@@ -1,6 +1,7 @@
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { Client } from '@notionhq/client';
 import { createHash } from 'node:crypto';
+import { getCloudflareContext } from '@opennextjs/cloudflare';
 
 type NotionFile = {
   type?: string;
@@ -40,6 +41,22 @@ const r2SecretAccessKey = process.env.CLOUDFLARE_R2_SECRET_ACCESS_KEY || '';
 const r2Bucket = process.env.CLOUDFLARE_R2_BUCKET || '';
 const r2PublicUrl = process.env.CLOUDFLARE_R2_PUBLIC_URL?.replace(/\/$/, '') || '';
 
+type ImageTransformOptions = {
+  width?: number;
+  height?: number;
+  fit?: 'scale-down' | 'contain' | 'cover' | 'crop' | 'pad';
+};
+
+type ImagesBinding = {
+  input(source: ReadableStream<Uint8Array>): {
+    transform(options: ImageTransformOptions): {
+      output(options: { format: 'image/webp'; quality: number; anim: false }): Promise<{
+        response(): Response;
+      }>;
+    };
+  };
+};
+
 function assertConfiguration() {
   const missing = [
     ['NOTION_API_KEY', notionApiKey],
@@ -61,30 +78,8 @@ function sourceUrl(file?: NotionFile | null) {
   return file.type === 'file' ? file.file?.url : file.external?.url || null;
 }
 
-function isR2Url(url: string) {
-  return url.startsWith(`${r2PublicUrl}/`);
-}
-
-function extensionFor(contentType: string | null, source: string) {
-  const contentTypeExtension: Record<string, string> = {
-    'image/avif': 'avif',
-    'image/gif': 'gif',
-    'image/jpeg': 'jpg',
-    'image/png': 'png',
-    'image/svg+xml': 'svg',
-    'image/webp': 'webp',
-  };
-  const normalizedContentType = contentType?.split(';')[0].toLowerCase() || '';
-  if (contentTypeExtension[normalizedContentType]) return contentTypeExtension[normalizedContentType];
-
-  try {
-    const matched = new URL(source).pathname.match(/\.([a-zA-Z0-9]{2,5})$/);
-    if (matched) return matched[1].toLowerCase();
-  } catch {
-    // The URL has already been validated by fetch below.
-  }
-
-  return 'jpg';
+function isOptimizedR2Url(url: string) {
+  return url.startsWith(`${r2PublicUrl}/`) && url.includes('/optimized-') && url.endsWith('.webp');
 }
 
 function createR2Client() {
@@ -97,8 +92,10 @@ function createR2Client() {
 
 async function uploadImage(
   client: S3Client,
+  images: ImagesBinding,
   source: string,
   keyPrefix: string,
+  createThumbnail: boolean,
 ) {
   const response = await fetch(source, { cache: 'no-store' });
   if (!response.ok) throw new Error(`source returned HTTP ${response.status}`);
@@ -106,19 +103,45 @@ async function uploadImage(
   const contentType = response.headers.get('content-type')?.split(';')[0] || 'image/jpeg';
   if (!contentType.startsWith('image/')) throw new Error(`source is not an image (${contentType})`);
 
-  const body = Buffer.from(await response.arrayBuffer());
+  const sourceBytes = await response.arrayBuffer();
   // The digest makes URLs immutable: replacing an image never leaves a CDN cache serving the old bytes.
-  const digest = createHash('sha256').update(body).digest('hex').slice(0, 16);
-  const key = `${keyPrefix}-${digest}.${extensionFor(contentType, source)}`;
-  await client.send(new PutObjectCommand({
-    Bucket: r2Bucket,
-    Key: key,
-    Body: body,
-    ContentType: contentType,
-    CacheControl: 'public, max-age=31536000, immutable',
-  }));
+  const digest = createHash('sha256').update(Buffer.from(sourceBytes)).digest('hex').slice(0, 16);
 
-  return `${r2PublicUrl}/${key}`;
+  const transform = async (options: ImageTransformOptions, quality: number) => {
+    const sourceStream = new Blob([sourceBytes]).stream();
+    const result = await images
+      .input(sourceStream)
+      .transform(options)
+      .output({ format: 'image/webp', quality, anim: false });
+    const transformed = result.response();
+    if (!transformed.ok) {
+      throw new Error(`image transformation returned HTTP ${transformed.status}`);
+    }
+    return Buffer.from(await transformed.arrayBuffer());
+  };
+
+  const variants = [
+    {
+      key: `${keyPrefix}/optimized-${digest}.webp`,
+      body: await transform({ width: 1600, fit: 'scale-down' }, 82),
+    },
+  ];
+  if (createThumbnail) {
+    variants.push({
+      key: `${keyPrefix}/thumbnail-${digest}.webp`,
+      body: await transform({ width: 640, height: 480, fit: 'cover' }, 75),
+    });
+  }
+
+  await Promise.all(variants.map(variant => client.send(new PutObjectCommand({
+    Bucket: r2Bucket,
+    Key: variant.key,
+    Body: variant.body,
+    ContentType: 'image/webp',
+    CacheControl: 'public, max-age=31536000, immutable',
+  }))));
+
+  return `${r2PublicUrl}/${variants[0].key}`;
 }
 
 async function listChildren(notion: Client, blockId: string): Promise<NotionBlock[]> {
@@ -153,14 +176,23 @@ async function listPublishedPages(notion: Client) {
 }
 
 async function syncPageAssets(notion: Client, r2: S3Client, page: NotionPage, result: BlogAssetSyncResult) {
-  const syncImage = async (source: string | null, keyPrefix: string, update: (url: string) => Promise<unknown>) => {
-    if (!source || isR2Url(source)) {
+  const context = getCloudflareContext();
+  const images = (context.env as unknown as { IMAGES?: ImagesBinding }).IMAGES;
+  if (!images) throw new Error('Missing required Cloudflare Images binding: IMAGES');
+
+  const syncImage = async (
+    source: string | null,
+    keyPrefix: string,
+    update: (url: string) => Promise<unknown>,
+    createThumbnail = false,
+  ) => {
+    if (!source || isOptimizedR2Url(source)) {
       result.skipped += 1;
       return;
     }
 
     try {
-      const url = await uploadImage(r2, source, keyPrefix);
+      const url = await uploadImage(r2, images, source, keyPrefix, createThumbnail);
       await update(url);
       result.uploaded += 1;
     } catch (error) {
@@ -170,7 +202,7 @@ async function syncPageAssets(notion: Client, r2: S3Client, page: NotionPage, re
   };
 
   await syncImage(sourceUrl(page.cover), `blog/${page.id}/cover`, (url) =>
-    notion.pages.update({ page_id: page.id, cover: { type: 'external', external: { url } } }),
+    notion.pages.update({ page_id: page.id, cover: { type: 'external', external: { url } } }), true,
   );
 
   const visit = async (parentId: string): Promise<void> => {
