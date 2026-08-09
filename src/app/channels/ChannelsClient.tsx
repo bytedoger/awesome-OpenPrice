@@ -25,6 +25,7 @@ function formatScraperType(type: string) {
   if (type === 'ldxp') return '链动小铺';
   if (type === 'dujiao') return '独角数卡';
   if (type === 'lizhi') return '二次元发卡';
+  if (type === 'jsonld') return '其它';
   if (type === 'other') return '其它';
   return type || '未知';
 }

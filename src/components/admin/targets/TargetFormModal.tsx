@@ -81,6 +81,7 @@ export default function TargetFormModal({ target, onClose }: { target?: any, onC
                 <option value="ldxp">链动小铺 (LDXP)</option>
                 <option value="dujiao">独角数卡 (Dujiao)</option>
                 <option value="lizhi">二次元 (Lizhi)</option>
+                <option value="jsonld">自建商城 (JSON-LD)</option>
                 <option value="other">其它</option>
               </select>
             </div>

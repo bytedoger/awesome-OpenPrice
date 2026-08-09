@@ -163,6 +163,7 @@ export default function TestScrapeModal({ targetId, submissionId, url, scraperTy
                   <option value="ldxp">链动小铺</option>
                   <option value="dujiao">独角数卡</option>
                   <option value="lizhi">二次元发卡</option>
+                  <option value="jsonld">自建商城 (JSON-LD)</option>
                   <option value="other">其它</option>
                 </select>
               </div>
@@ -208,7 +209,7 @@ export default function TestScrapeModal({ targetId, submissionId, url, scraperTy
                   </div>
                   {selectedScraperType === 'auto' && actualScraperType && (
                     <div className="text-sm text-gray-600 dark:text-gray-400">
-                      自动探测成功，已成功匹配引擎：<span className="font-semibold text-primary">{actualScraperType === 'ldxp' ? '链动小铺' : actualScraperType === 'dujiao' ? '独角数卡' : actualScraperType === 'lizhi' ? '二次元发卡' : actualScraperType}</span>
+                      自动探测成功，已成功匹配引擎：<span className="font-semibold text-primary">{actualScraperType === 'ldxp' ? '链动小铺' : actualScraperType === 'dujiao' ? '独角数卡' : actualScraperType === 'lizhi' ? '二次元发卡' : actualScraperType === 'jsonld' ? '自建商城 (JSON-LD)' : actualScraperType}</span>
                     </div>
                   )}
                   
