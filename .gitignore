@@ -74,6 +74,7 @@ venv/
 .venv/
 
 # Scraper data
+scraper/*
 scraper/engine/rules.json
 /scraper/debug/
 /scraper/tasks/rates.json
