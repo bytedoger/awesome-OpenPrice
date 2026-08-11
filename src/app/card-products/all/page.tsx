@@ -28,13 +28,14 @@ export const revalidate = 300; // 5分钟静态重生成
 interface CatalogFilterRow {
   name: string;
   platform_id: string;
+  sort_order: number | null;
   product_platforms: { name: string } | { name: string }[] | null;
 }
 
 export default async function AllProductsPage() {
   const { data: catalog } = await supabase
     .from('product_catalog')
-    .select('name, platform_id, product_platforms(name)')
+    .select('name, platform_id, sort_order, product_platforms(name)')
     .eq('is_active', true);
 
   const catalogRows = (catalog || []) as unknown as CatalogFilterRow[];
@@ -46,6 +47,7 @@ export default async function AllProductsPage() {
     return {
       name: item.name,
       platform: platform || item.platform_id,
+      sortOrder: item.sort_order ?? 9999,
     };
   });
 

@@ -33,6 +33,7 @@ export interface OfferItem {
 export interface CategoryFilterOption {
   name: string;
   platform: string;
+  sortOrder: number;
 }
 
 interface AllProductsClientProps {
@@ -87,14 +88,17 @@ export const AllProductsClient: React.FC<AllProductsClientProps> = ({ initialCat
   }, [initialItems]);
 
   const availableCategories = useMemo(() => {
-    const categories = new Set<string>();
+    const seenCategories = new Set<string>();
 
-    initialCategories.forEach(category => {
-      if (!selectedPlatform || category.platform === selectedPlatform) {
-        categories.add(category.name);
-      }
-    });
-    return Array.from(categories).sort();
+    return initialCategories
+      .filter(category => !selectedPlatform || category.platform === selectedPlatform)
+      .sort((a, b) => a.sortOrder - b.sortOrder || a.name.localeCompare(b.name))
+      .filter(category => {
+        if (seenCategories.has(category.name)) return false;
+        seenCategories.add(category.name);
+        return true;
+      })
+      .map(category => category.name);
   }, [initialCategories, selectedPlatform]);
 
   const handlePlatformChange = (platform: string) => {
