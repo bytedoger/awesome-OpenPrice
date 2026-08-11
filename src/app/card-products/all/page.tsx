@@ -1,7 +1,7 @@
 import React from 'react';
 import { Metadata } from 'next';
 import { supabase } from '../../../lib/supabase';
-import { AllProductsClient, OfferItem } from './AllProductsClient';
+import { AllProductsClient, CategoryFilterOption } from './AllProductsClient';
 import { DEFAULT_SHARE_IMAGE } from '@/lib/site';
 
 export const metadata: Metadata = {
@@ -25,11 +25,34 @@ export const metadata: Metadata = {
 
 export const revalidate = 300; // 5分钟静态重生成
 
-export default function AllProductsPage() {
+interface CatalogFilterRow {
+  name: string;
+  platform_id: string;
+  product_platforms: { name: string } | { name: string }[] | null;
+}
+
+export default async function AllProductsPage() {
+  const { data: catalog } = await supabase
+    .from('product_catalog')
+    .select('name, platform_id, product_platforms(name)')
+    .eq('is_active', true);
+
+  const catalogRows = (catalog || []) as unknown as CatalogFilterRow[];
+  const initialCategories: CategoryFilterOption[] = catalogRows.map((item) => {
+    const platform = Array.isArray(item.product_platforms)
+      ? item.product_platforms[0]?.name
+      : item.product_platforms?.name;
+
+    return {
+      name: item.name,
+      platform: platform || item.platform_id,
+    };
+  });
+
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
       <React.Suspense fallback={<div className="py-8 text-center text-gray-500">Loading products...</div>}>
-        <AllProductsClient />
+        <AllProductsClient initialCategories={initialCategories} />
       </React.Suspense>
     </div>
   );

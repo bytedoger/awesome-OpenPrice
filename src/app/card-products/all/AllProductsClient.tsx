@@ -30,9 +30,16 @@ export interface OfferItem {
   productSortOrder: number;
 }
 
-interface AllProductsClientProps {}
+export interface CategoryFilterOption {
+  name: string;
+  platform: string;
+}
 
-export const AllProductsClient: React.FC<AllProductsClientProps> = () => {
+interface AllProductsClientProps {
+  initialCategories: CategoryFilterOption[];
+}
+
+export const AllProductsClient: React.FC<AllProductsClientProps> = ({ initialCategories }) => {
   const [initialItems, setInitialItems] = useState<OfferItem[]>([]);
   const [loading, setLoading] = useState(true);
   
@@ -81,9 +88,19 @@ export const AllProductsClient: React.FC<AllProductsClientProps> = () => {
 
   const availableCategories = useMemo(() => {
     const categories = new Set<string>();
-    initialItems.forEach(p => categories.add(p.category));
+
+    initialCategories.forEach(category => {
+      if (!selectedPlatform || category.platform === selectedPlatform) {
+        categories.add(category.name);
+      }
+    });
     return Array.from(categories).sort();
-  }, [initialItems]);
+  }, [initialCategories, selectedPlatform]);
+
+  const handlePlatformChange = (platform: string) => {
+    setSelectedPlatform(platform);
+    setSelectedCategory('');
+  };
 
   const filteredItems = useMemo(() => {
     return initialItems.filter(p => {
@@ -194,7 +211,7 @@ export const AllProductsClient: React.FC<AllProductsClientProps> = () => {
         >
           <CustomDropdown
             value={selectedPlatform}
-            onChange={setSelectedPlatform}
+            onChange={handlePlatformChange}
             options={availablePlatforms.map(platform => ({ value: platform, label: platform }))}
             placeholder="所有平台"
             allOptionLabel="所有平台"
