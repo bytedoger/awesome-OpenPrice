@@ -3,7 +3,7 @@
 import React, { useState, useTransition, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ChevronDown, MapPinned, Plus, ShieldCheck, Tags, X } from 'lucide-react';
+import { ChevronDown, MapPinned, Plus, ShieldCheck, Tags, TrendingUp, Users, X } from 'lucide-react';
 import { QQGroupModal } from './QQGroupModal';
 
 export function Header() {
@@ -99,7 +99,7 @@ export function Header() {
                   更多工具
                   <ChevronDown className="h-4 w-4 transition-transform group-hover:rotate-180 group-focus-within:rotate-180" />
                 </button>
-                <div className="invisible absolute left-1/2 top-full z-30 mt-3 w-56 -translate-x-1/2 rounded-lg border border-gray-100 bg-white p-2 text-sm font-medium text-gray-700 opacity-0 shadow-lg transition-all group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+                <div className="invisible absolute left-1/2 top-full z-30 mt-3 w-64 -translate-x-1/2 rounded-lg border border-gray-100 bg-white p-2 text-sm font-medium text-gray-700 opacity-0 shadow-lg transition-all group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
                   <a
                     href="https://www.fastool.cc/2fn"
                     target="_blank"
@@ -117,6 +117,24 @@ export function Header() {
                   >
                     <MapPinned className="h-4 w-4 text-emerald-500" />
                     <span>全球随机地址生成</span>
+                  </a>
+                  <a
+                    href="https://www.youfenk.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 rounded-md px-3 py-2.5 transition-colors hover:bg-emerald-50 hover:text-emerald-700"
+                  >
+                    <TrendingUp className="h-4 w-4 text-emerald-500" />
+                    <span>海外社媒增长</span>
+                  </a>
+                  <a
+                    href="https://www.youfenk.com/service/telegram"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 rounded-md px-3 py-2.5 transition-colors hover:bg-emerald-50 hover:text-emerald-700"
+                  >
+                    <Users className="h-4 w-4 text-emerald-500" />
+                    <span>Telegram 群组成员增长</span>
                   </a>
                 </div>
               </div>

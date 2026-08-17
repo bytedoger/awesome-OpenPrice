@@ -44,6 +44,22 @@ export function MobileNav() {
             >
               全球随机地址生成
             </a>
+            <a
+              href="https://www.youfenk.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block rounded-md px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-emerald-50 hover:text-emerald-700"
+            >
+              海外社媒增长
+            </a>
+            <a
+              href="https://www.youfenk.com/service/telegram"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block rounded-md px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-emerald-50 hover:text-emerald-700"
+            >
+              Telegram 群组成员增长
+            </a>
           </div>
         </div>
       )}

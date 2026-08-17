@@ -4,6 +4,7 @@ import { supabase } from '../../../lib/supabase';
 import { ProductDetailClient } from './ProductDetailClient';
 import { JsonLd } from '@/components/JsonLd';
 import { DEFAULT_SHARE_IMAGE, absoluteUrl } from '@/lib/site';
+import { YoufenkAffiliateAd, YoufenkAffiliateBanner } from '@/components/YoufenkAffiliateAd';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -163,7 +164,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
   };
   
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+    <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
       <JsonLd data={{
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
@@ -172,7 +173,9 @@ export default async function ProductDetailPage({ params }: PageProps) {
           { '@type': 'ListItem', position: 2, name: productRow.name },
         ],
       }} />
+      <YoufenkAffiliateBanner className="mx-auto mb-8" />
       <ProductDetailClient slug={slug} initialProduct={product} initialDetails={mappedDetails} />
+      <YoufenkAffiliateAd className="youfenk-affiliate-rail absolute bottom-0 top-12" />
     </div>
   );
 }

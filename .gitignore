@@ -75,6 +75,17 @@ venv/
 
 # Scraper data
 scraper/*
+!scraper/core/
+scraper/core/*
+!scraper/core/config.py
+!scraper/core/db.py
+!scraper/tasks/
+scraper/tasks/*
+!scraper/tasks/app_store_worker.py
+!scraper/tests/
+scraper/tests/*
+!scraper/tests/test_app_store_parser.py
+!scraper/requirements.txt
 scraper/engine/rules.json
 /scraper/debug/
 /scraper/tasks/rates.json

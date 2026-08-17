@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import { supabase } from '../../../lib/supabase';
 import { AllProductsClient, CategoryFilterOption } from './AllProductsClient';
 import { DEFAULT_SHARE_IMAGE } from '@/lib/site';
+import { YoufenkAffiliateAd, YoufenkAffiliateBanner } from '@/components/YoufenkAffiliateAd';
 
 export const metadata: Metadata = {
   title: '所有渠道商品 - OpenPrice',
@@ -52,10 +53,12 @@ export default async function AllProductsPage() {
   });
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+    <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+      <YoufenkAffiliateBanner className="mx-auto mb-8" />
       <React.Suspense fallback={<div className="py-8 text-center text-gray-500">Loading products...</div>}>
         <AllProductsClient initialCategories={initialCategories} />
       </React.Suspense>
+      <YoufenkAffiliateAd className="youfenk-affiliate-rail absolute bottom-0 top-12" />
     </div>
   );
 }

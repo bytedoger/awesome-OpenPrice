@@ -1,0 +1,4 @@
+supabase>=2.4.0
+requests>=2.31.0
+python-dotenv>=1.0.1
+curl-cffi>=0.13.0

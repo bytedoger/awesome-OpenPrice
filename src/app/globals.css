@@ -181,3 +181,20 @@ input[type="number"]::-webkit-outer-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+/* Keep affiliate promotions outside the existing max-w-7xl page layout. */
+.youfenk-affiliate-rail {
+  display: none;
+  left: calc(100% + 1.5rem);
+  width: min(320px, calc((100vw - 80rem) / 2 - 2.5rem));
+}
+
+@media (min-width: 1720px) {
+  .youfenk-affiliate-rail {
+    display: block;
+  }
+
+  .youfenk-affiliate-banner {
+    display: none;
+  }
+}
