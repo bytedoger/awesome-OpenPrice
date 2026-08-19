@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { QQGroupModal } from '@/components/QQGroupModal';
 
 export default function ContactButtons() {
-  const [isQQModalOpen, setIsQQModalOpen] = useState(false);
+  // const [isQQModalOpen, setIsQQModalOpen] = useState(false);
 
   return (
     <>
@@ -20,7 +20,7 @@ export default function ContactButtons() {
           </svg>
           Telegram
         </a>
-        <button 
+        {/* <button 
           onClick={() => setIsQQModalOpen(true)}
           className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 rounded-lg bg-[#12B7F5] hover:bg-[#10a5dd] px-3.5 py-2 text-sm font-bold text-white transition-colors shadow-sm"
         >
@@ -28,13 +28,13 @@ export default function ContactButtons() {
             <path d="M21.395 15.035a40 40 0 0 0-.803-2.264l-1.079-2.695c.001-.032.014-.562.014-.836C19.526 4.632 17.351 0 12 0S4.474 4.632 4.474 9.241c0 .274.013.804.014.836l-1.08 2.695a39 39 0 0 0-.802 2.264c-1.021 3.283-.69 4.643-.438 4.673.54.065 2.103-2.472 2.103-2.472 0 1.469.756 3.387 2.394 4.771-.612.188-1.363.479-1.845.835-.434.32-.379.646-.301.778.343.578 5.883.369 7.482.189 1.6.18 7.14.389 7.483-.189.078-.132.132-.458-.301-.778-.483-.356-1.233-.646-1.846-.836 1.637-1.384 2.393-3.302 2.393-4.771 0 0 1.563 2.537 2.103 2.472.251-.03.581-1.39-.438-4.673"/>
           </svg>
           QQ群
-        </button>
+        </button> */}
       </div>
 
-      <QQGroupModal 
+      {/* <QQGroupModal 
         isOpen={isQQModalOpen} 
         onClose={() => setIsQQModalOpen(false)} 
-      />
+      /> */}
     </>
   );
 }

@@ -30,9 +30,7 @@ OpenPrice 仅提供公开价格信息的整理、聚合与比价展示，不销�
   <a href="https://t.me/openprice1" target="_blank">
     <img src="https://img.shields.io/badge/telegram-交流群-2CA5E0.svg?logo=telegram&style=for-the-badge&logoColor=white" alt="telegram Group" />
   </a>
-  <a href="https://qm.qq.com/q/6syItALFu0" target="_blank">
-    <img src="https://img.shields.io/badge/QQ-交流群-12B7F5.svg?logo=qq&style=for-the-badge&logoColor=white" alt="QQ Group" />
-  </a>
+
   <a href="https://www.v2ex.com/t/1229919" target="_blank">
     <img src="https://img.shields.io/badge/V2EX-技术社区-333333.svg?style=for-the-badge" alt="V2EX Community" />
   </a>

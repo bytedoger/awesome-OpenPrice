@@ -10,7 +10,7 @@ export function Header() {
   const pathname = usePathname();
   const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
   const [isQQModalOpen, setIsQQModalOpen] = useState(false);
-  const [isBannerVisible, setIsBannerVisible] = useState(true);
+  // const [isBannerVisible, setIsBannerVisible] = useState(true);
   const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
@@ -37,7 +37,7 @@ export function Header() {
 
   return (
     <>
-      {isBannerVisible && (
+      {/* {isBannerVisible && (
           <div className="bg-[#12B7F5] text-white px-4 pr-10 sm:pr-12 py-2 text-sm font-medium text-center flex flex-wrap items-center justify-center gap-x-2 gap-y-1 relative z-30 transition-all">
             <span>🎉 已开放 QQ 闲聊群，欢迎大家来划水交流以及提出功能建议！</span>
             <button 
@@ -54,7 +54,7 @@ export function Header() {
               <X className="h-4 w-4 sm:h-5 sm:w-5" />
             </button>
           </div>
-        )}
+        )} */}
         <header className="sticky top-0 z-20 bg-white/90 backdrop-blur-md shadow-sm">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between gap-2 sm:gap-4">
@@ -148,7 +148,7 @@ export function Header() {
                 <span className="hidden sm:inline">提交渠道</span>
                 <span className="inline sm:hidden">提交</span>
               </button>
-              <button 
+              {/* <button 
                 onClick={() => setIsQQModalOpen(true)}
                 className="flex items-center justify-center rounded-lg hover:opacity-80 transition-opacity text-[#12B7F5]"
                 title="QQ Group"
@@ -156,7 +156,7 @@ export function Header() {
                 <svg viewBox="0 0 24 24" className="h-5 w-5 sm:h-6 sm:w-6" fill="currentColor">
                   <path d="M21.395 15.035a40 40 0 0 0-.803-2.264l-1.079-2.695c.001-.032.014-.562.014-.836C19.526 4.632 17.351 0 12 0S4.474 4.632 4.474 9.241c0 .274.013.804.014.836l-1.08 2.695a39 39 0 0 0-.802 2.264c-1.021 3.283-.69 4.643-.438 4.673.54.065 2.103-2.472 2.103-2.472 0 1.469.756 3.387 2.394 4.771-.612.188-1.363.479-1.845.835-.434.32-.379.646-.301.778.343.578 5.883.369 7.482.189 1.6.18 7.14.389 7.483-.189.078-.132.132-.458-.301-.778-.483-.356-1.233-.646-1.846-.836 1.637-1.384 2.393-3.302 2.393-4.771 0 0 1.563 2.537 2.103 2.472.251-.03.581-1.39-.438-4.673"/>
                 </svg>
-              </button>
+              </button> */}
               <a 
                 href="https://t.me/openprice1" 
                 target="_blank" 
