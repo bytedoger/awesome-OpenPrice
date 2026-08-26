@@ -1,19 +1,17 @@
 "use client";
 
-import React, { useState, useEffect, useMemo, useTransition } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import type { ProductType, ProductDetail } from '../../../data';
 import { DetailTable } from '../../../components/DetailTable';
-import { Filter, ArrowLeft, X } from 'lucide-react';
 import { FilterBar } from '../../../components/FilterBar';
-import { CustomDropdown } from '../../../components/CustomDropdown';
 import { BackButton } from '../../../components/BackButton';
 import { StickyHeaderAddon } from '../../../components/StickyHeaderAddon';
 import { BuyDisclaimerModal } from '../../../components/BuyDisclaimerModal';
 import { FeedbackModal } from '../../../components/FeedbackModal';
+import { YoufenkAffiliateBanner } from '../../../components/YoufenkAffiliateAd';
 import { useBuyAction } from '../../../hooks/useBuyAction';
+import { useLoadMore } from '../../../hooks/useLoadMore';
 import { PlatformCountBadge } from '../../../components/PlatformCountBadge';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { matchesSearchQuery } from '../../../lib/search-query';
 
 interface ProductDetailClientProps {
@@ -24,10 +22,8 @@ interface ProductDetailClientProps {
 
 export const ProductDetailClient: React.FC<ProductDetailClientProps> = ({ slug, initialProduct, initialDetails }) => {
   const [feedbackModalItem, setFeedbackModalItem] = useState<ProductDetail | null>(null);
-  const [isPending, startTransition] = useTransition();
   const [isScrolled, setIsScrolled] = useState(false);
   const { isBuyModalOpen, handleBuyClick, handleBuyConfirm, handleBuyCancel } = useBuyAction();
-  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -51,20 +47,12 @@ export const ProductDetailClient: React.FC<ProductDetailClientProps> = ({ slug, 
   const selectedProduct = initialProduct;
   const currentDetails = initialDetails;
 
-  const availableChannelsForDetails = useMemo(() => {
-    return Array.from(new Set(currentDetails.map(d => d.channel)));
-  }, [currentDetails]);
-
-  const checkPriceMatch = (price: number) => {
-    const min = customMinPrice ? parseFloat(customMinPrice) : 0;
-    const max = customMaxPrice ? parseFloat(customMaxPrice) : Infinity;
-    return price >= min && price <= max;
-  };
-
   const filteredCurrentDetails = useMemo(() => {
+    const minPrice = customMinPrice ? parseFloat(customMinPrice) : 0;
+    const maxPrice = customMaxPrice ? parseFloat(customMaxPrice) : Infinity;
     const filtered = currentDetails.filter(d => {
       const matchSearch = matchesSearchQuery([d.originalName, d.channel], searchQuery);
-      const matchPrice = checkPriceMatch(d.price);
+      const matchPrice = d.price >= minPrice && d.price <= maxPrice;
       const matchChannel = selectedChannel ? d.channel === selectedChannel : true;
       return matchSearch && matchPrice && matchChannel;
     });
@@ -89,6 +77,12 @@ export const ProductDetailClient: React.FC<ProductDetailClientProps> = ({ slug, 
       return a.price - b.price;
     });
   }, [currentDetails, searchQuery, selectedChannel, customMinPrice, customMaxPrice]);
+
+  const { visibleCount, hasMore, loadMore } = useLoadMore({
+    itemCount: filteredCurrentDetails.length,
+    pageSize: 30,
+    resetKeys: [slug, searchQuery, selectedChannel, customMinPrice, customMaxPrice],
+  });
 
   return (
     <>
@@ -147,13 +141,31 @@ export const ProductDetailClient: React.FC<ProductDetailClientProps> = ({ slug, 
             </div>
           </FilterBar>
           
-          <div className="min-h-[400px] relative">
-            <DetailTable 
-              details={filteredCurrentDetails} 
+          <div className="min-h-[400px] relative flex flex-col gap-8">
+            <DetailTable
+              details={filteredCurrentDetails.slice(0, visibleCount)}
               onBuyClick={onBuyClick}
               onFeedbackClick={(item) => setFeedbackModalItem(item)}
-              
             />
+            {filteredCurrentDetails.length > 0 && (
+              <div
+                className="py-6 flex justify-center items-center text-gray-500 text-sm"
+                aria-live="polite"
+              >
+                {hasMore ? (
+                  <button
+                    type="button"
+                    onClick={loadMore}
+                    className="rounded-lg border border-emerald-600 bg-white px-6 py-2.5 font-medium text-emerald-700 transition-colors hover:bg-emerald-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
+                  >
+                    加载更多
+                  </button>
+                ) : (
+                  `已显示全部 ${filteredCurrentDetails.length} 条报价`
+                )}
+              </div>
+            )}
+            <YoufenkAffiliateBanner className="mx-auto" />
           </div>
         </div>
       </div>

@@ -186,10 +186,10 @@ input[type="number"] {
 .youfenk-affiliate-rail {
   display: none;
   left: calc(100% + 1.5rem);
-  width: min(320px, calc((100vw - 80rem) / 2 - 2.5rem));
+  width: min(320px, calc(50vw - 42.5rem));
 }
 
-@media (min-width: 1720px) {
+@media (min-width: 1984px) {
   .youfenk-affiliate-rail {
     display: block;
   }

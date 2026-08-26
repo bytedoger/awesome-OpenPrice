@@ -3,14 +3,13 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { FilterBar } from '../../../components/FilterBar';
 import { CustomDropdown } from '../../../components/CustomDropdown';
-import { getRelativeTime } from '../../../lib/utils';
-import { ArrowRight } from 'lucide-react';
 import { BackButton } from '../../../components/BackButton';
 import { StickyHeaderAddon } from '../../../components/StickyHeaderAddon';
 import { FeedbackModal } from '../../../components/FeedbackModal';
 import { BuyDisclaimerModal } from '../../../components/BuyDisclaimerModal';
+import { YoufenkAffiliateBanner } from '../../../components/YoufenkAffiliateAd';
 import { useBuyAction } from '../../../hooks/useBuyAction';
-import { GoToBuyButton } from '../../../components/GoToBuyButton';
+import { useLoadMore } from '../../../hooks/useLoadMore';
 import { DetailTable } from '../../../components/DetailTable';
 import type { ProductDetail } from '../../../data';
 import { useUrlState } from '../../../hooks/useUrlState';
@@ -162,24 +161,15 @@ export const AllProductsClient: React.FC<AllProductsClientProps> = ({ initialCat
     }));
   }, [filteredItems]);
 
-  const [visibleCount, setVisibleCount] = useState(50);
-
-  // 当筛选条件改变时，重置可见数量
-  useEffect(() => {
-    setVisibleCount(50);
-  }, [searchQuery, selectedPlatform, selectedCategory]);
+  const { visibleCount, hasMore, loadMore } = useLoadMore({
+    itemCount: productDetails.length,
+    pageSize: 50,
+    resetKeys: [searchQuery, selectedPlatform, selectedCategory],
+  });
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 120);
-      
-      // 触底加载更多 (距离底部 500px 时触发)
-      if (
-        window.innerHeight + window.scrollY >=
-        document.documentElement.scrollHeight - 500
-      ) {
-        setVisibleCount((prev) => prev + 50);
-      }
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
@@ -220,7 +210,7 @@ export const AllProductsClient: React.FC<AllProductsClientProps> = ({ initialCat
             placeholder="所有平台"
             allOptionLabel="所有平台"
           />
-          <div className="hidden sm:block">
+          <div className="hidden lg:block">
             <CustomDropdown
               value={selectedCategory}
               onChange={setSelectedCategory}
@@ -251,12 +241,25 @@ export const AllProductsClient: React.FC<AllProductsClientProps> = ({ initialCat
                   if (item) setFeedbackModalItem(item);
                 }}
               />
-              {visibleCount < productDetails.length && (
-                <div className="py-6 flex justify-center items-center text-gray-500 text-sm">
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-emerald-600 mr-2"></div>
-                  下拉加载更多...
+              {productDetails.length > 0 && (
+                <div
+                  className="py-6 flex justify-center items-center text-gray-500 text-sm"
+                  aria-live="polite"
+                >
+                  {hasMore ? (
+                    <button
+                      type="button"
+                      onClick={loadMore}
+                      className="rounded-lg border border-emerald-600 bg-white px-6 py-2.5 font-medium text-emerald-700 transition-colors hover:bg-emerald-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
+                    >
+                      加载更多
+                    </button>
+                  ) : (
+                    `已显示全部 ${productDetails.length} 条商品`
+                  )}
                 </div>
               )}
+              <YoufenkAffiliateBanner className="mx-auto" />
             </div>
           )}
         </div>

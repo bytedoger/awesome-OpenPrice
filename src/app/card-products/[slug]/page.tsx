@@ -4,7 +4,7 @@ import { supabase } from '../../../lib/supabase';
 import { ProductDetailClient } from './ProductDetailClient';
 import { JsonLd } from '@/components/JsonLd';
 import { DEFAULT_SHARE_IMAGE, absoluteUrl } from '@/lib/site';
-import { YoufenkAffiliateAd, YoufenkAffiliateBanner } from '@/components/YoufenkAffiliateAd';
+import { YoufenkAffiliateAd } from '@/components/YoufenkAffiliateAd';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -173,7 +173,6 @@ export default async function ProductDetailPage({ params }: PageProps) {
           { '@type': 'ListItem', position: 2, name: productRow.name },
         ],
       }} />
-      <YoufenkAffiliateBanner className="mx-auto mb-8" />
       <ProductDetailClient slug={slug} initialProduct={product} initialDetails={mappedDetails} />
       <YoufenkAffiliateAd className="youfenk-affiliate-rail absolute bottom-0 top-12" />
     </div>

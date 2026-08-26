@@ -50,22 +50,35 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   }, [isSearchHelpOpen]);
 
   return (
-    <div className="flex justify-end items-start sticky top-14 sm:top-16 z-[15] mb-2 sm:mb-3 px-0 pointer-events-none max-w-7xl mx-auto w-full">
-      <div className="bg-[#01c573] rounded-xl shadow-md p-1 sm:p-2 w-full md:w-fit max-w-full flex flex-row items-center pointer-events-auto gap-1 sm:gap-2 md:gap-0 transition-all duration-500 ease-in-out">
+    <div className="flex justify-end items-start sticky top-16 z-[15] mb-2 sm:mb-3 px-0 pointer-events-none max-w-7xl mx-auto w-full">
+      <div
+        data-expanded={isExpanded}
+        className={`bg-[#01c573] rounded-xl shadow-md p-1 sm:p-2 w-full max-w-full flex flex-row items-center pointer-events-auto gap-1 sm:gap-2 transition-[max-width] duration-500 ease-in-out ${
+          leftAddon
+            ? isExpanded
+              ? 'md:max-w-full'
+              : 'md:max-w-[36rem] lg:max-w-[48rem]'
+            : 'md:w-fit'
+        }`}
+      >
         {leftAddon && (
-          <div className={`flex overflow-hidden justify-start md:transition-all md:duration-500 md:ease-in-out ${isExpanded ? 'w-auto md:w-[1200px] opacity-100 pr-0 md:pr-4' : 'w-auto md:w-0 opacity-100 md:opacity-0 pr-0'}`}>
+          <div className={`flex shrink-0 min-w-0 overflow-hidden justify-start transition-[max-width,opacity,margin] duration-500 ease-in-out ${
+            isExpanded
+              ? 'max-w-none opacity-100 md:max-w-48 md:mr-2'
+              : 'max-w-none opacity-100 md:max-w-0 md:opacity-0 md:mr-0'
+          }`}>
             <div className="w-full min-w-0">
               {leftAddon}
             </div>
           </div>
         )}
-        <div className={`flex flex-row flex-wrap items-center gap-1 sm:gap-2 flex-1 md:flex-none md:w-auto md:max-w-fit shrink-0 justify-end min-w-0`}>
+        <div className={`flex flex-row items-center gap-1 sm:gap-2 flex-1 justify-end min-w-0 ${leftAddon ? '' : 'md:flex-none md:w-auto'}`}>
           
           {/* Dynamic Dropdowns (Children Slot) */}
           {children}
 
           {/* Search Input */}
-          <div className="relative flex-1 min-w-0 md:w-80 md:flex-none">
+          <div className={`relative flex-1 min-w-0 ${leftAddon ? 'md:min-w-48 lg:max-w-80' : 'md:w-48 md:flex-none lg:w-80'}`}>
             <div className="absolute inset-y-0 left-0 pl-3 md:pl-4 flex items-center pointer-events-none">
               <Search className="h-4 w-4 text-gray-500" />
             </div>
