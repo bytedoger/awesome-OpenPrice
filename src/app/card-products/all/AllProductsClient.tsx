@@ -201,6 +201,7 @@ export const AllProductsClient: React.FC<AllProductsClientProps> = ({ initialCat
           searchPlaceholder="搜索商品或店铺（-关键词可排除）"
           searchHelp="排除不想看的结果：在词语前加“-”。例如输入“-共享”，就不会显示含“共享”的商品。"
           isExpanded={isScrolled}
+          collapsedWidth="wide"
           leftAddon={<StickyHeaderAddon title="所有渠道商品" />}
         >
           <CustomDropdown

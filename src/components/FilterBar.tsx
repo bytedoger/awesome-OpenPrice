@@ -12,6 +12,7 @@ interface FilterBarProps {
   children?: React.ReactNode;
   leftAddon?: React.ReactNode;
   isExpanded?: boolean;
+  collapsedWidth?: 'compact' | 'wide';
 }
 
 export const FilterBar: React.FC<FilterBarProps> = ({
@@ -22,7 +23,8 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   searchHelp,
   children,
   leftAddon,
-  isExpanded = true
+  isExpanded = true,
+  collapsedWidth = 'compact'
 }) => {
   const [isSearchHelpOpen, setIsSearchHelpOpen] = useState(false);
   const searchHelpRef = useRef<HTMLDivElement>(null);
@@ -57,15 +59,17 @@ export const FilterBar: React.FC<FilterBarProps> = ({
           leftAddon
             ? isExpanded
               ? 'md:max-w-full'
-              : 'md:max-w-[36rem] lg:max-w-[48rem]'
+              : collapsedWidth === 'wide'
+                ? 'md:max-w-[36rem] lg:max-w-[48rem]'
+                : 'md:max-w-[36rem]'
             : 'md:w-fit'
         }`}
       >
         {leftAddon && (
-          <div className={`flex shrink-0 min-w-0 overflow-hidden justify-start transition-[max-width,opacity,margin] duration-500 ease-in-out ${
+          <div className={`flex shrink-0 min-w-0 overflow-hidden justify-start transition-[max-width,opacity] duration-500 ease-in-out ${
             isExpanded
-              ? 'max-w-none opacity-100 md:max-w-48 md:mr-2'
-              : 'max-w-none opacity-100 md:max-w-0 md:opacity-0 md:mr-0'
+              ? 'max-w-none opacity-100 md:max-w-56'
+              : 'max-w-none opacity-100 md:max-w-0 md:opacity-0'
           }`}>
             <div className="w-full min-w-0">
               {leftAddon}
@@ -78,7 +82,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
           {children}
 
           {/* Search Input */}
-          <div className={`relative flex-1 min-w-0 ${leftAddon ? 'md:min-w-48 lg:max-w-80' : 'md:w-48 md:flex-none lg:w-80'}`}>
+          <div className={`relative flex-1 min-w-0 ${leftAddon ? 'md:min-w-28 lg:min-w-48 lg:max-w-80' : 'md:w-48 md:flex-none lg:w-80'}`}>
             <div className="absolute inset-y-0 left-0 pl-3 md:pl-4 flex items-center pointer-events-none">
               <Search className="h-4 w-4 text-gray-500" />
             </div>
