@@ -32,7 +32,7 @@ export function QQGroupModal({ isOpen, onClose }: QQGroupModalProps) {
             <p className="text-gray-600 mb-1">加入我们的 QQ 闲聊群，划水、分享最新的AI工具使用技巧</p>
             <div className="flex items-center justify-center gap-2 mt-1">
               <span className="text-gray-500 text-sm font-medium">QQ群号:</span>
-              <p className="text-2xl font-bold text-[#12B7F5] tracking-wider select-all">930645690</p>
+              <p className="text-2xl font-bold text-[#12B7F5] tracking-wider select-all">1037594975</p>
             </div>
           </div>
           <div className="w-48 h-48 bg-gray-50 rounded-xl border border-gray-200 flex flex-col items-center justify-center text-gray-400 mt-2 mx-auto overflow-hidden relative group">
@@ -49,7 +49,7 @@ export function QQGroupModal({ isOpen, onClose }: QQGroupModalProps) {
         
         <div className="pt-2">
           <a 
-            href="https://qm.qq.com/q/6syItALFu0" 
+            href="https://qm.qq.com/q/2FdPYLVYjC"
             target="_blank" 
             rel="noopener noreferrer"
             className="block w-full py-2.5 text-sm font-medium text-white bg-[#12B7F5] rounded-lg hover:bg-[#12B7F5]/90 transition-colors shadow-sm shadow-[#12B7F5]/20"
